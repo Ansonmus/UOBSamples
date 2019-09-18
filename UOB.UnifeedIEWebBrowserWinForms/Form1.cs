@@ -82,20 +82,23 @@
 			return null;
 		}
 
-		private void StartUnifeed()
+		private void StartUnifeed(bool post = false)
 		{
-			// Since there is a problem with /start we temporary call the base page
-			// browser.Navigate(UnifeedBaseUrl);
-			// return;
-
-			var accessToken = _currentToken.AccessToken;
-			var url = HttpExtensions.Build(UnifeedStartUrl, new NameValueCollection()
+			if (!post)
+			{
+				browser.Navigate(UnifeedBaseUrl);
+				return;
+			}
+			else
+			{
+				var accessToken = _currentToken.AccessToken;
+				var url = HttpExtensions.Build(UnifeedStartUrl, new NameValueCollection()
 			{
 				{ "accessToken", accessToken },
 				{ "hookUrl", UnifeedHookUrl },
 			}).ToString();
 
-			var data = @"{ 
+				var data = @"{ 
    ""from"":20,
    ""size"":20,
    ""languagecode"":""NL"",
@@ -112,16 +115,10 @@
    ]
 }";
 
-			if (data != null)
-			{
 				//data = JsonConvert.SerializeObject(searchParms);
 				byte[] postdata = Encoding.UTF8.GetBytes(data);
 				string headers = $"Content-Type: application/json";
 				browser.Navigate(url, string.Empty, postdata, headers);
-			}
-			else
-			{
-				browser.Navigate(url);
 			}
 		}
 
