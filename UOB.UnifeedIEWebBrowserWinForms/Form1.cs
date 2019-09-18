@@ -37,15 +37,7 @@
 			_currentToken = await Authenticate();
 
 			Log($"Authentication complete, starting Unifeed");
-			var searchParams = new UnifeedObjects.SearchParms()
-			{
-				From = 0,
-				Size = 20,
-				Languagecode = "NL",
-				SearchString = "pomp"
-			};
-
-			StartUnifeed(searchParams);
+			StartUnifeed();
 		}
 
 		private async Task<OAuthToken> Authenticate()
@@ -90,27 +82,20 @@
 			return null;
 		}
 
-		private void StartUnifeed(UnifeedObjects.SearchParms searchParms = null)
+		private void StartUnifeed()
 		{
 			// Since there is a problem with /start we temporary call the base page
-			//browser.Navigate(UnifeedBaseUrl);
-			//return;
+			// browser.Navigate(UnifeedBaseUrl);
+			// return;
 
 			var accessToken = _currentToken.AccessToken;
 			var url = HttpExtensions.Build(UnifeedStartUrl, new NameValueCollection()
 			{
-				//{ "accessToken", accessToken },
+				{ "accessToken", accessToken },
 				{ "hookUrl", UnifeedHookUrl },
 			}).ToString();
 
-			//var postData = JsonConvert.SerializeObject(searchParms);
-			//var path = UnifeedHelper.InitializeWorkingFile(url, new { searchParms = postData });
-			//browser.Navigate(path);
-
-			if (searchParms != null)
-			{
-
-				var data = @"{ 
+			var data = @"{ 
    ""from"":20,
    ""size"":20,
    ""languagecode"":""NL"",
@@ -127,12 +112,8 @@
    ]
 }";
 
-				data = @"{ 
-   ""from"":20,
-   ""size"":20,
-   ""languagecode"":""NL"",
-   ""searchString"":""lamp""
-}";
+			if (data != null)
+			{
 				//data = JsonConvert.SerializeObject(searchParms);
 				byte[] postdata = Encoding.UTF8.GetBytes(data);
 				string headers = $"Content-Type: application/json";
@@ -155,15 +136,20 @@
 			if (e.Url.Scheme == UnifeedSchemeName)
 			{
 				Log($"Interfaced! {e.Url}");
+				var queryString = HttpUtility.ParseQueryString(e.Url.Query);
 
-				// Retrieve object at the Unifeed API
-				string json;
-				using (var wc = new WebClient())
+				string data = string.Empty;
+				if ("Filter".Equals(queryString["type"], StringComparison.OrdinalIgnoreCase))
 				{
-					json = wc.DownloadString($"{UnifeedApiUrl}{e.Url.AbsolutePath}");
+					// Retrieve object at the Unifeed API
+					using (var wc = new WebClient())
+					{
+						var id = queryString["id"];
+						data = wc.DownloadString($"{UnifeedApiUrl}/Filter/{id}");
+					}
 				}
 
-				Log($"Retrieved object: {json}");
+				Log($"Retrieved data: {data}");
 
 				// Refresh token. Normally this is not needed for every call, only when the token is expired.
 				RefreshToken();
