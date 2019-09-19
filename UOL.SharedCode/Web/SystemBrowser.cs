@@ -21,15 +21,6 @@
 			_listenerPrefix = listenerPrefix;
 		}
 
-		private int GetRandomUnusedPort()
-		{
-			var listener = new TcpListener(IPAddress.Loopback, 0);
-			listener.Start();
-			var port = ((IPEndPoint)listener.LocalEndpoint).Port;
-			listener.Stop();
-			return port;
-		}
-
 		public async Task<BrowserResult> InvokeAsync(string url)
 		{
 			using (var listener = new LoopbackHttpListener(_listenerPrefix))
@@ -85,6 +76,15 @@
 					throw;
 				}
 			}
+		}
+
+		private int GetRandomUnusedPort()
+		{
+			var listener = new TcpListener(IPAddress.Loopback, 0);
+			listener.Start();
+			var port = ((IPEndPoint)listener.LocalEndpoint).Port;
+			listener.Stop();
+			return port;
 		}
 	}
 }

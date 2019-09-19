@@ -7,6 +7,7 @@
 	using System.Threading.Tasks;
 	using System.Web;
 	using System.Windows.Forms;
+	using Newtonsoft.Json;
 
 	public partial class Form1 : Form
 	{
@@ -57,25 +58,27 @@
 				{ "hookUrl", UnifeedHookUrl },
 			}).ToString();
 
-			var data = @"{ 
-				   ""from"":20,
-				   ""size"":20,
-				   ""languagecode"":""NL"",
-				   ""searchString"":""uob"",
-				   ""filters"":[ 
-					  { 
-						 ""code"":""ModellingClass"",
-						 ""values"":[ 
-							{ 
-							   ""code"":""MC000178""
-							}
-						 ]
-					  }
-				   ]
-				}";
+			var searchParms = new UnifeedObjects.SearchParms()
+			{
+				SearchString = "uob",
+				From = 20,
+				Size = 20,
+				Languagecode = "NL",
+				Filters = new System.Collections.Generic.List<UnifeedObjects.FilterModel>()
+				{
+					new UnifeedObjects.FilterModel()
+					{
+						Code = UnifeedObjects.Filtercode.ModellingClass,
+						Values = new System.Collections.Generic.List<UnifeedObjects.FilterValueModel>()
+						{
+							new UnifeedObjects.FilterValueModel() { Code = "MC000178" },
+						}
+					}
+				}
+			};
 
-			//data = JsonConvert.SerializeObject(searchParms);
-			byte[] postdata = Encoding.UTF8.GetBytes(data);
+			var postdataJson = JsonConvert.SerializeObject(searchParms);
+			byte[] postdata = Encoding.UTF8.GetBytes(postdataJson);
 			string headers = $"Content-Type: application/json";
 			browser.Navigate(url, string.Empty, postdata, headers);
 		}
@@ -87,7 +90,7 @@
 
 		private void Browser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
 		{
-			Log($"Navigating to: {e.Url}");
+			Log($"Navigating: {e.Url}");
 			if (e.Url.Scheme == UnifeedSchemeName)
 			{
 				e.Cancel = true;
@@ -108,20 +111,21 @@
 
 				Log($"Retrieved data: {data}");
 
-				// Refresh token. Normally this is not needed for every call, only when the token is expired.
-				// RefreshToken();
+				if (!string.IsNullOrEmpty(_currentToken.RefreshToken))
+				{
+					// Refresh token. Normally this is not needed for every call, only when the token is expired.
+					// Only possible when offline_access scope is honored
+					RefreshToken();
+				}
 
 				// Restart Unifeed
-				StartUnifeed(); // browser.Refresh();
+				StartUnifeed();
 			}
 		}
 
 		private void Browser_Navigated(object sender, System.Windows.Forms.WebBrowserNavigatedEventArgs e)
 		{
-			if (e.Url.Scheme == UnifeedSchemeName)
-			{
-				Log($"Interfaced! {e.Url}");
-			}
+			Log($"Navigated: {e.Url}");
 		}
 
 		private void Log(string tekst)

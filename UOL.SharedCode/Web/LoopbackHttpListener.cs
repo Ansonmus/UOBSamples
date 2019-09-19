@@ -9,13 +9,13 @@
 	{
 		private const int DefaultTimeout = 60 * 5; // 5 mins (in seconds)
 
+		private readonly TaskCompletionSource<string> _source = new TaskCompletionSource<string>();
+		private readonly string _listenerPrefix;
 		private HttpListener _listener;
-		private TaskCompletionSource<string> _source = new TaskCompletionSource<string>();
-		private string _listenerPrefix;
 
 		public LoopbackHttpListener(string listenerPrefix)
 		{
-			_listenerPrefix = listenerPrefix;
+			this._listenerPrefix = listenerPrefix;
 		}
 
 		public async void Start()
@@ -27,6 +27,7 @@
 			// wait for the authorization response.
 			var context = await _listener.GetContextAsync().ConfigureAwait(false);
 			SetResult(context.Request.Url.ToString(), context);
+			_listener.Stop();
 		}
 
 		public void Dispose()
@@ -35,7 +36,6 @@
 			{
 				await Task.Delay(500);
 				_listener.Close();
-				//_host.Dispose();
 			});
 		}
 

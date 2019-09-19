@@ -1,9 +1,6 @@
 ﻿namespace UOL.UnifeedXIEWebBrowserWinForms.UnifeedObjects
 {
 	using System.Collections.Generic;
-	using System.ComponentModel.DataAnnotations;
-	using Newtonsoft.Json;
-	using Newtonsoft.Json.Converters;
 
 	public class SearchParms
 	{
