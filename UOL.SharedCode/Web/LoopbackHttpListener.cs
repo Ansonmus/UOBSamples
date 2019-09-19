@@ -1,4 +1,4 @@
-﻿namespace UOL.UnifeedIEWebBrowserWinForms
+﻿namespace UOL.SharedCode.Web
 {
 	using System;
 	using System.Net;

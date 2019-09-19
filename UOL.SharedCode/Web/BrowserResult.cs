@@ -1,13 +1,13 @@
-﻿namespace UOL.UnifeedIEWebBrowserWinForms
+﻿namespace UOL.SharedCode.Web
 {
-	internal enum BrowserResultType
+	public enum BrowserResultType
 	{
 		UnknownError,
 		Success,
 		Timeout
 	}
 
-	internal class BrowserResult
+	public class BrowserResult
 	{
 		public string Response { get; set; }
 

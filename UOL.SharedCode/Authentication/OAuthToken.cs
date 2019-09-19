@@ -1,4 +1,4 @@
-﻿namespace UOL.UnifeedIEWebBrowserWinForms
+﻿namespace UOL.SharedCode.Authentication
 {
 	using Newtonsoft.Json;
 

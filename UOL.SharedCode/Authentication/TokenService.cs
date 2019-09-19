@@ -1,4 +1,4 @@
-﻿namespace UOL.UnifeedIEWebBrowserWinForms
+﻿namespace UOL.SharedCode.Authentication
 {
 	using System.IO;
 	using System.Net;
@@ -8,7 +8,7 @@
 
 	public static class TokenService
 	{
-		internal static OAuthToken Get(string autorizeServer, string postMessage)
+		public static OAuthToken Get(string autorizeServer, string postMessage)
 		{
 			// Create Object's
 			var request = WebRequest.CreateHttp(autorizeServer);

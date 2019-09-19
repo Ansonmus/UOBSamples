@@ -1,4 +1,4 @@
-﻿namespace UOL.UnifeedIEWebBrowserWinForms
+﻿namespace UOL.SharedCode.Web
 {
 	using System;
 	using System.Diagnostics;
@@ -30,7 +30,7 @@
 			return port;
 		}
 
-		internal async Task<BrowserResult> InvokeAsync(string url)
+		public async Task<BrowserResult> InvokeAsync(string url)
 		{
 			using (var listener = new LoopbackHttpListener(_listenerPrefix))
 			{

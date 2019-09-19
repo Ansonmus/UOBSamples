@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UOL.UnifeedIEWebBrowserWinForms", "UOB.UnifeedIEWebBrowserWinForms\UOL.UnifeedIEWebBrowserWinForms.csproj", "{96159290-86E3-4735-92A7-58AD4BC1516A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UOL.Unifeed_IE_WinForms", "UOB.UnifeedIEWebBrowserWinForms\UOL.Unifeed_IE_WinForms.csproj", "{96159290-86E3-4735-92A7-58AD4BC1516A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UOL.UnifeedVUE_IE_WinForms", "UOB.UnifeedXIEWebBrowserWinForms\UOL.UnifeedVUE_IE_WinForms.csproj", "{E7483080-CFEB-4E82-B4F4-2A0CCCF8399F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UOL.SharedCode", "UOL.SharedCode\UOL.SharedCode.csproj", "{4D110A05-CE59-4578-AC89-215A9326DB16}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,22 @@ Global
 		{96159290-86E3-4735-92A7-58AD4BC1516A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{96159290-86E3-4735-92A7-58AD4BC1516A}.Release|x64.ActiveCfg = Release|x64
 		{96159290-86E3-4735-92A7-58AD4BC1516A}.Release|x64.Build.0 = Release|x64
+		{E7483080-CFEB-4E82-B4F4-2A0CCCF8399F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7483080-CFEB-4E82-B4F4-2A0CCCF8399F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7483080-CFEB-4E82-B4F4-2A0CCCF8399F}.Debug|x64.ActiveCfg = Debug|x64
+		{E7483080-CFEB-4E82-B4F4-2A0CCCF8399F}.Debug|x64.Build.0 = Debug|x64
+		{E7483080-CFEB-4E82-B4F4-2A0CCCF8399F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7483080-CFEB-4E82-B4F4-2A0CCCF8399F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7483080-CFEB-4E82-B4F4-2A0CCCF8399F}.Release|x64.ActiveCfg = Release|x64
+		{E7483080-CFEB-4E82-B4F4-2A0CCCF8399F}.Release|x64.Build.0 = Release|x64
+		{4D110A05-CE59-4578-AC89-215A9326DB16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D110A05-CE59-4578-AC89-215A9326DB16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D110A05-CE59-4578-AC89-215A9326DB16}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4D110A05-CE59-4578-AC89-215A9326DB16}.Debug|x64.Build.0 = Debug|Any CPU
+		{4D110A05-CE59-4578-AC89-215A9326DB16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D110A05-CE59-4578-AC89-215A9326DB16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D110A05-CE59-4578-AC89-215A9326DB16}.Release|x64.ActiveCfg = Release|Any CPU
+		{4D110A05-CE59-4578-AC89-215A9326DB16}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

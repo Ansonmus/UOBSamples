@@ -1,4 +1,4 @@
-﻿namespace UOL.UnifeedIEWebBrowserWinForms
+﻿namespace UOL.UnifeedXIEWebBrowserWinForms
 {
     partial class Form1
     {
