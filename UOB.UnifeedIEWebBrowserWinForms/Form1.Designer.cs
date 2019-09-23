@@ -65,7 +65,6 @@
             this.browser.TabIndex = 0;
 			this.browser.Navigating += Browser_Navigating;
 			this.browser.Navigated += Browser_Navigated;
-			this.browser.DocumentCompleted += Browser_DocumentCompleted;
 			// 
 			// logBox
 			// 
@@ -85,15 +84,15 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.splitContainer1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Unifeed Demo";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
-			this.Load += new System.EventHandler(this.Form1_Load);
 
 		}
 

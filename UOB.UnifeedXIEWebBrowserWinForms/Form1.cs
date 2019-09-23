@@ -83,11 +83,6 @@
 			browser.Navigate(url, string.Empty, postdata, headers);
 		}
 
-		private void Browser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-		{
-			Log($"Document completed: {browser.DocumentType}");
-		}
-
 		private void Browser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
 		{
 			Log($"Navigating: {e.Url}");

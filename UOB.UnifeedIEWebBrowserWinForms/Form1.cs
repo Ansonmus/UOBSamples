@@ -58,11 +58,6 @@
 			return;
 		}
 
-		private void Browser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-		{
-			// Log($"Document completed: {browser.DocumentType}");
-		}
-
 		private void Browser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
 		{
 			Log($"Navigating to: {e.Url}");
