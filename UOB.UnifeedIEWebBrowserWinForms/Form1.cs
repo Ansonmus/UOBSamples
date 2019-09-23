@@ -60,7 +60,7 @@
 
 		private void Browser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
 		{
-			Log($"Document completed: {browser.DocumentType}");
+			// Log($"Document completed: {browser.DocumentType}");
 		}
 
 		private void Browser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
@@ -70,12 +70,11 @@
 			{
 				e.Cancel = true;
 
-				Log($"Interfaced! {e.Url}");
 				var queryString = HttpUtility.ParseQueryString(e.Url.Query);
 
 				string data = queryString["json"];
 
-				Log($"Retrieved data: {data}");
+				Log($"Interfaced! {e.Url}. Retrieved data: {data}");
 
 				if (!string.IsNullOrEmpty(_currentToken.RefreshToken))
 				{
@@ -91,7 +90,7 @@
 
 		private void Browser_Navigated(object sender, System.Windows.Forms.WebBrowserNavigatedEventArgs e)
 		{
-			Log($"Navigated to: {e.Url}");
+			// Log($"Navigated to: {e.Url}");
 		}
 
 		private void Log(string tekst)

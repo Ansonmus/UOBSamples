@@ -11,6 +11,7 @@
 
 		private readonly TaskCompletionSource<string> _source = new TaskCompletionSource<string>();
 		private readonly string _listenerPrefix;
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Code Quality", "IDE0069:Disposable fields should be disposed", Justification = "Close is used")]
 		private HttpListener _listener;
 
 		public LoopbackHttpListener(string listenerPrefix)

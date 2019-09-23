@@ -32,7 +32,7 @@
 
 		private async void Form1_Load(object sender, EventArgs e)
 		{
-			Log($"Form loaded. sttarting authenticate");
+			Log($"Form loaded, starting authenticate");
 
 			var authService = new SharedCode.Authentication.Authentication(new SharedCode.Authentication.AuthenticationConfig()
 			{
@@ -119,7 +119,8 @@
 				}
 
 				// Restart Unifeed
-				StartUnifeed();
+				//StartUnifeed();
+				browser.GoBack();
 			}
 		}
 
