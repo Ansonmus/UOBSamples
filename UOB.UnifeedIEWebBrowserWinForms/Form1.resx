@@ -117,4 +117,29 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAMMOAADDDgAAAAAAAAAA
+        AAD/////////////////////////////////////////////////////////////////////////////
+        //////////////r49//RwrL/vqiR/+HWy///////+vn3/9XGt/+9p4//1si5//v6+f/39PL/0cGx/8u6
+        p//i2M7//f38///////KuKX/m3lV/7mhh/+XdU//6ODX/7+pkv+belb/vaeQ/5t5Vf/CrZf/4tfN/5Br
+        Qv+4oYf/mHVP/93RxP//////rpN2/8q5pv//////qIts/8Ktl/+Zd1L/5NvS///////i2c7/mXdS/9LD
+        s/+aeFP/28/C/518Wf/Vx7j//////66Tdf/Ovqz//////6yQcv+6pIv/mXdT//Ht6P//////8Ovl/5l2
+        Uf/NvKr/jWc+/6iKav+beVT/8u7p//z7+f+miGj/zb2r//////+pjG3/wayW/6KDYf+/qpP/7+nk/72n
+        j/+khmX/08Sz/5l3Uv/Zzb//l3VP/+ni2v/v6uT/p4pr/97UyP//////wayW/7uljP/k29L/polp/518
+        Wf+nimv/6ODY/8m3pP+Zd1L/o4Vk/7+qlP/6+ff/9uve//Lm2P/269//9+3h//Xp3P/z59n/+O7i//Pn
+        2f/r3Mv/8+fa//ju4v/059r/8eTW//Hk1v/37OD/+O3h/9ijaP/Yo2j/2KNo/9ijZ//Yo2j/2qRo/9mj
+        Z//Yo2j/2aRp/9ijaP/Yo2f/2KNo/9mjaP/Yo2j/2KNo/9ijZ//x3cf/8d3H//Tfx//z3sf/8d3H/8vF
+        x//n18f/9N/H//Hdx//y3sf/9N/H//Lex//y3sf/8d3H//Lex//y3cf///////D2///A2f//y+D///r8
+        //+ew///qsv//8vg///5/P//4e3//8DZ///n8f//5/H///z9///h7f//7PT///j7//+Lt///msD//5i/
+        //+awP//qcr//3Gn//+ZwP//ncL//3+v//+mx///y97//5O7///o8f//j7n//8Xb///i7f//f67///j7
+        ///+/v//lLz//5W8//+Tu///5e///3Gm//9emv//l77//5O7//+Ktv//w9n//6XH//+71f//8vf//4Gw
+        ///d6v///////6bH//+Gs///cqf//424//+dwv//rcz//4i1//+Quv//lr3//4Cw//98rf//xNr/////
+        ///L3v//hLL//5m///98rf//3On///T4///n8P//+Pr///z9///n8P//8/j///b6///y9///6PH///z9
+        /////////////+bv///G3P//5u//////////////////////////////////////////////////////
+        ////////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAA==
+</value>
+  </data>
 </root>
