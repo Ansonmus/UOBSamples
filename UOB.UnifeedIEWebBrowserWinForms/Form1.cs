@@ -9,8 +9,8 @@
 	public partial class Form1 : Form
 	{
 		public const string ClientId = "2BA_DEMOAPPS_PKCE";
-		public const string AuthorizeBaseUrl = "https://authorize-uol.2ba.nl";
-		public const string UnifeedBaseUrl = "https://unifeed-uol-os.beta.2ba.nl";
+		public const string AuthorizeBaseUrl = "https://uol-auth.2ba.nl";
+		public const string UnifeedBaseUrl = "https://uol-unifeed.2ba.nl";
 		public const string UnifeedSchemeName = "nl.2ba.uol";
 		public static readonly string AuthorizeUrl = $"{AuthorizeBaseUrl}/OAuth/Authorize";
 		public static readonly string AuthorizeTokenUrl = $"{AuthorizeBaseUrl}/OAuth/Token";

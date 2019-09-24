@@ -12,7 +12,7 @@
 	public partial class Form1 : Form
 	{
 		public const string ClientId = "2BA_DEMOAPPS_PKCE";
-		public const string AuthorizeBaseUrl = "https://authorize-uol.2ba.nl";
+		public const string AuthorizeBaseUrl = "https://uol-auth.2ba.nl";
 		public const string UnifeedBaseUrl = "https://unifeed-uol.alpha.2ba.nl";
 		public const string UnifeedSchemeName = "nl.2ba.uol";
 		public static readonly string AuthorizeUrl = $"{AuthorizeBaseUrl}/OAuth/Authorize";
@@ -114,7 +114,7 @@
 				}
 
 				// Restart Unifeed
-				//StartUnifeed();
+				// StartUnifeed();
 				browser.GoBack();
 			}
 		}
