@@ -14,7 +14,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 		public const string ClientId = "2BA_DEMOAPPS_PKCE";
 
 #if BETA
-		public const string AuthorizeBaseUrl = "https://uol-auth.2ba.nl";
+		public const string AuthorizeBaseUrl = "https://uol-auth.beta.2ba.nl";
 		public const string UnifeedBaseUrl = "https://uol-unifeed.beta.2ba.nl";
 		public const string ApiBaseUrl = "https://uol-api.beta.2ba.nl/1";
 #else
