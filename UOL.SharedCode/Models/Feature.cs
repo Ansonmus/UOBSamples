@@ -33,5 +33,7 @@
 		public decimal? ZCoordinate { get; set; }
 
 		public MatrixValue[] MatrixValues { get; set; }
+
+		public string DimensionalDrawingCode { get; set; }
 	}
 }
