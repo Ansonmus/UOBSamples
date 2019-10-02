@@ -1,7 +1,10 @@
-﻿namespace UOL.UnifeedIEWebBrowserWinForms
+﻿#define BETA
+namespace UOL.UnifeedIEWebBrowserWinForms
 {
 	using System;
 	using System.Collections.Specialized;
+	using System.IO;
+	using System.Net;
 	using System.Web;
 	using System.Windows.Forms;
 	using Newtonsoft.Json;
@@ -9,8 +12,17 @@
 	public partial class Form1 : Form
 	{
 		public const string ClientId = "2BA_DEMOAPPS_PKCE";
+
+#if BETA
+		public const string AuthorizeBaseUrl = "https://uol-auth.2ba.nl";
+		public const string UnifeedBaseUrl = "https://uol-unifeed.beta.2ba.nl";
+		public const string ApiBaseUrl = "https://uol-api.beta.2ba.nl/1";
+#else
 		public const string AuthorizeBaseUrl = "https://uol-auth.2ba.nl";
 		public const string UnifeedBaseUrl = "https://uol-unifeed.2ba.nl";
+		public const string ApiBaseUrl = "https://uol-api.2ba.nl/1";
+#endif
+
 		public const string UnifeedSchemeName = "nl.2ba.uol";
 		public static readonly string AuthorizeUrl = $"{AuthorizeBaseUrl}/OAuth/Authorize";
 		public static readonly string AuthorizeTokenUrl = $"{AuthorizeBaseUrl}/OAuth/Token";
@@ -64,13 +76,26 @@
 			if (e.Url.Scheme == UnifeedSchemeName)
 			{
 				e.Cancel = true;
+				Log($"Interfaced! {e.Url}");
 
+				// Get id from data
 				var queryString = HttpUtility.ParseQueryString(e.Url.Query);
-
 				string data = queryString["json"];
+				var interfaceId = JsonConvert.DeserializeAnonymousType(data, new { Id = 0L }).Id;
+				Log($"Retrieved id for interface object: {interfaceId}");
 
-				Log($"Interfaced! {e.Url}. Retrieved data: {data}");
+				// Call interface webservice
+				var url = SharedCode.Web.HttpExtensions.Build($"{ApiBaseUrl}/json/UOB/Interface", new NameValueCollection()
+				{
+					{ "id", interfaceId.ToString() },
+				}).ToString();
 
+				var interfaceObjectJson = SharedCode.WebService.WebServiceHelper.GetJson(url, _currentToken.AccessToken);
+				Log($"Retrieved interface object: {interfaceObjectJson}");
+
+				var interfaceObject = JsonConvert.DeserializeObject<SharedCode.Models.Interface>(interfaceObjectJson);
+
+				// Restart situation
 				if (!string.IsNullOrEmpty(_currentToken.RefreshToken))
 				{
 					// Refresh token. Normally this is not needed for every call, only when the token is expired.

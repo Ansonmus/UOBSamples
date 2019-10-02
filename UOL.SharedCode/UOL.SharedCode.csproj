@@ -52,6 +52,17 @@
     <Compile Include="Authentication\OAuthToken.cs" />
     <Compile Include="Authentication\PKCECode.cs" />
     <Compile Include="Authentication\TokenService.cs" />
+    <Compile Include="Models\Feature.cs" />
+    <Compile Include="Models\Interface.cs" />
+    <Compile Include="Models\MatrixValue.cs" />
+    <Compile Include="Models\MLDescription.cs" />
+    <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\ProductClass.cs" />
+    <Compile Include="Models\SearchParms.cs" />
+    <Compile Include="Models\Unit.cs" />
+    <Compile Include="Models\Value.cs" />
+    <Compile Include="WebService\ErrorObject.cs" />
+    <Compile Include="WebService\WebServiceHelper.cs" />
     <Compile Include="Web\BrowserResult.cs" />
     <Compile Include="Web\HttpExtensions.cs" />
     <Compile Include="Web\LoopbackHttpListener.cs" />
