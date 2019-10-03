@@ -75,6 +75,7 @@
             this.logBox.Location = new System.Drawing.Point(3, 3);
             this.logBox.Multiline = true;
             this.logBox.Name = "logBox";
+            this.logBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.logBox.Size = new System.Drawing.Size(794, 174);
             this.logBox.TabIndex = 0;
             // 

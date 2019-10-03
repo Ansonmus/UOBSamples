@@ -3,8 +3,6 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 {
 	using System;
 	using System.Collections.Specialized;
-	using System.IO;
-	using System.Net;
 	using System.Web;
 	using System.Windows.Forms;
 	using Newtonsoft.Json;
@@ -91,7 +89,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 				}).ToString();
 
 				var interfaceObjectJson = SharedCode.WebService.WebServiceHelper.GetJson(url, _currentToken.AccessToken);
-				Log($"Retrieved interface object: {interfaceObjectJson}");
+				Log($"Retrieved interface object: {Newtonsoft.Json.Linq.JToken.Parse(interfaceObjectJson).ToString(Formatting.Indented)}");
 
 				var interfaceObject = JsonConvert.DeserializeObject<SharedCode.Models.Interface>(interfaceObjectJson);
 
