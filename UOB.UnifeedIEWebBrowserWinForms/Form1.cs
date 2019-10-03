@@ -62,6 +62,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 				{ "accessToken", accessToken },
 				{ "interface", (32 | 4).ToString() },
 				{ "interfaceType", "JSONGET" },
+				{ "interfaceName", "UOBSample" },
 				{ "hookUrl", UnifeedHookUrl },
 			}).ToString();
 			browser.Navigate(url);
