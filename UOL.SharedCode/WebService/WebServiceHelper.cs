@@ -7,25 +7,6 @@
 
 	public class WebServiceHelper
 	{
-		private static void ThrowOnError(HttpStatusCode statusCode, string responseString)
-		{
-			if (statusCode == HttpStatusCode.OK)
-			{
-				return;
-			}
-
-			var responseObject = JsonConvert.DeserializeObject<ErrorObject>(responseString);
-
-			switch (statusCode)
-			{
-				case HttpStatusCode.BadRequest:
-				case HttpStatusCode.Unauthorized:
-					throw new WebException(responseObject.ErrorMessage, WebExceptionStatus.ProtocolError);
-				case HttpStatusCode.InternalServerError:
-					throw new WebException(responseObject.ErrorMessage, WebExceptionStatus.UnknownError);
-			}
-		}
-
 		public static Models.Interface GetInterfaceObject(string apiUrl, string accessToken, int id)
 		{
 			var url = Web.HttpExtensions.Build($"{apiUrl}/json/UOB/Interface", new NameValueCollection()
@@ -56,6 +37,25 @@
 				ThrowOnError(response.StatusCode, data);
 
 				return data;
+			}
+		}
+
+		private static void ThrowOnError(HttpStatusCode statusCode, string responseString)
+		{
+			if (statusCode == HttpStatusCode.OK)
+			{
+				return;
+			}
+
+			var responseObject = JsonConvert.DeserializeObject<ErrorObject>(responseString);
+
+			switch (statusCode)
+			{
+				case HttpStatusCode.BadRequest:
+				case HttpStatusCode.Unauthorized:
+					throw new WebException(responseObject.ErrorMessage, WebExceptionStatus.ProtocolError);
+				case HttpStatusCode.InternalServerError:
+					throw new WebException(responseObject.ErrorMessage, WebExceptionStatus.UnknownError);
 			}
 		}
 	}
