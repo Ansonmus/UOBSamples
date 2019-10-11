@@ -57,6 +57,17 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 		private void StartUnifeed()
 		{
 			var accessToken = _currentToken.AccessToken;
+
+			var downloadUrl = SharedCode.Web.HttpExtensions.Build(UnifeedBaseUrl, new NameValueCollection()
+			{
+				{ "accessToken", accessToken },
+				{ "interface", 32.ToString() },
+				{ "interfaceType", "DOWNLOAD" },
+				{ "interfaceName", "lokaal apparaat (download)" },
+			}).ToString();
+
+			Log($"Link to initiate download: {downloadUrl}");
+
 			var url = SharedCode.Web.HttpExtensions.Build(UnifeedBaseUrl, new NameValueCollection()
 			{
 				{ "accessToken", accessToken },
