@@ -64,6 +64,8 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 				{ "interface", 32.ToString() },
 				{ "interfaceType", "DOWNLOAD" },
 				{ "interfaceName", "lokaal apparaat (download)" },
+				{ "uobApplication", "Revit" },
+				{ "uobApplicationVersion", "2018" },
 			}).ToString();
 
 			Log($"Link to initiate download: {downloadUrl}");
@@ -73,7 +75,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 				{ "accessToken", accessToken },
 				{ "interface", 32.ToString() },
 				{ "interfaceType", "JSONGET" },
-				{ "interfaceName", "UOBSample" },
+				{ "interfaceName", "UOB DemoApplication" },
 				{ "hookUrl", UnifeedHookUrl },
 			}).ToString();
 			browser.Navigate(url);
