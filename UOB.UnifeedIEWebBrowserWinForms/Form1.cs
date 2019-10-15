@@ -1,4 +1,4 @@
-﻿#define BETA
+﻿//#define BETA
 namespace UOL.UnifeedIEWebBrowserWinForms
 {
 	using System;
@@ -33,6 +33,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 		public Form1()
 		{
 			InitializeComponent();
+			browser.ScriptErrorsSuppressed = false;
 		}
 
 		private async void Form1_Load(object sender, EventArgs e)
@@ -101,6 +102,8 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 				{
 					{ "id", interfaceId.ToString() },
 				}).ToString();
+
+				Log($"Calling service url: {url}");
 
 				var interfaceObjectJson = SharedCode.WebService.WebServiceHelper.GetJson(url, _currentToken.AccessToken);
 				Log($"Retrieved interface object: {Newtonsoft.Json.Linq.JToken.Parse(interfaceObjectJson).ToString(Formatting.Indented)}");
