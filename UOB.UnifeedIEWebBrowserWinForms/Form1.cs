@@ -1,4 +1,4 @@
-﻿//#define BETA
+﻿#define BETA
 namespace UOL.UnifeedIEWebBrowserWinForms
 {
 	using System;
