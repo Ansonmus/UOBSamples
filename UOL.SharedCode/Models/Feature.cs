@@ -35,5 +35,9 @@
 		public MatrixValue[] MatrixValues { get; set; }
 
 		public string DimensionalDrawingCode { get; set; }
+
+		public bool Selected { get; set; }
+
+		public string UserValue { get; set; }
 	}
 }
