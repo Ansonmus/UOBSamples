@@ -86,6 +86,14 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 
 		private async void Browser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
 		{
+			// Restart situation
+			if (!string.IsNullOrEmpty(_currentToken.RefreshToken))
+			{
+				// Refresh token. Normally this is not needed for every call, only when the token is expired.
+				// Only possible when offline_access scope is honored
+				RefreshToken();
+			}
+
 			Log($"Navigating to: {e.Url}");
 			if (e.Url.Scheme == UnifeedSchemeName)
 			{
@@ -114,18 +122,17 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 				// Post the interfaceObject back
 				var postUrl = SharedCode.Web.HttpExtensions.Build($"{ApiBaseUrl}/json/UOB/Interface").ToString();
 				var output = await SharedCode.WebService.WebServiceHelper.PostJson(postUrl, _currentToken.AccessToken, interfaceObjectJson);
-				var newInterfaceId = JsonConvert.DeserializeAnonymousType(output, new { Id = (int?)0 }).Id;
 
-				// Restart situation
-				if (!string.IsNullOrEmpty(_currentToken.RefreshToken))
+				if (int.TryParse(output, out var newInterfaceId))
 				{
-					// Refresh token. Normally this is not needed for every call, only when the token is expired.
-					// Only possible when offline_access scope is honored
-					RefreshToken();
+					// Restart Unifeed
+					StartUnifeed(newInterfaceId); // browser.Refresh();
 				}
-
-				// Restart Unifeed
-				StartUnifeed(newInterfaceId); // browser.Refresh();
+				else
+				{
+					// Restart Unifeed
+					StartUnifeed(); // browser.Refresh();
+				}
 			}
 		}
 
