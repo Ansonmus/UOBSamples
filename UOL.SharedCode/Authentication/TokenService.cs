@@ -8,7 +8,7 @@
 
 	public static class TokenService
 	{
-		public static OAuthToken Get(string autorizeServer, string postMessage)
+		public static OAuthToken RetrieveToken(string autorizeServer, string postMessage)
 		{
 			// Create Object's
 			var request = WebRequest.CreateHttp(autorizeServer);

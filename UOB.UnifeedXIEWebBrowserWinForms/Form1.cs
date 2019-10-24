@@ -140,7 +140,7 @@
 					{ "refresh_token", _currentToken.RefreshToken },
 				}).ToString();
 
-			_currentToken = SharedCode.Authentication.TokenService.Get(AuthorizeTokenUrl, query);
+			_currentToken = SharedCode.Authentication.TokenService.RetrieveToken(AuthorizeTokenUrl, query);
 
 			Log($"Refreshing tokens. New token retrieved: {_currentToken.TokenIssued.ToString("yyyyMMdd_HHmmss")}");
 		}

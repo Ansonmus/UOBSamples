@@ -55,7 +55,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			StartUnifeed();
 		}
 
-		private void StartUnifeed()
+		private void StartUnifeed(int? interfaceObjectId = null)
 		{
 			var accessToken = _currentToken.AccessToken;
 
@@ -67,6 +67,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 				{ "interfaceName", "lokaal apparaat (download)" },
 				{ "uobApplication", "Revit" },
 				{ "uobApplicationVersion", "2018" },
+				{ "interfaceObjectId", interfaceObjectId?.ToString() },
 			}).ToString();
 
 			Log($"Link to initiate download: {downloadUrl}");
@@ -83,7 +84,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			return;
 		}
 
-		private void Browser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
+		private async void Browser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
 		{
 			Log($"Navigating to: {e.Url}");
 			if (e.Url.Scheme == UnifeedSchemeName)
@@ -110,6 +111,11 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 
 				var interfaceObject = JsonConvert.DeserializeObject<SharedCode.Models.Interface>(interfaceObjectJson);
 
+				// Post the interfaceObject back
+				var postUrl = SharedCode.Web.HttpExtensions.Build($"{ApiBaseUrl}/json/UOB/Interface").ToString();
+				var output = await SharedCode.WebService.WebServiceHelper.PostJson(postUrl, _currentToken.AccessToken, interfaceObjectJson);
+				var newInterfaceId = JsonConvert.DeserializeAnonymousType(output, new { Id = (int?)0 }).Id;
+
 				// Restart situation
 				if (!string.IsNullOrEmpty(_currentToken.RefreshToken))
 				{
@@ -119,7 +125,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 				}
 
 				// Restart Unifeed
-				StartUnifeed(); // browser.Refresh();
+				StartUnifeed(newInterfaceId); // browser.Refresh();
 			}
 		}
 
@@ -144,7 +150,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 					{ "refresh_token", _currentToken.RefreshToken },
 				}).ToString();
 
-			_currentToken = SharedCode.Authentication.TokenService.Get(AuthorizeTokenUrl, query);
+			_currentToken = SharedCode.Authentication.TokenService.RetrieveToken(AuthorizeTokenUrl, query);
 
 			Log($"Refreshing tokens. New token retrieved: {_currentToken.TokenIssued.ToString("yyyyMMdd_HHmmss")}");
 		}

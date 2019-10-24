@@ -1,8 +1,13 @@
 ﻿namespace UOL.SharedCode.WebService
 {
+	using System;
 	using System.Collections.Specialized;
 	using System.IO;
 	using System.Net;
+	using System.Net.Http;
+	using System.Net.Http.Headers;
+	using System.Text;
+	using System.Threading.Tasks;
 	using Newtonsoft.Json;
 
 	public class WebServiceHelper
@@ -40,6 +45,20 @@
 			}
 		}
 
+		public static async Task<string> PostJson(string url, string accessToken, string jsonData)
+		{
+			var client = HttpClientHelpers.GetHttpClient();
+			HttpRequestMessage request;
+
+			request = new HttpRequestMessage(HttpMethod.Post, url);
+			request.Content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+			request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+			var response = await client.SendAsync(request);
+			return await response.Content.ReadAsStringAsync();
+		}
+
 		private static void ThrowOnError(HttpStatusCode statusCode, string responseString)
 		{
 			if (statusCode == HttpStatusCode.OK)
@@ -57,6 +76,30 @@
 				case HttpStatusCode.InternalServerError:
 					throw new WebException(responseObject.ErrorMessage, WebExceptionStatus.UnknownError);
 			}
+		}
+	}
+
+	internal static class HttpClientHelpers
+	{
+		private static HttpClient _client;
+
+		static HttpClientHelpers()
+		{
+			_client = new HttpClient();
+		}
+
+		internal static HttpClient GetHttpClient() => _client;
+
+		internal static TimeSpan DefaultTimeOut => TimeSpan.FromSeconds(100);
+
+		internal static void SetTimeout(TimeSpan timeSpan)
+		{
+			_client.Timeout = timeSpan;
+		}
+
+		internal static void ResetTimeout()
+		{
+			SetTimeout(DefaultTimeOut);
 		}
 	}
 }

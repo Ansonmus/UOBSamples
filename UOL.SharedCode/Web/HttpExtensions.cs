@@ -25,7 +25,7 @@
 			return ub.Uri;
 		}
 
-		public static Uri Build(string baseUrl, NameValueCollection parameters)
+		public static Uri Build(string baseUrl, NameValueCollection parameters = null)
 		{
 			var uri = new Uri(baseUrl);
 			var queryString = HttpUtility.ParseQueryString(uri.Query);

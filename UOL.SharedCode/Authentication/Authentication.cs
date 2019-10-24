@@ -51,7 +51,7 @@
 					{ "code_verifier", pkceCodes.CodeVerifier }, // PKCE addition
 				}).ToString();
 
-				return TokenService.Get(_config.AuthorizeTokenUrl, query);
+				return TokenService.RetrieveToken(_config.AuthorizeTokenUrl, query);
 			}
 
 			return null;
