@@ -30,9 +30,15 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 
 		private SharedCode.Authentication.OAuthToken _currentToken = null;
 
+		private SharedCode.Models.Interface _lastRetrievedObject = null;
+
 		public Form1()
 		{
 			InitializeComponent();
+
+			this.browser.Navigating += Browser_Navigating;
+			this.browser.Navigated += Browser_Navigated;
+
 			browser.ScriptErrorsSuppressed = false;
 		}
 
@@ -55,22 +61,9 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			StartUnifeed();
 		}
 
-		private void StartUnifeed(int? interfaceObjectId = null)
+		private void StartUnifeed(long? interfaceObjectId = null)
 		{
 			var accessToken = _currentToken.AccessToken;
-
-			var downloadUrl = SharedCode.Web.HttpExtensions.Build(UnifeedBaseUrl, new NameValueCollection()
-			{
-				{ "accessToken", accessToken },
-				{ "interface", 32.ToString() },
-				{ "interfaceType", "DOWNLOAD" },
-				{ "interfaceName", "lokaal apparaat (download)" },
-				{ "uobApplication", "Revit" },
-				{ "uobApplicationVersion", "2018" },
-				{ "interfaceObjectId", interfaceObjectId?.ToString() },
-			}).ToString();
-
-			Log($"Link to initiate download: {downloadUrl}");
 
 			var url = SharedCode.Web.HttpExtensions.Build(UnifeedBaseUrl, new NameValueCollection()
 			{
@@ -79,22 +72,18 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 				{ "interfaceType", "JSONGET" },
 				{ "interfaceName", "UOB DemoApplication" },
 				{ "hookUrl", UnifeedHookUrl },
+				{ "interfaceObjectId", interfaceObjectId?.ToString() },
 			}).ToString();
+
+			Log($"Starting Unifeed with url: {url}");
+
 			browser.Navigate(url);
 			return;
 		}
 
 		private async void Browser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
 		{
-			// Restart situation
-			if (!string.IsNullOrEmpty(_currentToken.RefreshToken))
-			{
-				// Refresh token. Normally this is not needed for every call, only when the token is expired.
-				// Only possible when offline_access scope is honored
-				RefreshToken();
-			}
-
-			Log($"Navigating to: {e.Url}");
+			// Log($"Navigating to: {e.Url}");
 			if (e.Url.Scheme == UnifeedSchemeName)
 			{
 				e.Cancel = true;
@@ -117,22 +106,18 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 				var interfaceObjectJson = SharedCode.WebService.WebServiceHelper.GetJson(url, _currentToken.AccessToken);
 				Log($"Retrieved interface object: {Newtonsoft.Json.Linq.JToken.Parse(interfaceObjectJson).ToString(Formatting.Indented)}");
 
-				var interfaceObject = JsonConvert.DeserializeObject<SharedCode.Models.Interface>(interfaceObjectJson);
+				_lastRetrievedObject = JsonConvert.DeserializeObject<SharedCode.Models.Interface>(interfaceObjectJson);
+				btnStartWithLastObject.Enabled = true;
 
-				// Post the interfaceObject back
-				var postUrl = SharedCode.Web.HttpExtensions.Build($"{ApiBaseUrl}/json/UOB/Interface").ToString();
-				var output = await SharedCode.WebService.WebServiceHelper.PostJson(postUrl, _currentToken.AccessToken, interfaceObjectJson);
+				// Restart situation
+				if (!string.IsNullOrEmpty(_currentToken.RefreshToken))
+				{
+					// Refresh token. Normally this is not needed for every call, only when the token is expired.
+					// Only possible when offline_access scope is honored
+					RefreshToken();
+				}
 
-				if (int.TryParse(output, out var newInterfaceId))
-				{
-					// Restart Unifeed
-					StartUnifeed(newInterfaceId); // browser.Refresh();
-				}
-				else
-				{
-					// Restart Unifeed
-					StartUnifeed(); // browser.Refresh();
-				}
+				StartUnifeed(); // browser.Refresh();
 			}
 		}
 
@@ -144,7 +129,10 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 		private void Log(string tekst)
 		{
 			logBox.Text += $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} {tekst} {Environment.NewLine}";
-			System.Diagnostics.Debug.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} {tekst} {Environment.NewLine}");
+			// System.Diagnostics.Debug.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} {tekst} {Environment.NewLine}");
+
+			logBox.SelectionStart = logBox.Text.Length;
+			logBox.ScrollToCaret();
 		}
 
 		private void RefreshToken()
@@ -160,6 +148,56 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			_currentToken = SharedCode.Authentication.TokenService.RetrieveToken(AuthorizeTokenUrl, query);
 
 			Log($"Refreshing tokens. New token retrieved: {_currentToken.TokenIssued.ToString("yyyyMMdd_HHmmss")}");
+		}
+
+		private void btnClearLog_Click(object sender, EventArgs e)
+		{
+			logBox.Text = string.Empty;
+		}
+
+		private async void btnStartWithLastObject_Click(object sender, EventArgs e)
+		{
+			if (_lastRetrievedObject == null)
+			{
+				btnStartWithLastObject.Enabled = false;
+				return;
+			}
+
+			var interfaceObjectJson = JsonConvert.SerializeObject(_lastRetrievedObject);
+
+			// Post the interfaceObject back
+			var postUrl = SharedCode.Web.HttpExtensions.Build($"{ApiBaseUrl}/json/UOB/Interface").ToString();
+			Log($"Posting object back to: {postUrl}");
+			var output = await SharedCode.WebService.WebServiceHelper.PostJson(postUrl, _currentToken.AccessToken, interfaceObjectJson);
+
+			Log($"Retrieved interface id: {output}");
+
+			long lastInterfaceId = long.Parse(output);
+			StartUnifeed(lastInterfaceId);
+		}
+
+		private void tbnStartClear_Click(object sender, EventArgs e)
+		{
+			StartUnifeed();
+		}
+
+		private async void btnDownload_Click(object sender, EventArgs e)
+		{
+			var accessToken = _currentToken.AccessToken;
+
+			var downloadUrl = SharedCode.Web.HttpExtensions.Build(UnifeedBaseUrl, new NameValueCollection()
+			{
+				{ "accessToken", accessToken },
+				{ "interface", 32.ToString() },
+				{ "interfaceType", "DOWNLOAD" },
+				{ "interfaceName", "lokaal apparaat (download)" },
+				{ "uobApplication", "Revit" },
+				{ "uobApplicationVersion", "2018" },
+			}).ToString();
+
+			Log($"Link to initiate download: {downloadUrl}");
+
+			SharedCode.Web.SystemBrowser.OpenBrowser(downloadUrl);
 		}
 	}
 }

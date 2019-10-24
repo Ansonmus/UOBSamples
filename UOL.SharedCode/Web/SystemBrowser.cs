@@ -49,7 +49,7 @@
 			}
 		}
 
-		internal static void OpenBrowser(string url)
+		public static void OpenBrowser(string url)
 		{
 			try
 			{
