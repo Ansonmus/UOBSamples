@@ -45,9 +45,11 @@
 
 		public IEnumerable<Feature> Features { get; set; }
 
-		public DateTime? ChangeDate { get; set; }
+		// public DateTime? ChangeDate { get; set; } // Temporary a string until we have a solution on the WCF application to receive nullable datetimes.
+		public string ChangeDate { get; set; }
 
-		public DateTime? StartDate { get; set; }
+		// public DateTime? StartDate { get; set; } // Temporary a string until we have a solution on the WCF application to receive nullable datetimes.
+		public string StartDate { get; set; }
 
 		public bool IsDummy { get; set; }
 	}

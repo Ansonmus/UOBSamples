@@ -57,6 +57,8 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 
 			_currentToken = await authService.Authenticate();
 
+			this.
+
 			Log($"Authentication complete, starting Unifeed");
 			StartUnifeed();
 		}
