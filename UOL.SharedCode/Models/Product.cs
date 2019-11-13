@@ -15,6 +15,8 @@
 
 		public string Gtin { get; set; }
 
+		public string ShortDescription { get; set; }
+
 		public string Deeplink { get; set; }
 
 		public MLDescription Brand { get; set; }
