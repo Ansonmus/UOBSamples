@@ -68,7 +68,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			var url = SharedCode.Web.HttpExtensions.Build(UnifeedBaseUrl, new NameValueCollection()
 			{
 				{ "accessToken", accessToken },
-				{ "interface", 32.ToString() },
+				{ "interface", (32 | 64).ToString() },
 				{ "interfaceType", "JSONGET" },
 				{ "interfaceName", "UOB DemoApplication" },
 				{ "hookUrl", UnifeedHookUrl },
