@@ -3,8 +3,11 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 {
 	using System;
 	using System.Collections.Specialized;
+	using System.Threading;
 	using System.Web;
 	using System.Windows.Forms;
+	using CefSharp;
+	using CefSharp.WinForms.Internals;
 	using Newtonsoft.Json;
 
 	public partial class Form1 : Form
@@ -51,11 +54,32 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 
 			_currentToken = await authService.Authenticate();
 
+			RegisterUnifeedSchemaHandler();
+
 			Log($"Authentication complete, starting Unifeed");
-			StartUnifeed();
+			StartUnifeed(BrowserType.InternetExplorer | BrowserType.Chromium);
 		}
 
-		private void StartUnifeed(int? interfaceObjectId = null)
+		private void RegisterUnifeedSchemaHandler()
+		{
+			var factory = new CustomSchemeHandlerFactory(UnifeedSchemeName);
+			factory.CustomSchemeTriggered += Factory_UnifeedInterfaceTriggered;
+			var settings = new CefSharp.WinForms.CefSettings();
+			settings.RegisterScheme(new CefCustomScheme()
+			{
+				SchemeName = factory.SchemeName,
+				SchemeHandlerFactory = factory
+			});
+
+			Cef.Initialize(settings);
+		}
+
+		private void Factory_UnifeedInterfaceTriggered(object sender, UnifeedSchemaHandlerEventArgs e)
+		{
+			HandleInterfaceReceived(new Uri(e.Request.Url), BrowserType.Chromium);
+		}
+
+		private void StartUnifeed(BrowserType browserType, int? interfaceObjectId = null)
 		{
 			var accessToken = _currentToken.AccessToken;
 
@@ -80,7 +104,17 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 				{ "interfaceName", "UOB DemoApplication" },
 				{ "hookUrl", UnifeedHookUrl },
 			}).ToString();
-			browser.Navigate(url);
+
+			if (browserType.HasFlag(BrowserType.InternetExplorer))
+			{
+				browser.Navigate(url);
+			}
+
+			if (browserType.HasFlag(BrowserType.Chromium))
+			{
+				this.chromBrowser.Load(url);
+			}
+
 			return;
 		}
 
@@ -98,41 +132,46 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			if (e.Url.Scheme == UnifeedSchemeName)
 			{
 				e.Cancel = true;
-				Log($"Interfaced! {e.Url}");
+				HandleInterfaceReceived(e.Url, BrowserType.InternetExplorer);
+			}
+		}
 
-				// Get id from data
-				var queryString = HttpUtility.ParseQueryString(e.Url.Query);
-				string data = queryString["json"];
-				var interfaceId = JsonConvert.DeserializeAnonymousType(data, new { Id = 0L }).Id;
-				Log($"Retrieved id for interface object: {interfaceId}");
+		private async void HandleInterfaceReceived(Uri uri, BrowserType browserType)
+		{
+			Log($"Interfaced! {uri}");
 
-				// Call interface webservice
-				var url = SharedCode.Web.HttpExtensions.Build($"{ApiBaseUrl}/json/UOB/Interface", new NameValueCollection()
+			// Get id from data
+			var queryString = HttpUtility.ParseQueryString(uri.Query);
+			string data = queryString["json"];
+			var interfaceId = JsonConvert.DeserializeAnonymousType(data, new { Id = 0L }).Id;
+			Log($"Retrieved id for interface object: {interfaceId}");
+
+			// Call interface webservice
+			var url = SharedCode.Web.HttpExtensions.Build($"{ApiBaseUrl}/json/UOB/Interface", new NameValueCollection()
 				{
 					{ "id", interfaceId.ToString() },
 				}).ToString();
 
-				Log($"Calling service url: {url}");
+			Log($"Calling service url: {url}");
 
-				var interfaceObjectJson = SharedCode.WebService.WebServiceHelper.GetJson(url, _currentToken.AccessToken);
-				Log($"Retrieved interface object: {Newtonsoft.Json.Linq.JToken.Parse(interfaceObjectJson).ToString(Formatting.Indented)}");
+			var interfaceObjectJson = SharedCode.WebService.WebServiceHelper.GetJson(url, _currentToken.AccessToken);
+			Log($"Retrieved interface object: {Newtonsoft.Json.Linq.JToken.Parse(interfaceObjectJson).ToString(Formatting.Indented)}");
 
-				var interfaceObject = JsonConvert.DeserializeObject<SharedCode.Models.Interface>(interfaceObjectJson);
+			var interfaceObject = JsonConvert.DeserializeObject<SharedCode.Models.Interface>(interfaceObjectJson);
 
-				// Post the interfaceObject back
-				var postUrl = SharedCode.Web.HttpExtensions.Build($"{ApiBaseUrl}/json/UOB/Interface").ToString();
-				var output = await SharedCode.WebService.WebServiceHelper.PostJson(postUrl, _currentToken.AccessToken, interfaceObjectJson);
+			// Post the interfaceObject back
+			var postUrl = SharedCode.Web.HttpExtensions.Build($"{ApiBaseUrl}/json/UOB/Interface").ToString();
+			var output = await SharedCode.WebService.WebServiceHelper.PostJson(postUrl, _currentToken.AccessToken, interfaceObjectJson);
 
-				if (int.TryParse(output, out var newInterfaceId))
-				{
-					// Restart Unifeed
-					StartUnifeed(newInterfaceId); // browser.Refresh();
-				}
-				else
-				{
-					// Restart Unifeed
-					StartUnifeed(); // browser.Refresh();
-				}
+			if (int.TryParse(output, out var newInterfaceId))
+			{
+				// Restart Unifeed
+				StartUnifeed(browserType, newInterfaceId); // browser.Refresh();
+			}
+			else
+			{
+				// Restart Unifeed
+				StartUnifeed(browserType); // browser.Refresh();
 			}
 		}
 
@@ -143,8 +182,12 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 
 		private void Log(string tekst)
 		{
-			logBox.Text += $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} {tekst} {Environment.NewLine}";
-			System.Diagnostics.Debug.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} {tekst} {Environment.NewLine}");
+			this.InvokeOnUiThreadIfRequired(() =>
+			{
+				logBox.Text += $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} {tekst} {Environment.NewLine}";
+				System.Diagnostics.Debug.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} {tekst} {Environment.NewLine}");
+			});
+
 		}
 
 		private void RefreshToken()
