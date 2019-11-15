@@ -67,7 +67,7 @@
       <HintPath>..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.http.abstractions\2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Annotations, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -130,13 +130,13 @@
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\UOL.SharedCode\UOL.SharedCode.csproj">
-      <Project>{4d110a05-ce59-4578-ac89-215a9326db16}</Project>
-      <Name>UOL.SharedCode</Name>
-    </ProjectReference>
+    <Content Include="favicon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="favicon.ico" />
+    <ProjectReference Include="..\UOL.SharedCode\UOL.SharedCode.csproj">
+      <Project>{6d3457f4-43e9-45d6-9d04-30bceaba16ab}</Project>
+      <Name>UOL.SharedCode</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

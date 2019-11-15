@@ -1,4 +1,5 @@
-﻿namespace UOL.SharedCode.Authentication
+﻿
+namespace UOL.SharedCode.Authentication
 {
 	using Newtonsoft.Json;
 
