@@ -1,0 +1,1335 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Unifeed API",
+    "description": "2BA Unifeed webservices.",
+    "contact": {
+      "name": "2BA",
+      "email": "info@2ba.nl"
+    },
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/v1/unifeed/UobInterface/{id}": {
+      "get": {
+        "tags": [
+          "UobInterface"
+        ],
+        "summary": "Get a specific object, used for interfacing with unifeed.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unifeed UOB Interface Object Id.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Unifeed UOB Interface object found: Unifeed.Api.V1.Models.InterfaceModel.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/InterfaceModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InterfaceModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InterfaceModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error, missing/invalid input.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/api/v1/unifeed/UobInterface": {
+      "post": {
+        "tags": [
+          "UobInterface"
+        ],
+        "summary": "Add an UOB Interface object.",
+        "requestBody": {
+          "description": "Object of type Unifeed.Api.V1.Models.InterfaceModel.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/InterfaceModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InterfaceModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InterfaceModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/InterfaceModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Id of the stored object.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error, missing/invalid input.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/api/v1/unifeed/UobProduct/{id}": {
+      "get": {
+        "tags": [
+          "UobProduct"
+        ],
+        "summary": "Get a UOB product by normal product id.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Product Id.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "UOB Product: Unifeed.Api.V1.Models.Uob.ProductModel.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductModel"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductModel"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductModel"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error, missing/invalid input.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/api/v1/unifeed/UobProduct": {
+      "post": {
+        "tags": [
+          "UobProduct"
+        ],
+        "summary": "Add an UOB Selection List.",
+        "requestBody": {
+          "description": "List with Objects of type Unifeed.Api.V1.Models.Uob.ProductModel.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ProductModel"
+                }
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ProductModel"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ProductModel"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ProductModel"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Id of the stored object.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error, missing/invalid input.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/api/v1/unifeed/UobProductSelectionList/{id}": {
+      "get": {
+        "tags": [
+          "UobProductSelectionList"
+        ],
+        "summary": "Get a selection list of UOB products by list id.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unifeed UOB Selection List Id.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Unifeed UOB Selection List found: Unifeed.Api.V1.Models.Uob.ProductModel.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductModel"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductModel"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductModel"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error, missing/invalid input.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/api/v1/unifeed/UobProductSelectionList": {
+      "post": {
+        "tags": [
+          "UobProductSelectionList"
+        ],
+        "summary": "Add an UOB Selection List.",
+        "requestBody": {
+          "description": "List with Objects of type Unifeed.Api.V1.Models.Uob.ProductModel.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ProductModel"
+                }
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ProductModel"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ProductModel"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ProductModel"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Id of the stored object.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error, missing/invalid input.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Languagecode": {
+        "enum": [
+          "EN",
+          "NL",
+          "FR",
+          "DE"
+        ],
+        "type": "string",
+        "description": "Languagecode"
+      },
+      "Filtercode": {
+        "enum": [
+          "Brand",
+          "Model",
+          "Version",
+          "ProductClass",
+          "ModellingClass"
+        ],
+        "type": "string",
+        "description": "Filtercode"
+      },
+      "FilterValueModel": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "min": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "max": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "range": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FilterModel": {
+        "required": [
+          "code"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/Filtercode"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FilterValueModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Featuretype": {
+        "enum": [
+          "A",
+          "N",
+          "R",
+          "L",
+          "C",
+          "M"
+        ],
+        "type": "string",
+        "description": "Feature type, Feature values differ depending on the feature type"
+      },
+      "FilterFeatureModel": {
+        "required": [
+          "code",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "maxLength": 8,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/Featuretype"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FilterValueModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SearchParmsModel": {
+        "required": [
+          "from",
+          "languagecode",
+          "size"
+        ],
+        "type": "object",
+        "properties": {
+          "onlyModelling": {
+            "type": "boolean",
+            "description": "If true, only search products with modelling class"
+          },
+          "from": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "size": {
+            "maximum": 1000,
+            "minimum": 0,
+            "type": "integer",
+            "format": "int32"
+          },
+          "languagecode": {
+            "$ref": "#/components/schemas/Languagecode"
+          },
+          "searchString": {
+            "type": "string",
+            "nullable": true
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FilterModel"
+            },
+            "nullable": true
+          },
+          "featureFilters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FilterFeatureModel"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ShortDescriptionModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected"
+          },
+          "value": {
+            "maxLength": 70,
+            "minLength": 0,
+            "type": "string",
+            "description": "The short description of the product, as specified by the manufacturer",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The short description of the product, as specified by the manufacturer"
+      },
+      "LongDescriptionModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected"
+          },
+          "value": {
+            "maxLength": -1,
+            "type": "string",
+            "description": "The long description of the product, as specified by the manufacturer",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The long description of the product, as specified by the manufacturer"
+      },
+      "ManufacturerGlnModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected"
+          },
+          "value": {
+            "maxLength": 13,
+            "minLength": 13,
+            "type": "string",
+            "description": "Global Location Number, unique identifier of the manufacturer.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Global Location Number, unique identifier of the manufacturer."
+      },
+      "ManufacturerNameModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected"
+          },
+          "value": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string",
+            "description": "The name of the manufacturer.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The name of the manufacturer."
+      },
+      "ProductCodeModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected"
+          },
+          "value": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "description": "Product code e.g. \"1234-M5-6\"",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Product code"
+      },
+      "GtinModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected"
+          },
+          "value": {
+            "maxLength": 14,
+            "minLength": 14,
+            "type": "string",
+            "description": "Global Trade Item Number. GTIN gtin test of the (unpacked) product.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Global Trade Item Number. GTIN gtin test of the (unpacked) product."
+      },
+      "DeeplinkModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected"
+          },
+          "value": {
+            "maxLength": 512,
+            "minLength": 1,
+            "type": "string",
+            "description": "A URL to a resource, probably Manufacturers website, containing more information of this product.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A URL to a resource, probably Manufacturers website, containing more information of this product."
+      },
+      "BrandModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected"
+          },
+          "value": {
+            "maxLength": 35,
+            "minLength": 0,
+            "type": "string",
+            "description": "Brand e.g. \"Volkswagen\"",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Brand. Part of the Brand/Model/Version of the product."
+      },
+      "ModelModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected"
+          },
+          "value": {
+            "maxLength": 35,
+            "minLength": 0,
+            "type": "string",
+            "description": "Model e.g. \"Golf\"",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Model. Part of the Brand/Model/Version of the product."
+      },
+      "VersionModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected"
+          },
+          "value": {
+            "maxLength": 35,
+            "minLength": 0,
+            "type": "string",
+            "description": "Version e.g. \"Trendline\"",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Version. Part of the Brand/Model/Version of the product."
+      },
+      "WeightQuantityModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected"
+          },
+          "value": {
+            "type": "number",
+            "description": "Weight quantity value",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Weight quantity. The nett weight of the product"
+      },
+      "StartDateModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected"
+          },
+          "value": {
+            "type": "string",
+            "description": "Start date value e.g. \"2013-09-01T00:00:00\"",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Start date. Date from when this product data is valid"
+      },
+      "EtimClassModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected"
+          },
+          "code": {
+            "maxLength": 8,
+            "minLength": 8,
+            "type": "string",
+            "description": "ETIM Product Class Code e.g. \"EC000001\"",
+            "nullable": true
+          },
+          "description": {
+            "maxLength": 80,
+            "minLength": 0,
+            "type": "string",
+            "description": "ETIM Product Class Description e.g. \"Busbar terminal\"",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "ETIM Product class"
+      },
+      "ModellingClassModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected"
+          },
+          "code": {
+            "maxLength": 8,
+            "minLength": 8,
+            "type": "string",
+            "description": "ETIM Modelling Class Code e.g. \"MC000001\"",
+            "nullable": true
+          },
+          "description": {
+            "maxLength": 80,
+            "minLength": 0,
+            "type": "string",
+            "description": "ETIM Modelling Class Description e.g. \"Worm gearbox for valve\"",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "ETIM Modelling class"
+      },
+      "UnitModel": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "abbreviation": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ValueModel": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RangeValueModel": {
+        "type": "object",
+        "properties": {
+          "min": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "max": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CoordinateValueModel": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "y": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "z": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MatrixValueModel": {
+        "type": "object",
+        "properties": {
+          "matrixSourceValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "matrixResultValue": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "FeatureModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean"
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "unit": {
+            "$ref": "#/components/schemas/UnitModel"
+          },
+          "unitVariableAxis": {
+            "$ref": "#/components/schemas/UnitModel"
+          },
+          "alphaNumericValue": {
+            "$ref": "#/components/schemas/ValueModel"
+          },
+          "numericValue": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "rangeValue": {
+            "$ref": "#/components/schemas/RangeValueModel"
+          },
+          "logicalValue": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "coordinateValue": {
+            "$ref": "#/components/schemas/CoordinateValueModel"
+          },
+          "matrixValues": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MatrixValueModel"
+            },
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/Featuretype"
+          },
+          "isModelling": {
+            "type": "boolean"
+          },
+          "isRegular": {
+            "type": "boolean"
+          },
+          "orderNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "portCode": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dimensionalDrawingCode": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductModel": {
+        "type": "object",
+        "properties": {
+          "shortDescription": {
+            "$ref": "#/components/schemas/ShortDescriptionModel"
+          },
+          "longDescription": {
+            "$ref": "#/components/schemas/LongDescriptionModel"
+          },
+          "manufacturerGln": {
+            "$ref": "#/components/schemas/ManufacturerGlnModel"
+          },
+          "manufacturerName": {
+            "$ref": "#/components/schemas/ManufacturerNameModel"
+          },
+          "productCode": {
+            "$ref": "#/components/schemas/ProductCodeModel"
+          },
+          "gtin": {
+            "$ref": "#/components/schemas/GtinModel"
+          },
+          "deeplink": {
+            "$ref": "#/components/schemas/DeeplinkModel"
+          },
+          "brand": {
+            "$ref": "#/components/schemas/BrandModel"
+          },
+          "model": {
+            "$ref": "#/components/schemas/ModelModel"
+          },
+          "version": {
+            "$ref": "#/components/schemas/VersionModel"
+          },
+          "weightQuantity": {
+            "$ref": "#/components/schemas/WeightQuantityModel"
+          },
+          "startDate": {
+            "$ref": "#/components/schemas/StartDateModel"
+          },
+          "etimClass": {
+            "$ref": "#/components/schemas/EtimClassModel"
+          },
+          "modellingClass": {
+            "$ref": "#/components/schemas/ModellingClassModel"
+          },
+          "features": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FeatureModel"
+            },
+            "description": "List with ETIM features",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "UOB Product"
+      },
+      "InterfaceModel": {
+        "type": "object",
+        "properties": {
+          "searchParms": {
+            "$ref": "#/components/schemas/SearchParmsModel"
+          },
+          "product": {
+            "$ref": "#/components/schemas/ProductModel"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": {
+          "type": "object",
+          "additionalProperties": false
+        }
+      }
+    }
+  }
+}
