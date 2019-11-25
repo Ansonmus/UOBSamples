@@ -16,8 +16,8 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 		public const string AuthorizeBaseUrl = "https://uol-auth.beta.2ba.nl";
 		public const string UnifeedBaseUrl = "https://uol-unifeed.beta.2ba.nl";
 		//public const string UnifeedBaseUrl = "https://localhost:44394";
-		public const string ApiBaseUrl = "https://uol-api.beta.2ba.nl/1";
-		public const string ApiNewUrl = "https://apix.alpha.2ba.nl";
+		public const string ApiBaseUrlOld = "https://uol-api.beta.2ba.nl/1";
+		public const string ApiBaseUrlNew = "https://apix.alpha.2ba.nl";
 #else
 		public const string AuthorizeBaseUrl = "https://uol-auth.2ba.nl";
 		public const string UnifeedBaseUrl = "https://uol-unifeed.2ba.nl";
@@ -101,7 +101,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 				if ("productselection".Equals(interfaceInfo.Type, StringComparison.OrdinalIgnoreCase))
 				{
 					// Call interface webservice
-					var url = SharedCode.Web.HttpExtensions.Build($"{ApiBaseUrl}/json/UOB/ProductSelection", new NameValueCollection()
+					var url = SharedCode.Web.HttpExtensions.Build($"{ApiBaseUrlOld}/json/UOB/ProductSelection", new NameValueCollection()
 					{
 						{ "id", interfaceInfo.Id.ToString() },
 					}).ToString();
@@ -114,7 +114,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 				}
 				else
 				{
-					var url = SharedCode.Web.HttpExtensions.Build($"{ApiNewUrl}/api/v1/unifeed/UobInterface/{interfaceInfo.Id}").ToString();
+					var url = SharedCode.Web.HttpExtensions.Build($"{ApiBaseUrlNew}/api/v1/unifeed/UobInterface/{interfaceInfo.Id}").ToString();
 
 					Log($"Calling service url: {url}");
 
@@ -183,7 +183,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 
 			// Post the interfaceObject back
 			//var postUrl = SharedCode.Web.HttpExtensions.Build($"{ApiBaseUrl}/json/UOB/Interface").ToString();
-			var postUrl = SharedCode.Web.HttpExtensions.Build($"{ApiNewUrl}/api/v1/unifeed/UobInterface").ToString();
+			var postUrl = SharedCode.Web.HttpExtensions.Build($"{ApiBaseUrlNew}/api/v1/unifeed/UobInterface").ToString();
 			Log($"Posting object back to: {postUrl}");
 			var output = await SharedCode.WebService.WebServiceHelper.PostJson(postUrl, _currentToken.AccessToken, interfaceObjectJson);
 
