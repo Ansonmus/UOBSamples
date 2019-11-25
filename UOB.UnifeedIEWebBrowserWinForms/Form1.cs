@@ -106,8 +106,10 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 						{ "id", interfaceInfo.Id.ToString() },
 					}).ToString();
 
-
+					Log($"Calling service url: {url}");
 					var interfaceObjectJson = SharedCode.WebService.WebServiceHelper.GetJson(url, _currentToken.AccessToken);
+
+					Log($"Retrieved productselection object: {Newtonsoft.Json.Linq.JToken.Parse(interfaceObjectJson).ToString(Formatting.Indented)}");
 					var productlist = JsonConvert.DeserializeObject<List<BBA.UnifeedApi.ProductModel>>(interfaceObjectJson);
 
 					btnStartWithLastObject.Enabled = false;
