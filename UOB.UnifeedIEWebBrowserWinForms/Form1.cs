@@ -2,6 +2,7 @@
 namespace UOL.UnifeedIEWebBrowserWinForms
 {
 	using System;
+	using System.Collections.Generic;
 	using System.Collections.Specialized;
 	using System.Web;
 	using System.Windows.Forms;
@@ -72,7 +73,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 				{ "accessToken", accessToken },
 				{ "interface", (32 | 64).ToString() },
 				{ "interfaceType", "JSONGET" },
-				{ "interfaceName", "UOB DemoApplication" },
+				{ "interfaceName", "DemoApp" },
 				{ "hookUrl", UnifeedHookUrl },
 				{ "interfaceObjectId", interfaceObjectId?.ToString() },
 			}).ToString();
@@ -94,24 +95,35 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 				// Get id from data
 				var queryString = HttpUtility.ParseQueryString(e.Url.Query);
 				var data = queryString["json"];
-				var interfaceId = JsonConvert.DeserializeAnonymousType(data, new { Id = 0L }).Id;
-				Log($"Retrieved id for interface object: {interfaceId}");
+				var interfaceInfo = JsonConvert.DeserializeAnonymousType(data, new { Id = 0L, Type = (string)null });
+				Log($"Retrieved id for interface object: {interfaceInfo.Id}. Type: {interfaceInfo.Type}");
 
-				// Call interface webservice
-				//var url = SharedCode.Web.HttpExtensions.Build($"{ApiBaseUrl}/json/UOB/Interface", new NameValueCollection()
-				//{
-				//	{ "id", interfaceId.ToString() },
-				//}).ToString();
+				if ("productselection".Equals(interfaceInfo.Type, StringComparison.OrdinalIgnoreCase))
+				{
+					// Call interface webservice
+					var url = SharedCode.Web.HttpExtensions.Build($"{ApiBaseUrl}/json/UOB/ProductSelection", new NameValueCollection()
+					{
+						{ "id", interfaceInfo.Id.ToString() },
+					}).ToString();
 
-				var url = SharedCode.Web.HttpExtensions.Build($"{ApiNewUrl}/api/v1/unifeed/UobInterface/{interfaceId}").ToString();
 
-				Log($"Calling service url: {url}");
+					var interfaceObjectJson = SharedCode.WebService.WebServiceHelper.GetJson(url, _currentToken.AccessToken);
+					var productlist = JsonConvert.DeserializeObject<List<BBA.UnifeedApi.ProductModel>>(interfaceObjectJson);
 
-				var interfaceObjectJson = SharedCode.WebService.WebServiceHelper.GetJson(url, _currentToken.AccessToken);
-				Log($"Retrieved interface object: {Newtonsoft.Json.Linq.JToken.Parse(interfaceObjectJson).ToString(Formatting.Indented)}");
+					btnStartWithLastObject.Enabled = false;
+				}
+				else
+				{
+					var url = SharedCode.Web.HttpExtensions.Build($"{ApiNewUrl}/api/v1/unifeed/UobInterface/{interfaceInfo.Id}").ToString();
 
-				_lastRetrievedObject = JsonConvert.DeserializeObject<BBA.UnifeedApi.InterfaceModel>(interfaceObjectJson);
-				btnStartWithLastObject.Enabled = true;
+					Log($"Calling service url: {url}");
+
+					var interfaceObjectJson = SharedCode.WebService.WebServiceHelper.GetJson(url, _currentToken.AccessToken);
+					Log($"Retrieved interface object: {Newtonsoft.Json.Linq.JToken.Parse(interfaceObjectJson).ToString(Formatting.Indented)}");
+
+					_lastRetrievedObject = JsonConvert.DeserializeObject<BBA.UnifeedApi.InterfaceModel>(interfaceObjectJson);
+					btnStartWithLastObject.Enabled = true;
+				}
 
 				// Restart situation
 				if (!string.IsNullOrEmpty(_currentToken.RefreshToken))
