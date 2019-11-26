@@ -100,18 +100,26 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 
 				if ("productselection".Equals(interfaceInfo.Type, StringComparison.OrdinalIgnoreCase))
 				{
-					// Call interface webservice
-					var url = SharedCode.Web.HttpExtensions.Build($"{ApiBaseUrlOld}/json/UOB/ProductSelection", new NameValueCollection()
+					// Build URL to call ProductSelection Service
+					var url = SharedCode.Web.HttpExtensions.Build($"{ApiBaseUrlOld}/json/UOB/ProductSelectionRaw", new NameValueCollection()
 					{
 						{ "id", interfaceInfo.Id.ToString() },
 					}).ToString();
-
+					
+					// Call the service
 					Log($"Calling service url: {url}");
 					var interfaceObjectJson = SharedCode.WebService.WebServiceHelper.GetJson(url, _currentToken.AccessToken);
 
+					// Unescape C-style string
+					interfaceObjectJson = interfaceObjectJson.Replace(@"\""", @"""").TrimEnd('"').TrimStart('"');
+
+					// Print indented to log
 					Log($"Retrieved productselection object: {Newtonsoft.Json.Linq.JToken.Parse(interfaceObjectJson).ToString(Formatting.Indented)}");
+
+					// Deserialize
 					var productlist = JsonConvert.DeserializeObject<List<BBA.UnifeedApi.ProductModel>>(interfaceObjectJson);
 
+					// Interface handling
 					btnStartWithLastObject.Enabled = false;
 				}
 				else
