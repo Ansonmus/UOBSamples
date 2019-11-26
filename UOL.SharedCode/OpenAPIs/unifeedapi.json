@@ -228,7 +228,14 @@
             "required": true,
             "schema": {
               "type": "integer",
-              "format": "int32"
+              "format": "int64"
+            }
+          },
+          {
+            "name": "languagecode",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/Languagecode"
             }
           }
         ],
@@ -238,148 +245,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProductModel"
-                  }
+                  "$ref": "#/components/schemas/ProductModel"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProductModel"
-                  }
+                  "$ref": "#/components/schemas/ProductModel"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProductModel"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Validation error, missing/invalid input.",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "string"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "string"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Not authorized.",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Unexpected error."
-          }
-        }
-      }
-    },
-    "/api/v1/unifeed/UobProduct": {
-      "post": {
-        "tags": [
-          "UobProduct"
-        ],
-        "summary": "Add an UOB Selection List.",
-        "requestBody": {
-          "description": "List with Objects of type Unifeed.Api.V1.Models.Uob.ProductModel.",
-          "content": {
-            "application/json-patch+json": {
-              "schema": {
-                "type": "array",
-                "items": {
                   "$ref": "#/components/schemas/ProductModel"
-                }
-              }
-            },
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/ProductModel"
-                }
-              }
-            },
-            "text/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/ProductModel"
-                }
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/ProductModel"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Id of the stored object.",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "integer",
-                  "format": "int32"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "integer",
-                  "format": "int32"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "integer",
-                  "format": "int32"
                 }
               }
             }
@@ -444,7 +320,7 @@
         "tags": [
           "UobProductSelectionList"
         ],
-        "summary": "Get a selection list of UOB products by list id.",
+        "summary": "Get a selection list of productIds by list id.",
         "parameters": [
           {
             "name": "id",
@@ -459,13 +335,14 @@
         ],
         "responses": {
           "200": {
-            "description": "Unifeed UOB Selection List found: Unifeed.Api.V1.Models.Uob.ProductModel.",
+            "description": "Unifeed UOB Selection List found, returns list with productIds.",
             "content": {
               "text/plain": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProductModel"
+                    "type": "integer",
+                    "format": "int64"
                   }
                 }
               },
@@ -473,7 +350,8 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProductModel"
+                    "type": "integer",
+                    "format": "int64"
                   }
                 }
               },
@@ -481,7 +359,8 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProductModel"
+                    "type": "integer",
+                    "format": "int64"
                   }
                 }
               }
@@ -536,8 +415,48 @@
               }
             }
           },
+          "404": {
+            "description": "Not found. Selectionlist not found by this id",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Unexpected error."
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           }
         }
       }
@@ -549,13 +468,13 @@
         ],
         "summary": "Add an UOB Selection List.",
         "requestBody": {
-          "description": "List with Objects of type Unifeed.Api.V1.Models.Uob.ProductModel.",
           "content": {
             "application/json-patch+json": {
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/ProductModel"
+                  "type": "integer",
+                  "format": "int64"
                 }
               }
             },
@@ -563,7 +482,8 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/ProductModel"
+                  "type": "integer",
+                  "format": "int64"
                 }
               }
             },
@@ -571,7 +491,8 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/ProductModel"
+                  "type": "integer",
+                  "format": "int64"
                 }
               }
             },
@@ -579,7 +500,8 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/ProductModel"
+                  "type": "integer",
+                  "format": "int64"
                 }
               }
             }
@@ -587,7 +509,7 @@
         },
         "responses": {
           "200": {
-            "description": "Id of the stored object.",
+            "description": "Id of the stored List.",
             "content": {
               "text/plain": {
                 "schema": {
