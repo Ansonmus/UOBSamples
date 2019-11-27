@@ -192,7 +192,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			var interfaceObjectJson = JsonConvert.SerializeObject(_lastRetrievedObject);
 
 			// Post the interfaceObject back
-			//var postUrl = SharedCode.Web.HttpExtensions.Build($"{ApiBaseUrl}/json/UOB/Interface").ToString();
+			//var postUrl = SharedCode.Web.HttpExtensions.Build($"{ApiBaseUrlOld}/json/UOB/Interface").ToString();
 			var postUrl = SharedCode.Web.HttpExtensions.Build($"{ApiBaseUrlNew}/api/v1/unifeed/UobInterface").ToString();
 			Log($"Posting object back to: {postUrl}");
 			var output = await SharedCode.WebService.WebServiceHelper.PostJson(postUrl, _currentToken.AccessToken, interfaceObjectJson);
