@@ -110,9 +110,9 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 					Log($"Calling service url: {url}");
 					var interfaceObjectJson = SharedCode.WebService.WebServiceHelper.GetJson(url, _currentToken.AccessToken);
 
-					// Unescape C-style string
-					interfaceObjectJson = interfaceObjectJson.Replace(@"\""", @"""").TrimEnd('"').TrimStart('"');
-
+					// Deserialize the string
+					interfaceObjectJson = JsonConvert.DeserializeObject<string>(interfaceObjectJson);
+					
 					// Print indented to log
 					Log($"Retrieved productselection object: {Newtonsoft.Json.Linq.JToken.Parse(interfaceObjectJson).ToString(Formatting.Indented)}");
 
