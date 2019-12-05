@@ -54,26 +54,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "string"
-                  }
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "string"
-                  }
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "string"
-                  }
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               }
             }
@@ -164,26 +155,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "string"
-                  }
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "string"
-                  }
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "string"
-                  }
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               }
             }
@@ -265,26 +247,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "string"
-                  }
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "string"
-                  }
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "string"
-                  }
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               }
             }
@@ -433,26 +406,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "string"
-                  }
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "string"
-                  }
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "string"
-                  }
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               }
             }
@@ -598,26 +562,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "string"
-                  }
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "string"
-                  }
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "string"
-                  }
+                  "$ref": "#/components/schemas/ProblemDetails"
                 }
               }
             }
@@ -862,7 +817,7 @@
           },
           "value": {
             "maxLength": 100,
-            "minLength": 1,
+            "minLength": 0,
             "type": "string",
             "description": "The name of the manufacturer.",
             "nullable": true
@@ -880,7 +835,7 @@
           },
           "value": {
             "maxLength": 35,
-            "minLength": 1,
+            "minLength": 0,
             "type": "string",
             "description": "Product code e.g. \"1234-M5-6\"",
             "nullable": true
@@ -916,7 +871,7 @@
           },
           "value": {
             "maxLength": 512,
-            "minLength": 1,
+            "minLength": 0,
             "type": "string",
             "description": "A URL to a resource, probably Manufacturers website, containing more information of this product.",
             "nullable": true
@@ -979,6 +934,31 @@
         "additionalProperties": false,
         "description": "Version. Part of the Brand/Model/Version of the product."
       },
+      "StatusModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected"
+          },
+          "code": {
+            "maxLength": 3,
+            "minLength": 1,
+            "type": "string",
+            "description": "Status code, e.g. \"84E\"",
+            "nullable": true
+          },
+          "description": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "description": "Status Description e.g. \"new product\"",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The \"status\" of the product. Possible values are: 84E = new product, 94E = depricated, 130 = Expired, 126 = regular"
+      },
       "WeightQuantityModel": {
         "type": "object",
         "properties": {
@@ -1013,6 +993,17 @@
         "additionalProperties": false,
         "description": "Start date. Date from when this product data is valid"
       },
+      "ChangeCode": {
+        "enum": [
+          "Unchanged",
+          "WillBeChanged",
+          "New",
+          "Deleted",
+          "WilBeDeleted"
+        ],
+        "type": "string",
+        "description": "ETIM Changecode"
+      },
       "EtimClassModel": {
         "type": "object",
         "properties": {
@@ -1026,6 +1017,14 @@
             "type": "string",
             "description": "ETIM Product Class Code e.g. \"EC000001\"",
             "nullable": true
+          },
+          "version": {
+            "type": "integer",
+            "description": "ETIM Product Class Version e.g. 4",
+            "format": "int32"
+          },
+          "changeCode": {
+            "$ref": "#/components/schemas/ChangeCode"
           },
           "description": {
             "maxLength": 80,
@@ -1051,6 +1050,14 @@
             "type": "string",
             "description": "ETIM Modelling Class Code e.g. \"MC000001\"",
             "nullable": true
+          },
+          "version": {
+            "type": "integer",
+            "description": "ETIM Modelling Class Version e.g. 2",
+            "format": "int32"
+          },
+          "changeCode": {
+            "$ref": "#/components/schemas/ChangeCode"
           },
           "description": {
             "maxLength": 80,
@@ -1156,6 +1163,9 @@
             "type": "string",
             "nullable": true
           },
+          "changeCode": {
+            "$ref": "#/components/schemas/ChangeCode"
+          },
           "description": {
             "type": "string",
             "nullable": true
@@ -1218,6 +1228,12 @@
       "ProductModel": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Product Id, when null then generic product",
+            "format": "int64",
+            "nullable": true
+          },
           "shortDescription": {
             "$ref": "#/components/schemas/ShortDescriptionModel"
           },
@@ -1247,6 +1263,9 @@
           },
           "version": {
             "$ref": "#/components/schemas/VersionModel"
+          },
+          "status": {
+            "$ref": "#/components/schemas/StatusModel"
           },
           "weightQuantity": {
             "$ref": "#/components/schemas/WeightQuantityModel"
