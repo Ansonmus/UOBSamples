@@ -51,6 +51,11 @@
 
 		public static void OpenBrowser(string url)
 		{
+			if (string.IsNullOrEmpty(url))
+			{
+				throw new ArgumentNullException(nameof(url));
+			}
+
 			try
 			{
 				Process.Start(url);

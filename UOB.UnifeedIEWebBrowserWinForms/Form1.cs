@@ -1,4 +1,4 @@
-﻿#define BETA
+﻿#define ALPHA
 namespace UOL.UnifeedIEWebBrowserWinForms
 {
 	using System;
@@ -12,11 +12,16 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 	{
 		public const string ClientId = "2BA_DEMOAPPS_PKCE";
 
-#if BETA
+#if ALPHA
 		public const string AuthorizeBaseUrl = "https://uol-auth.beta.2ba.nl";
 		public const string UnifeedBaseUrl = "https://uol-unifeed.beta.2ba.nl";
 		public const string ApiBaseUrlOld = "https://uol-api.beta.2ba.nl/1";
 		public const string ApiBaseUrlNew = "https://apix.alpha.2ba.nl";
+#elif BETA
+		public const string AuthorizeBaseUrl = "https://uol-auth.beta.2ba.nl";
+		public const string UnifeedBaseUrl = "https://uol-unifeed.2ba.nl";
+		public const string ApiBaseUrlOld = "https://uol-api.beta.2ba.nl/1";
+		public const string ApiBaseUrlNew = "https://apix.beta.2ba.nl";
 #else
 		public const string AuthorizeBaseUrl = "https://uol-auth.2ba.nl";
 		public const string UnifeedBaseUrl = "https://uol-unifeed.2ba.nl";
@@ -55,7 +60,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 				AuthorizeListenerAddress = AuthorizeListenerAddress,
 				AuthorizeTokenUrl = AuthorizeTokenUrl,
 				ClientId = ClientId,
-				RequestedScope = "unifeed openid offline_access",
+				RequestedScope = "unifeed openid offline_access apix",
 			});
 
 			_currentToken = await authService.Authenticate();

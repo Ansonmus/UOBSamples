@@ -53,7 +53,10 @@
 			request = new HttpRequestMessage(HttpMethod.Post, url);
 			request.Content = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-			request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+			if (!string.IsNullOrEmpty(accessToken))
+			{
+				request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+			}
 
 			var response = await client.SendAsync(request);
 			return await response.Content.ReadAsStringAsync();
