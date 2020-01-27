@@ -1,9 +1,10 @@
-﻿#define ALPHA
+﻿#define BETA
 namespace UOL.UnifeedIEWebBrowserWinForms
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Collections.Specialized;
+	using System.Threading.Tasks;
 	using System.Web;
 	using System.Windows.Forms;
 	using Newtonsoft.Json;
@@ -13,19 +14,16 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 		public const string ClientId = "2BA_DEMOAPPS_PKCE";
 
 #if ALPHA
-		public const string AuthorizeBaseUrl = "https://uol-auth.beta.2ba.nl";
-		public const string UnifeedBaseUrl = "https://uol-unifeed.beta.2ba.nl";
-		public const string ApiBaseUrlOld = "https://uol-api.beta.2ba.nl/1";
+		public const string AuthorizeBaseUrl = "https://uol-auth.alpha.2ba.nl";
+		public const string UnifeedBaseUrl = "https://uol-unifeed.alpha.2ba.nl";
 		public const string ApiBaseUrlNew = "https://apix.alpha.2ba.nl";
 #elif BETA
 		public const string AuthorizeBaseUrl = "https://uol-auth.beta.2ba.nl";
-		public const string UnifeedBaseUrl = "https://uol-unifeed.2ba.nl";
-		public const string ApiBaseUrlOld = "https://uol-api.beta.2ba.nl/1";
+		public const string UnifeedBaseUrl = "https://uol-unifeed.beta.2ba.nl";
 		public const string ApiBaseUrlNew = "https://apix.beta.2ba.nl";
 #else
 		public const string AuthorizeBaseUrl = "https://uol-auth.2ba.nl";
 		public const string UnifeedBaseUrl = "https://uol-unifeed.2ba.nl";
-		public const string ApiBaseUrlOld = "https://uol-api.2ba.nl/1";
 		public const string ApiBaseUrlNew = "https://apix.2ba.nl";
 #endif
 
@@ -97,59 +95,80 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 				e.Cancel = true;
 				Log($"Interfaced! {e.Url}");
 
-				// Get id from data
-				var queryString = HttpUtility.ParseQueryString(e.Url.Query);
-				var data = queryString["json"];
-				var interfaceInfo = JsonConvert.DeserializeAnonymousType(data, new { Id = 0L, Type = (string)null });
-				Log($"Retrieved id for interface object: {interfaceInfo.Id}. Type: {interfaceInfo.Type}");
-
-				if ("productselection".Equals(interfaceInfo.Type, StringComparison.OrdinalIgnoreCase))
-				{
-					// Build URL to call ProductSelection Service
-					var url = SharedCode.Web.HttpExtensions.Build($"{ApiBaseUrlOld}/json/UOB/ProductSelectionRaw", new NameValueCollection()
-					{
-						{ "id", interfaceInfo.Id.ToString() },
-					}).ToString();
-					
-					// Call the service
-					Log($"Calling service url: {url}");
-					var interfaceObjectJson = SharedCode.WebService.WebServiceHelper.GetJson(url, _currentToken.AccessToken);
-
-					// Deserialize the string
-					interfaceObjectJson = JsonConvert.DeserializeObject<string>(interfaceObjectJson);
-					
-					// Print indented to log
-					Log($"Retrieved productselection object: {Newtonsoft.Json.Linq.JToken.Parse(interfaceObjectJson).ToString(Formatting.Indented)}");
-
-					// Deserialize
-					var productlist = JsonConvert.DeserializeObject<List<BBA.UnifeedApi.ProductModel>>(interfaceObjectJson);
-
-					// Interface handling
-					btnStartWithLastObject.Enabled = false;
-				}
-				else
-				{
-					var url = SharedCode.Web.HttpExtensions.Build($"{ApiBaseUrlNew}/api/v1/unifeed/UobInterface/{interfaceInfo.Id}").ToString();
-
-					Log($"Calling service url: {url}");
-
-					var interfaceObjectJson = SharedCode.WebService.WebServiceHelper.GetJson(url, _currentToken.AccessToken);
-					Log($"Retrieved interface object: {Newtonsoft.Json.Linq.JToken.Parse(interfaceObjectJson).ToString(Formatting.Indented)}");
-
-					_lastRetrievedObject = JsonConvert.DeserializeObject<BBA.UnifeedApi.InterfaceModel>(interfaceObjectJson);
-					btnStartWithLastObject.Enabled = true;
-				}
-
-				// Restart situation
-				if (!string.IsNullOrEmpty(_currentToken.RefreshToken))
-				{
-					// Refresh token. Normally this is not needed for every call, only when the token is expired.
-					// Only possible when offline_access scope is honored
-					RefreshToken();
-				}
-
-				StartUnifeed(); // browser.Refresh();
+				await UnifeedInterfaced(e.Url);
 			}
+		}
+
+		private async Task UnifeedInterfaced(Uri interfaceUrl)
+		{
+			// Get id from data
+			var queryString = HttpUtility.ParseQueryString(interfaceUrl.Query);
+			var data = queryString["json"];
+
+			var interfaceBaseInfo = JsonConvert.DeserializeAnonymousType(data, new { Type = (string)null });
+			Log($"Retrieved interfacetype: {interfaceBaseInfo.Type}");
+
+			if ("interface".Equals(interfaceBaseInfo.Type, StringComparison.OrdinalIgnoreCase))
+			{
+				UnifeedInterfaceInterface(data);
+			}
+			else if ("productselection".Equals(interfaceBaseInfo.Type, StringComparison.OrdinalIgnoreCase))
+			{
+				await UnifeedInterfaceProductSelection(data);
+			}
+
+			// Restart situation
+			if (!string.IsNullOrEmpty(_currentToken.RefreshToken))
+			{
+				// Refresh token. Normally this is not needed for every call, only when the token is expired.
+				// Only possible when offline_access scope is honored
+				RefreshToken();
+			}
+
+			StartUnifeed(); // browser.Refresh();
+		}
+
+		private void UnifeedInterfaceInterface(string data)
+		{
+			var interfaceInfo = JsonConvert.DeserializeAnonymousType(data, new { Id = 0L, Type = (string)null });
+			Log($"Retrieved id for interface object: {interfaceInfo.Id}. Type: {interfaceInfo.Type}");
+
+			var url = SharedCode.Web.HttpExtensions.Build($"{ApiBaseUrlNew}/api/v1/unifeed/UobInterface/{interfaceInfo.Id}").ToString();
+
+			Log($"Calling service url: {url}");
+
+			var interfaceObjectJson = SharedCode.WebService.WebServiceHelper.GetJson(url, _currentToken.AccessToken);
+			Log($"Retrieved interface object: {Newtonsoft.Json.Linq.JToken.Parse(interfaceObjectJson).ToString(Formatting.Indented)}");
+
+			_lastRetrievedObject = JsonConvert.DeserializeObject<BBA.UnifeedApi.InterfaceModel>(interfaceObjectJson);
+			btnStartWithLastObject.Enabled = true;
+		}
+
+		private async Task UnifeedInterfaceProductSelection(string data)
+		{
+			var interfaceInfo = JsonConvert.DeserializeAnonymousType(data, new { Id = 0, Type = (string)null, DisabledFieldNames = (ICollection<BBA.UnifeedApi.ProductAttribute>)null });
+			Log($"Retrieved id for interface object: {interfaceInfo.Id}. Type: {interfaceInfo.Type}");
+
+			// Build URL to call ProductSelection Service
+			var url = SharedCode.Web.HttpExtensions.Build($"{ApiBaseUrlNew}/api/v1/unifeed/UobProduct/FromSelectionList").ToString();
+
+			var selectionListRequest = new BBA.UnifeedApi.SelectionListParms()
+			{
+				SelectionListId = interfaceInfo.Id,
+				DisableFields = interfaceInfo.DisabledFieldNames
+			};
+			var selectionListRequestString = JsonConvert.SerializeObject(selectionListRequest);
+
+			// Call the service
+			Log($"Calling service url: {url}");
+			var interfaceObjectJson = await SharedCode.WebService.WebServiceHelper.PostJson(url, _currentToken.AccessToken, selectionListRequestString);
+
+			// Deserialize
+			var productlist = JsonConvert.DeserializeObject<List<BBA.UnifeedApi.ProductModel>>(interfaceObjectJson);
+			Log($"Retrieved productselection object. Total products in list: {productlist.Count}");
+
+			// Interface handling
+			btnStartWithLastObject.Enabled = false;
 		}
 
 		private void Browser_Navigated(object sender, System.Windows.Forms.WebBrowserNavigatedEventArgs e)

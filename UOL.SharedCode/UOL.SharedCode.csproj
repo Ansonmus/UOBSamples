@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <OpenApiReference Include="OpenAPIs\unifeedapi.json" CodeGenerator="NSwagCSharp" Namespace="BBA.UnifeedApi">
-      <SourceUri>http://donax.oob.2ba.nl:6010/openapi/unifeedapi.json</SourceUri>
+      <SourceUri>https://apix.2ba.nl/swagger/V1/unifeed/unifeedapi.json</SourceUri>
     </OpenApiReference>
   </ItemGroup>
 

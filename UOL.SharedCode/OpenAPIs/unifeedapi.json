@@ -10,6 +10,244 @@
     "version": "1.0"
   },
   "paths": {
+    "/api/v1/unifeed/SelectionList/{id}": {
+      "get": {
+        "tags": [
+          "SelectionList"
+        ],
+        "summary": "Get a selection list of Ids by list id.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Selection List Id.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Selection List found, returns list with Ids.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "int64"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "int64"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "format": "int64"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error, missing/invalid input.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found. Selectionlist not found by this id",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error."
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/unifeed/SelectionList": {
+      "post": {
+        "tags": [
+          "SelectionList"
+        ],
+        "summary": "Add a Selection List of Ids.",
+        "requestBody": {
+          "description": "List of productIds'.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SelectionListModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SelectionListModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SelectionListModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SelectionListModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Id of the stored List.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error, missing/invalid input.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
     "/api/v1/unifeed/UobInterface/{id}": {
       "get": {
         "tags": [
@@ -216,6 +454,7 @@
           {
             "name": "languagecode",
             "in": "query",
+            "description": "Languagecode. e.g. \"NL\"",
             "schema": {
               "$ref": "#/components/schemas/Languagecode"
             }
@@ -244,6 +483,138 @@
           },
           "400": {
             "description": "Validation error, missing/invalid input.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/api/v1/unifeed/UobProduct/ByCombinedCode/{combinedCode}": {
+      "get": {
+        "tags": [
+          "UobProduct"
+        ],
+        "summary": "Get a UOB product by combined ETIM regular class code and ETIM modelling class code.",
+        "parameters": [
+          {
+            "name": "combinedCode",
+            "in": "path",
+            "description": "Dombined ETIM regular class code and ETIM modelling class code, e.g. \"EC00001MC00003\"",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "languagecode",
+            "in": "query",
+            "description": "Languagecode, e.g. \"NL\"",
+            "schema": {
+              "$ref": "#/components/schemas/Languagecode"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "UOB Product: Unifeed.Api.V1.Models.Uob.ProductModel.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error, missing/invalid input.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found.",
             "content": {
               "text/plain": {
                 "schema": {
@@ -293,6 +664,7 @@
         "tags": [
           "UobProduct"
         ],
+        "summary": "Get a list of UOB products by the specified Ids.false Return products in the specified language.",
         "requestBody": {
           "content": {
             "application/json-patch+json": {
@@ -350,255 +722,65 @@
         }
       }
     },
-    "/api/v1/unifeed/UobProductSelectionList/{id}": {
-      "get": {
-        "tags": [
-          "UobProductSelectionList"
-        ],
-        "summary": "Get a selection list of productIds by list id.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Unifeed UOB Selection List Id.",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Unifeed UOB Selection List found, returns list with productIds.",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "integer",
-                    "format": "int64"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "integer",
-                    "format": "int64"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "integer",
-                    "format": "int64"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Validation error, missing/invalid input.",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Not authorized.",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not found. Selectionlist not found by this id",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Unexpected error."
-          },
-          "default": {
-            "description": "Error",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/unifeed/UobProductSelectionList": {
+    "/api/v1/unifeed/UobProduct/FromSelectionList": {
       "post": {
         "tags": [
-          "UobProductSelectionList"
+          "UobProduct"
         ],
-        "summary": "Add an UOB Selection List.",
+        "summary": "Get a list of UOB products based on a previous stored selection of Ids. Return products in the specified language.",
         "requestBody": {
           "content": {
             "application/json-patch+json": {
               "schema": {
-                "type": "array",
-                "items": {
-                  "type": "integer",
-                  "format": "int64"
-                }
+                "$ref": "#/components/schemas/SelectionListParms"
               }
             },
             "application/json": {
               "schema": {
-                "type": "array",
-                "items": {
-                  "type": "integer",
-                  "format": "int64"
-                }
+                "$ref": "#/components/schemas/SelectionListParms"
               }
             },
             "text/json": {
               "schema": {
-                "type": "array",
-                "items": {
-                  "type": "integer",
-                  "format": "int64"
-                }
+                "$ref": "#/components/schemas/SelectionListParms"
               }
             },
             "application/*+json": {
               "schema": {
-                "type": "array",
-                "items": {
-                  "type": "integer",
-                  "format": "int64"
-                }
+                "$ref": "#/components/schemas/SelectionListParms"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Id of the stored List.",
+            "description": "Success",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "integer",
-                  "format": "int32"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductModel"
+                  }
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "integer",
-                  "format": "int32"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductModel"
+                  }
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "integer",
-                  "format": "int32"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductModel"
+                  }
                 }
               }
             }
-          },
-          "400": {
-            "description": "Validation error, missing/invalid input.",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Not authorized.",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Unexpected error."
           }
         }
       }
@@ -606,703 +788,6 @@
   },
   "components": {
     "schemas": {
-      "Languagecode": {
-        "enum": [
-          "EN",
-          "NL",
-          "FR",
-          "DE"
-        ],
-        "type": "string",
-        "description": "Languagecode"
-      },
-      "Filtercode": {
-        "enum": [
-          "Brand",
-          "Model",
-          "Version",
-          "ProductClass",
-          "ModellingClass"
-        ],
-        "type": "string",
-        "description": "Filtercode"
-      },
-      "FilterValueModel": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "string",
-            "nullable": true
-          },
-          "min": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "max": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "range": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "FilterModel": {
-        "required": [
-          "code"
-        ],
-        "type": "object",
-        "properties": {
-          "code": {
-            "$ref": "#/components/schemas/Filtercode"
-          },
-          "values": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/FilterValueModel"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Featuretype": {
-        "enum": [
-          "A",
-          "N",
-          "R",
-          "L",
-          "C",
-          "M"
-        ],
-        "type": "string",
-        "description": "Feature type, Feature values differ depending on the feature type"
-      },
-      "FilterFeatureModel": {
-        "required": [
-          "code",
-          "type"
-        ],
-        "type": "object",
-        "properties": {
-          "code": {
-            "maxLength": 8,
-            "minLength": 0,
-            "type": "string",
-            "nullable": true
-          },
-          "type": {
-            "$ref": "#/components/schemas/Featuretype"
-          },
-          "values": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/FilterValueModel"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "SearchParmsModel": {
-        "required": [
-          "from",
-          "languagecode",
-          "size"
-        ],
-        "type": "object",
-        "properties": {
-          "onlyModelling": {
-            "type": "boolean",
-            "description": "If true, only search products with modelling class"
-          },
-          "from": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "size": {
-            "maximum": 1000,
-            "minimum": 0,
-            "type": "integer",
-            "format": "int32"
-          },
-          "languagecode": {
-            "$ref": "#/components/schemas/Languagecode"
-          },
-          "searchString": {
-            "type": "string",
-            "nullable": true
-          },
-          "filters": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/FilterModel"
-            },
-            "nullable": true
-          },
-          "featureFilters": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/FilterFeatureModel"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "ShortDescriptionModel": {
-        "type": "object",
-        "properties": {
-          "selected": {
-            "type": "boolean",
-            "description": "Selected"
-          },
-          "value": {
-            "maxLength": 70,
-            "minLength": 0,
-            "type": "string",
-            "description": "The short description of the product, as specified by the manufacturer",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "The short description of the product, as specified by the manufacturer"
-      },
-      "LongDescriptionModel": {
-        "type": "object",
-        "properties": {
-          "selected": {
-            "type": "boolean",
-            "description": "Selected"
-          },
-          "value": {
-            "maxLength": -1,
-            "type": "string",
-            "description": "The long description of the product, as specified by the manufacturer",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "The long description of the product, as specified by the manufacturer"
-      },
-      "ManufacturerGlnModel": {
-        "type": "object",
-        "properties": {
-          "selected": {
-            "type": "boolean",
-            "description": "Selected"
-          },
-          "value": {
-            "maxLength": 13,
-            "minLength": 13,
-            "type": "string",
-            "description": "Global Location Number, unique identifier of the manufacturer.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Global Location Number, unique identifier of the manufacturer."
-      },
-      "ManufacturerNameModel": {
-        "type": "object",
-        "properties": {
-          "selected": {
-            "type": "boolean",
-            "description": "Selected"
-          },
-          "value": {
-            "maxLength": 100,
-            "minLength": 0,
-            "type": "string",
-            "description": "The name of the manufacturer.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "The name of the manufacturer."
-      },
-      "ProductCodeModel": {
-        "type": "object",
-        "properties": {
-          "selected": {
-            "type": "boolean",
-            "description": "Selected"
-          },
-          "value": {
-            "maxLength": 35,
-            "minLength": 0,
-            "type": "string",
-            "description": "Product code e.g. \"1234-M5-6\"",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Product code"
-      },
-      "GtinModel": {
-        "type": "object",
-        "properties": {
-          "selected": {
-            "type": "boolean",
-            "description": "Selected"
-          },
-          "value": {
-            "maxLength": 14,
-            "minLength": 14,
-            "type": "string",
-            "description": "Global Trade Item Number. GTIN gtin test of the (unpacked) product.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Global Trade Item Number. GTIN gtin test of the (unpacked) product."
-      },
-      "DeeplinkModel": {
-        "type": "object",
-        "properties": {
-          "selected": {
-            "type": "boolean",
-            "description": "Selected"
-          },
-          "value": {
-            "maxLength": 512,
-            "minLength": 0,
-            "type": "string",
-            "description": "A URL to a resource, probably Manufacturers website, containing more information of this product.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "A URL to a resource, probably Manufacturers website, containing more information of this product."
-      },
-      "BrandModel": {
-        "type": "object",
-        "properties": {
-          "selected": {
-            "type": "boolean",
-            "description": "Selected"
-          },
-          "value": {
-            "maxLength": 35,
-            "minLength": 0,
-            "type": "string",
-            "description": "Brand e.g. \"Volkswagen\"",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Brand. Part of the Brand/Model/Version of the product."
-      },
-      "ModelModel": {
-        "type": "object",
-        "properties": {
-          "selected": {
-            "type": "boolean",
-            "description": "Selected"
-          },
-          "value": {
-            "maxLength": 35,
-            "minLength": 0,
-            "type": "string",
-            "description": "Model e.g. \"Golf\"",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Model. Part of the Brand/Model/Version of the product."
-      },
-      "VersionModel": {
-        "type": "object",
-        "properties": {
-          "selected": {
-            "type": "boolean",
-            "description": "Selected"
-          },
-          "value": {
-            "maxLength": 35,
-            "minLength": 0,
-            "type": "string",
-            "description": "Version e.g. \"Trendline\"",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Version. Part of the Brand/Model/Version of the product."
-      },
-      "StatusModel": {
-        "type": "object",
-        "properties": {
-          "selected": {
-            "type": "boolean",
-            "description": "Selected"
-          },
-          "code": {
-            "maxLength": 3,
-            "minLength": 1,
-            "type": "string",
-            "description": "Status code, e.g. \"84E\"",
-            "nullable": true
-          },
-          "description": {
-            "maxLength": 35,
-            "minLength": 1,
-            "type": "string",
-            "description": "Status Description e.g. \"new product\"",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "The \"status\" of the product. Possible values are: 84E = new product, 94E = depricated, 130 = Expired, 126 = regular"
-      },
-      "WeightQuantityModel": {
-        "type": "object",
-        "properties": {
-          "selected": {
-            "type": "boolean",
-            "description": "Selected"
-          },
-          "value": {
-            "type": "number",
-            "description": "Weight quantity value",
-            "format": "double",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Weight quantity. The nett weight of the product"
-      },
-      "StartDateModel": {
-        "type": "object",
-        "properties": {
-          "selected": {
-            "type": "boolean",
-            "description": "Selected"
-          },
-          "value": {
-            "type": "string",
-            "description": "Start date value e.g. \"2013-09-01T00:00:00\"",
-            "format": "date-time",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "Start date. Date from when this product data is valid"
-      },
-      "ChangeCode": {
-        "enum": [
-          "Unchanged",
-          "WillBeChanged",
-          "New",
-          "Deleted",
-          "WilBeDeleted"
-        ],
-        "type": "string",
-        "description": "ETIM Changecode"
-      },
-      "EtimClassModel": {
-        "type": "object",
-        "properties": {
-          "selected": {
-            "type": "boolean",
-            "description": "Selected"
-          },
-          "code": {
-            "maxLength": 8,
-            "minLength": 8,
-            "type": "string",
-            "description": "ETIM Product Class Code e.g. \"EC000001\"",
-            "nullable": true
-          },
-          "version": {
-            "type": "integer",
-            "description": "ETIM Product Class Version e.g. 4",
-            "format": "int32"
-          },
-          "changeCode": {
-            "$ref": "#/components/schemas/ChangeCode"
-          },
-          "description": {
-            "maxLength": 80,
-            "minLength": 0,
-            "type": "string",
-            "description": "ETIM Product Class Description e.g. \"Busbar terminal\"",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "ETIM Product class"
-      },
-      "ModellingClassModel": {
-        "type": "object",
-        "properties": {
-          "selected": {
-            "type": "boolean",
-            "description": "Selected"
-          },
-          "code": {
-            "maxLength": 8,
-            "minLength": 8,
-            "type": "string",
-            "description": "ETIM Modelling Class Code e.g. \"MC000001\"",
-            "nullable": true
-          },
-          "version": {
-            "type": "integer",
-            "description": "ETIM Modelling Class Version e.g. 2",
-            "format": "int32"
-          },
-          "changeCode": {
-            "$ref": "#/components/schemas/ChangeCode"
-          },
-          "description": {
-            "maxLength": 80,
-            "minLength": 0,
-            "type": "string",
-            "description": "ETIM Modelling Class Description e.g. \"Worm gearbox for valve\"",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "ETIM Modelling class"
-      },
-      "UnitModel": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "string",
-            "nullable": true
-          },
-          "abbreviation": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "ValueModel": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "RangeValueModel": {
-        "type": "object",
-        "properties": {
-          "min": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "max": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "CoordinateValueModel": {
-        "type": "object",
-        "properties": {
-          "x": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "y": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "z": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "MatrixValueModel": {
-        "type": "object",
-        "properties": {
-          "matrixSourceValue": {
-            "type": "number",
-            "format": "double"
-          },
-          "matrixResultValue": {
-            "type": "number",
-            "format": "double"
-          }
-        },
-        "additionalProperties": false
-      },
-      "FeatureModel": {
-        "type": "object",
-        "properties": {
-          "selected": {
-            "type": "boolean"
-          },
-          "code": {
-            "type": "string",
-            "nullable": true
-          },
-          "changeCode": {
-            "$ref": "#/components/schemas/ChangeCode"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "unit": {
-            "$ref": "#/components/schemas/UnitModel"
-          },
-          "unitVariableAxis": {
-            "$ref": "#/components/schemas/UnitModel"
-          },
-          "alphaNumericValue": {
-            "$ref": "#/components/schemas/ValueModel"
-          },
-          "numericValue": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "rangeValue": {
-            "$ref": "#/components/schemas/RangeValueModel"
-          },
-          "logicalValue": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "coordinateValue": {
-            "$ref": "#/components/schemas/CoordinateValueModel"
-          },
-          "matrixValues": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/MatrixValueModel"
-            },
-            "nullable": true
-          },
-          "type": {
-            "$ref": "#/components/schemas/Featuretype"
-          },
-          "isModelling": {
-            "type": "boolean"
-          },
-          "isRegular": {
-            "type": "boolean"
-          },
-          "orderNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "portCode": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "dimensionalDrawingCode": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "ProductModel": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Product Id, when null then generic product",
-            "format": "int64",
-            "nullable": true
-          },
-          "shortDescription": {
-            "$ref": "#/components/schemas/ShortDescriptionModel"
-          },
-          "longDescription": {
-            "$ref": "#/components/schemas/LongDescriptionModel"
-          },
-          "manufacturerGln": {
-            "$ref": "#/components/schemas/ManufacturerGlnModel"
-          },
-          "manufacturerName": {
-            "$ref": "#/components/schemas/ManufacturerNameModel"
-          },
-          "productCode": {
-            "$ref": "#/components/schemas/ProductCodeModel"
-          },
-          "gtin": {
-            "$ref": "#/components/schemas/GtinModel"
-          },
-          "deeplink": {
-            "$ref": "#/components/schemas/DeeplinkModel"
-          },
-          "brand": {
-            "$ref": "#/components/schemas/BrandModel"
-          },
-          "model": {
-            "$ref": "#/components/schemas/ModelModel"
-          },
-          "version": {
-            "$ref": "#/components/schemas/VersionModel"
-          },
-          "status": {
-            "$ref": "#/components/schemas/StatusModel"
-          },
-          "weightQuantity": {
-            "$ref": "#/components/schemas/WeightQuantityModel"
-          },
-          "startDate": {
-            "$ref": "#/components/schemas/StartDateModel"
-          },
-          "etimClass": {
-            "$ref": "#/components/schemas/EtimClassModel"
-          },
-          "modellingClass": {
-            "$ref": "#/components/schemas/ModellingClassModel"
-          },
-          "features": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/FeatureModel"
-            },
-            "description": "List with ETIM features",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false,
-        "description": "UOB Product"
-      },
-      "InterfaceModel": {
-        "type": "object",
-        "properties": {
-          "searchParms": {
-            "$ref": "#/components/schemas/SearchParmsModel"
-          },
-          "product": {
-            "$ref": "#/components/schemas/ProductModel"
-          }
-        },
-        "additionalProperties": false
-      },
       "ProblemDetails": {
         "type": "object",
         "properties": {
@@ -1333,6 +818,1006 @@
           "additionalProperties": false
         }
       },
+      "SelectionListModel": {
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "List with id's",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Parameter for the Selection List service"
+      },
+      "Languagecode": {
+        "enum": [
+          "EN",
+          "NL",
+          "FR",
+          "DE"
+        ],
+        "type": "string",
+        "description": "Languagecode"
+      },
+      "Filtercode": {
+        "enum": [
+          "Brand",
+          "Model",
+          "Version",
+          "ProductClass",
+          "ModellingClass"
+        ],
+        "type": "string",
+        "description": "Filtercode"
+      },
+      "FilterValueModel": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Filter on code, for alphanumeric filters",
+            "nullable": true
+          },
+          "min": {
+            "type": "number",
+            "description": "Filter on minimum, for range filters",
+            "format": "double",
+            "nullable": true
+          },
+          "max": {
+            "type": "number",
+            "description": "Filter on maximum, for range filters",
+            "format": "double",
+            "nullable": true
+          },
+          "range": {
+            "type": "number",
+            "description": "Filter on range, for numeric filters",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "ValueModel for filtering"
+      },
+      "FilterModel": {
+        "required": [
+          "code"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Filtercode"
+              }
+            ],
+            "description": "Filtercode"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FilterValueModel"
+            },
+            "description": "Values to filter on",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Generic filter model"
+      },
+      "Featuretype": {
+        "enum": [
+          "A",
+          "N",
+          "R",
+          "L",
+          "C",
+          "M"
+        ],
+        "type": "string",
+        "description": "Feature type, Feature values differ depending on the feature type"
+      },
+      "FilterFeatureModel": {
+        "required": [
+          "code",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "maxLength": 8,
+            "minLength": 0,
+            "type": "string",
+            "description": "Featurecode"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Featuretype"
+              }
+            ],
+            "description": "Featuretype"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FilterValueModel"
+            },
+            "description": "Feature values to filter on",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "FilterModel for feature specific filters"
+      },
+      "SearchParmsModel": {
+        "required": [
+          "from",
+          "languagecode",
+          "size"
+        ],
+        "type": "object",
+        "properties": {
+          "onlyModelling": {
+            "type": "boolean",
+            "description": "If true, only search products with modelling class"
+          },
+          "from": {
+            "type": "integer",
+            "description": "Start from item",
+            "format": "int32"
+          },
+          "size": {
+            "maximum": 1000,
+            "minimum": 0,
+            "type": "integer",
+            "description": "Total items to return",
+            "format": "int32"
+          },
+          "languagecode": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Languagecode"
+              }
+            ],
+            "description": "Languagecode for the language of the SearchString and the results returned"
+          },
+          "searchString": {
+            "type": "string",
+            "description": "String to search for.",
+            "nullable": true
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FilterModel"
+            },
+            "description": "Filter the results on these generic filters",
+            "nullable": true
+          },
+          "featureFilters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FilterFeatureModel"
+            },
+            "description": "Filter the results on these feature specific filters",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Search parameters"
+      },
+      "ShortDescriptionModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true."
+          },
+          "value": {
+            "maxLength": 70,
+            "minLength": 1,
+            "type": "string",
+            "description": "The short description of the product, as specified by the manufacturer",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The short description of the product, as specified by the manufacturer"
+      },
+      "LongDescriptionModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true"
+          },
+          "value": {
+            "maxLength": 70,
+            "minLength": 1,
+            "type": "string",
+            "description": "The long description of the product, as specified by the manufacturer",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The long description of the product, as specified by the manufacturer"
+      },
+      "ManufacturerGlnModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true"
+          },
+          "value": {
+            "maxLength": 13,
+            "minLength": 13,
+            "type": "string",
+            "description": "Global Location Number, unique identifier of the manufacturer.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Global Location Number, unique identifier of the manufacturer."
+      },
+      "ManufacturerNameModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true"
+          },
+          "value": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string",
+            "description": "The name of the manufacturer.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The name of the manufacturer."
+      },
+      "ProductCodeModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true"
+          },
+          "value": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "description": "Product code e.g. \"1234-M5-6\"",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Product code"
+      },
+      "GtinModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true"
+          },
+          "value": {
+            "maxLength": 14,
+            "minLength": 14,
+            "type": "string",
+            "description": "Global Trade Item Number. GTIN gtin test of the (unpacked) product.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Global Trade Item Number. GTIN gtin test of the (unpacked) product."
+      },
+      "DeeplinkModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true"
+          },
+          "value": {
+            "maxLength": 512,
+            "minLength": 1,
+            "type": "string",
+            "description": "A URL to a resource, probably Manufacturers website, containing more information of this product.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A URL to a resource, probably Manufacturers website, containing more information of this product."
+      },
+      "BrandModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true"
+          },
+          "value": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "description": "Brand e.g. \"Volkswagen\"",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Brand. Part of the Brand/Model/Version of the product."
+      },
+      "ModelModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true"
+          },
+          "value": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "description": "Model e.g. \"Golf\"",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Model. Part of the Brand/Model/Version of the product."
+      },
+      "VersionModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true"
+          },
+          "value": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "description": "Version e.g. \"Trendline\"",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Version. Part of the Brand/Model/Version of the product."
+      },
+      "StatusModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true"
+          },
+          "code": {
+            "maxLength": 3,
+            "minLength": 1,
+            "type": "string",
+            "description": "Status code, e.g. \"84E\"",
+            "nullable": true
+          },
+          "description": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "description": "Status Description e.g. \"new product\"",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The \"status\" of the product. Possible values are: 84E = new product, 94E = depricated, 130 = Expired, 126 = regular"
+      },
+      "WeightQuantityModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true"
+          },
+          "value": {
+            "type": "number",
+            "description": "Weight quantity value",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Weight quantity. The nett weight of the product"
+      },
+      "WeightMeasureUnitModel": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "maxLength": 3,
+            "minLength": 0,
+            "type": "string",
+            "description": "Weight measure code, e.g. \"KGM\"",
+            "nullable": true
+          },
+          "description": {
+            "maxLength": 35,
+            "minLength": 0,
+            "type": "string",
+            "description": "Weight measure Description e.g. \"Kilogram\"",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The unit of weight"
+      },
+      "StartDateModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true"
+          },
+          "value": {
+            "type": "string",
+            "description": "Start date value e.g. \"2013-09-01T00:00:00\"",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Start date. Date from when this product data is valid"
+      },
+      "ChangeCode": {
+        "enum": [
+          "Unchanged",
+          "WillBeChanged",
+          "New",
+          "Deleted",
+          "WillBeDeleted"
+        ],
+        "type": "string",
+        "description": "ETIM Changecode"
+      },
+      "EtimClassModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true"
+          },
+          "code": {
+            "maxLength": 8,
+            "minLength": 8,
+            "type": "string",
+            "description": "ETIM Product Class Code e.g. \"EC000001\"",
+            "nullable": true
+          },
+          "version": {
+            "type": "integer",
+            "description": "ETIM Product Class Version e.g. 4",
+            "format": "int32"
+          },
+          "changeCode": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ChangeCode"
+              }
+            ],
+            "description": "Changecode",
+            "nullable": true
+          },
+          "description": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "description": "ETIM Product Class Description e.g. \"Busbar terminal\"",
+            "nullable": true
+          },
+          "synonyms": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of Synonyms e.g. [\"Busbar terminal\", \"Terminal\"]",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "ETIM Product class"
+      },
+      "ModellingClassModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true."
+          },
+          "code": {
+            "maxLength": 8,
+            "minLength": 8,
+            "type": "string",
+            "description": "ETIM Modelling Class Code e.g. \"MC000001\"",
+            "nullable": true
+          },
+          "version": {
+            "type": "integer",
+            "description": "ETIM Modelling Class Version e.g. 2",
+            "format": "int32"
+          },
+          "changeCode": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ChangeCode"
+              }
+            ],
+            "description": "Changecode",
+            "nullable": true
+          },
+          "description": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "description": "ETIM Modelling Class Description e.g. \"Worm gearbox for valve\"",
+            "nullable": true
+          },
+          "synonyms": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of Synonyms e.g. [\"Busbar terminal\", \"Terminal\"]",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "ETIM Modelling class"
+      },
+      "UnitModel": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "maxLength": 8,
+            "minLength": 1,
+            "type": "string",
+            "description": "ETIM Unit Code e.g. \"EU000002\"",
+            "nullable": true
+          },
+          "abbreviation": {
+            "maxLength": 15,
+            "minLength": 1,
+            "type": "string",
+            "description": "ETIM Unit Abbreviation e.g. \"hPa\"",
+            "nullable": true
+          },
+          "description": {
+            "maxLength": 60,
+            "minLength": 1,
+            "type": "string",
+            "description": "ETIM Unit Description e.g. \"Hecto Pascal\"",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ValueModel": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "maxLength": 8,
+            "minLength": 1,
+            "type": "string",
+            "description": "ETIM Value Code e.g. \"EV000005\"",
+            "nullable": true
+          },
+          "description": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "description": "ETIM Value Description e.g. \"Thread holding\"",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RangeValueModel": {
+        "type": "object",
+        "properties": {
+          "min": {
+            "type": "number",
+            "description": "Range value minimum",
+            "format": "double",
+            "nullable": true
+          },
+          "max": {
+            "type": "number",
+            "description": "Range value maximum",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CoordinateValueModel": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "number",
+            "description": "Coordinate value X",
+            "format": "double",
+            "nullable": true
+          },
+          "y": {
+            "type": "number",
+            "description": "Coordinate value Y",
+            "format": "double",
+            "nullable": true
+          },
+          "z": {
+            "type": "number",
+            "description": "Coordinate value Z",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MatrixValueModel": {
+        "type": "object",
+        "properties": {
+          "matrixSourceValue": {
+            "type": "number",
+            "format": "double"
+          },
+          "matrixResultValue": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "FeatureModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true"
+          },
+          "code": {
+            "maxLength": 8,
+            "minLength": 8,
+            "type": "string",
+            "description": "ETIM Feature Code e.g. \"EF000001\"",
+            "nullable": true
+          },
+          "changeCodeRegular": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ChangeCode"
+              }
+            ],
+            "description": "Changecode Regula",
+            "nullable": true
+          },
+          "changeCodeModelling": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ChangeCode"
+              }
+            ],
+            "description": "Changecode Modelling",
+            "nullable": true
+          },
+          "description": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "description": "ETIM Feature Description e.g. \"Nominal current\"",
+            "nullable": true
+          },
+          "unit": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UnitModel"
+              }
+            ],
+            "description": "Unit",
+            "nullable": true
+          },
+          "unitVariableAxis": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UnitModel"
+              }
+            ],
+            "description": "UnitVariableAxis",
+            "nullable": true
+          },
+          "alphaNumericValue": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ValueModel"
+              }
+            ],
+            "description": "AlphaNumericValue",
+            "nullable": true
+          },
+          "numericValue": {
+            "type": "number",
+            "description": "Numeric Value",
+            "format": "double",
+            "nullable": true
+          },
+          "rangeValue": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RangeValueModel"
+              }
+            ],
+            "description": "Range Value",
+            "nullable": true
+          },
+          "logicalValue": {
+            "type": "boolean",
+            "description": "Logical Value",
+            "nullable": true
+          },
+          "coordinateValue": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CoordinateValueModel"
+              }
+            ],
+            "description": "Coordinate Value",
+            "nullable": true
+          },
+          "matrixValues": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MatrixValueModel"
+            },
+            "description": "MatrixValues",
+            "nullable": true
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Featuretype"
+              }
+            ],
+            "description": "Type"
+          },
+          "isModelling": {
+            "type": "boolean",
+            "description": "This feature is a modelling feature"
+          },
+          "isRegular": {
+            "type": "boolean",
+            "description": "This feature is a regular feature"
+          },
+          "orderNumberRegular": {
+            "type": "integer",
+            "description": "Order number of the feature within the regular class",
+            "format": "int32",
+            "nullable": true
+          },
+          "orderNumberModelling": {
+            "type": "integer",
+            "description": "Order number  of the feature within the modelling class",
+            "format": "int32",
+            "nullable": true
+          },
+          "portCode": {
+            "type": "integer",
+            "description": "PortCode, only applicable when modelling feature",
+            "format": "int32"
+          },
+          "dimensionalDrawingCode": {
+            "maxLength": 5,
+            "minLength": 1,
+            "type": "string",
+            "description": "Dimensional Drawing Code",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "ETIM Feature"
+      },
+      "ProductModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Product Id, when null then generic product",
+            "format": "int64",
+            "nullable": true
+          },
+          "shortDescription": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ShortDescriptionModel"
+              }
+            ],
+            "description": "Short description",
+            "nullable": true
+          },
+          "longDescription": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/LongDescriptionModel"
+              }
+            ],
+            "description": "Long description",
+            "nullable": true
+          },
+          "manufacturerGln": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ManufacturerGlnModel"
+              }
+            ],
+            "description": "Manufacturer GLN",
+            "nullable": true
+          },
+          "manufacturerName": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ManufacturerNameModel"
+              }
+            ],
+            "description": "Manufacturer Name",
+            "nullable": true
+          },
+          "productCode": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProductCodeModel"
+              }
+            ],
+            "description": "Product code",
+            "nullable": true
+          },
+          "gtin": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GtinModel"
+              }
+            ],
+            "description": "GTIN",
+            "nullable": true
+          },
+          "deeplink": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DeeplinkModel"
+              }
+            ],
+            "description": "Deeplink",
+            "nullable": true
+          },
+          "brand": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/BrandModel"
+              }
+            ],
+            "description": "Brand",
+            "nullable": true
+          },
+          "model": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ModelModel"
+              }
+            ],
+            "description": "Model",
+            "nullable": true
+          },
+          "version": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/VersionModel"
+              }
+            ],
+            "description": "Version",
+            "nullable": true
+          },
+          "status": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/StatusModel"
+              }
+            ],
+            "description": "Product status",
+            "nullable": true
+          },
+          "weightQuantity": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/WeightQuantityModel"
+              }
+            ],
+            "description": "Weight quantity",
+            "nullable": true
+          },
+          "weightMeasureUnit": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/WeightMeasureUnitModel"
+              }
+            ],
+            "description": "Weight measure unit",
+            "nullable": true
+          },
+          "startDate": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/StartDateModel"
+              }
+            ],
+            "description": "Start date",
+            "nullable": true
+          },
+          "etimClass": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EtimClassModel"
+              }
+            ],
+            "description": "ETIM Product class",
+            "nullable": true
+          },
+          "modellingClass": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ModellingClassModel"
+              }
+            ],
+            "description": "ETIM Modelling class",
+            "nullable": true
+          },
+          "features": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FeatureModel"
+            },
+            "description": "List with ETIM features",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "UOB Product"
+      },
+      "InterfaceModel": {
+        "type": "object",
+        "properties": {
+          "searchParms": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SearchParmsModel"
+              }
+            ],
+            "description": "Search parameters",
+            "nullable": true
+          },
+          "product": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ProductModel"
+              }
+            ],
+            "description": "Product",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Model for interfacing with Unifeed"
+      },
       "ListParms": {
         "required": [
           "languagecode"
@@ -1340,7 +1825,12 @@
         "type": "object",
         "properties": {
           "languagecode": {
-            "$ref": "#/components/schemas/Languagecode"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Languagecode"
+              }
+            ],
+            "description": "Languagecode determines the language in which the result objects are returned"
           },
           "productIds": {
             "type": "array",
@@ -1348,10 +1838,80 @@
               "type": "integer",
               "format": "int64"
             },
+            "description": "A list with product id's",
             "nullable": true
+          },
+          "excludeFeatures": {
+            "type": "boolean",
+            "description": "Whether or not to include all ETIM features, default false. Setting this to true can improve performance on large lists"
+          },
+          "excludeSynonyms": {
+            "type": "boolean",
+            "description": "Whether or not to include all ETIM synonyms, default false. Setting this to true can improve performance on large lists"
           }
         },
-        "additionalProperties": false
+        "additionalProperties": false,
+        "description": "Parameters for the Product List"
+      },
+      "ProductAttribute": {
+        "enum": [
+          "ShortDescription",
+          "LongDescription",
+          "ManufacturerGln",
+          "ManufacturerName",
+          "ProductCode",
+          "Gtin",
+          "Deeplink",
+          "Brand",
+          "Model",
+          "Version",
+          "Status",
+          "WeightQuantity",
+          "StartDate",
+          "EtimClass",
+          "ModellingClass"
+        ],
+        "type": "string",
+        "description": "Filtercode"
+      },
+      "SelectionListParms": {
+        "required": [
+          "languagecode"
+        ],
+        "type": "object",
+        "properties": {
+          "languagecode": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Languagecode"
+              }
+            ],
+            "description": "Languagecode determines the language in which the result objects are returned"
+          },
+          "selectionListId": {
+            "type": "integer",
+            "description": "The unique id of the selection list",
+            "format": "int32"
+          },
+          "disableFields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductAttribute"
+            },
+            "description": "Set this product attribute Selected property to \"false\"",
+            "nullable": true
+          },
+          "excludeFeatures": {
+            "type": "boolean",
+            "description": "Whether or not to include all ETIM features, default false. Setting this to true can improve performance on large lists"
+          },
+          "excludeSynonyms": {
+            "type": "boolean",
+            "description": "Whether or not to include all ETIM synonyms, default false. Setting this to true can improve performance on large lists"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Parameters for the Selection List"
       }
     }
   }
