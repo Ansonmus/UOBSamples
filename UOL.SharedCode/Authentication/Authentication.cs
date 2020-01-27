@@ -7,32 +7,39 @@
 
 	public class Authentication
 	{
-		private readonly AuthenticationConfig _config;
+		private readonly AuthenticationConfig config;
 
 		public Authentication(AuthenticationConfig config)
 		{
-			_config = config;
+			this.config = config;
 		}
 
-		public async Task<OAuthToken> Authenticate()
+		public (string, PKCECode) BuildAuthorizationCodeUrl()
 		{
 			// First generate the PKCE verifier and challenge
 			var pkceCodes = PKCECode.GeneratePKCECodes();
 
-			var url = Web.HttpExtensions.Build(_config.AuthorizeUrl, new NameValueCollection()
+			var url = Web.HttpExtensions.Build(config.AuthorizeUrl, new NameValueCollection()
 				{
 					{ "response_type", "code" },
-					{ "client_id", _config.ClientId },
-					{ "redirect_uri", _config.AuthorizeHookUrl },
-					{ "scope", _config.RequestedScope },
+					{ "client_id", config.ClientId },
+					{ "redirect_uri", config.AuthorizeHookUrl },
+					{ "scope", config.RequestedScope },
 					{ "code_challenge", pkceCodes.CodeChallenge }, // PKCE addition
 					{ "code_challenge_method", "S256" }, // PKCE addition
 				}).ToString();
 
+			return (url, pkceCodes);
+		}
+
+		public async Task<OAuthToken> Authenticate()
+		{
+			(var url, var pkceCodes) = BuildAuthorizationCodeUrl();
+
 			// This best current practice requires that only external user-agents
 			// like the browser are used for OAuth by native apps
 			// rfc8252 - https://tools.ietf.org/html/rfc8252#section-1
-			var x = new Web.SystemBrowser(_config.AuthorizeListenerAddress);
+			var x = new Web.SystemBrowser(config.AuthorizeListenerAddress);
 			var response = await x.InvokeAsync(url);
 
 			var uri = new Uri(response.Response);
@@ -46,12 +53,12 @@
 				{
 					{ "grant_type", "authorization_code" },
 					{ "code", authorizationcode },
-					{ "client_id", _config.ClientId },
-					{ "redirect_uri", _config.AuthorizeHookUrl },
+					{ "client_id", config.ClientId },
+					{ "redirect_uri", config.AuthorizeHookUrl },
 					{ "code_verifier", pkceCodes.CodeVerifier }, // PKCE addition
 				}).ToString();
 
-				return TokenService.RetrieveToken(_config.AuthorizeTokenUrl, query);
+				return TokenService.RetrieveToken(config.AuthorizeTokenUrl, query);
 			}
 
 			return null;

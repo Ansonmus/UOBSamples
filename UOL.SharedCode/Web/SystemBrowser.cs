@@ -9,7 +9,7 @@
 
 	public class SystemBrowser
 	{
-		private readonly string _listenerPrefix;
+		private readonly string listenerPrefix;
 
 		public SystemBrowser(string listenerPrefix = "")
 		{
@@ -18,35 +18,7 @@
 				listenerPrefix = $"http://localhost:{GetRandomUnusedPort()}/";
 			}
 
-			_listenerPrefix = listenerPrefix;
-		}
-
-		public async Task<BrowserResult> InvokeAsync(string url)
-		{
-			using (var listener = new LoopbackHttpListener(_listenerPrefix))
-			{
-				listener.Start();
-				OpenBrowser(url);
-
-				try
-				{
-					var result = await listener.WaitForCallbackAsync();
-					if (string.IsNullOrWhiteSpace(result))
-					{
-						return new BrowserResult { ResultType = BrowserResultType.UnknownError, Error = "Empty response." };
-					}
-
-					return new BrowserResult { Response = result, ResultType = BrowserResultType.Success };
-				}
-				catch (TaskCanceledException ex)
-				{
-					return new BrowserResult { ResultType = BrowserResultType.Timeout, Error = ex.Message };
-				}
-				catch (Exception ex)
-				{
-					return new BrowserResult { ResultType = BrowserResultType.UnknownError, Error = ex.Message };
-				}
-			}
+			this.listenerPrefix = listenerPrefix;
 		}
 
 		public static void OpenBrowser(string url)
@@ -79,6 +51,34 @@
 				else
 				{
 					throw;
+				}
+			}
+		}
+
+		public async Task<BrowserResult> InvokeAsync(string url)
+		{
+			using (var listener = new LoopbackHttpListener(listenerPrefix))
+			{
+				listener.Start();
+				OpenBrowser(url);
+
+				try
+				{
+					var result = await listener.WaitForCallbackAsync();
+					if (string.IsNullOrWhiteSpace(result))
+					{
+						return new BrowserResult { ResultType = BrowserResultType.UnknownError, Error = "Empty response." };
+					}
+
+					return new BrowserResult { Response = result, ResultType = BrowserResultType.Success };
+				}
+				catch (TaskCanceledException ex)
+				{
+					return new BrowserResult { ResultType = BrowserResultType.Timeout, Error = ex.Message };
+				}
+				catch (Exception ex)
+				{
+					return new BrowserResult { ResultType = BrowserResultType.UnknownError, Error = ex.Message };
 				}
 			}
 		}

@@ -19,20 +19,18 @@
 		public System.DateTime TokenIssued { get; } = System.DateTime.Now;
 
 		/// <summary>
-		/// Gets or sets the type of the token issued. Value is case insensitive (see https://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-7.1)
+		/// Gets or sets the type of the token issued. Value is case insensitive (see https://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-7.1).
 		/// </summary>
 		[JsonProperty(PropertyName = "token_type")]
 		public string TokenType { get; set; }
 
 		/// <summary>
-		/// Gets or sets the refresh token which can be used to obtain new access tokens using the same authorization grant as described
+		/// Gets or sets the refresh token which can be used to obtain new access tokens using the same authorization grant as described.
 		/// </summary>
 		[JsonProperty(PropertyName = "refresh_token")]
 		public string RefreshToken { get; set; }
 
-		public bool IsExpired()
-		{
-			return TokenIssued.AddSeconds(ExpiresIn) > System.DateTime.Now;
-		}
+		[JsonIgnore]
+		public bool IsExpired => TokenIssued.AddSeconds(ExpiresIn) < System.DateTime.Now;
 	}
 }

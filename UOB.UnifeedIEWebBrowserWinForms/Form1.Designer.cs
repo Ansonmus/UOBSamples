@@ -1,4 +1,6 @@
-﻿namespace UOL.UnifeedIEWebBrowserWinForms
+﻿using System;
+
+namespace UOL.UnifeedIEWebBrowserWinForms
 {
     partial class Form1
     {
@@ -36,6 +38,7 @@
 			this.btnStartWithLastObject = new System.Windows.Forms.Button();
 			this.tbnStartClear = new System.Windows.Forms.Button();
 			this.btnDownload = new System.Windows.Forms.Button();
+			this.btnReset = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -59,6 +62,7 @@
 			this.splitContainer1.Panel2.Controls.Add(this.tbnStartClear);
 			this.splitContainer1.Panel2.Controls.Add(this.btnStartWithLastObject);
 			this.splitContainer1.Panel2.Controls.Add(this.btnClearLog);
+			this.splitContainer1.Panel2.Controls.Add(this.btnReset);
 			this.splitContainer1.Panel2.Controls.Add(this.logBox);
 			this.splitContainer1.Size = new System.Drawing.Size(800, 450);
 			this.splitContainer1.SplitterDistance = 266;
@@ -95,6 +99,16 @@
 			this.btnClearLog.UseVisualStyleBackColor = true;
 			this.btnClearLog.Click += new System.EventHandler(this.btnClearLog_Click);
 			// 
+			// tbnStartClear
+			// 
+			this.tbnStartClear.Location = new System.Drawing.Point(94, 8);
+			this.tbnStartClear.Name = "tbnStartClear";
+			this.tbnStartClear.Size = new System.Drawing.Size(75, 23);
+			this.tbnStartClear.TabIndex = 3;
+			this.tbnStartClear.Text = "Restart";
+			this.tbnStartClear.UseVisualStyleBackColor = true;
+			this.tbnStartClear.Click += new System.EventHandler(this.tbnStartClear_Click);
+			// 
 			// btnStartWithLastObject
 			// 
 			this.btnStartWithLastObject.Enabled = false;
@@ -106,25 +120,25 @@
 			this.btnStartWithLastObject.UseVisualStyleBackColor = true;
 			this.btnStartWithLastObject.Click += new System.EventHandler(this.btnStartWithLastObject_Click);
 			// 
-			// tbnStartClear
-			// 
-			this.tbnStartClear.Location = new System.Drawing.Point(94, 8);
-			this.tbnStartClear.Name = "tbnStartClear";
-			this.tbnStartClear.Size = new System.Drawing.Size(75, 23);
-			this.tbnStartClear.TabIndex = 3;
-			this.tbnStartClear.Text = "Restart";
-			this.tbnStartClear.UseVisualStyleBackColor = true;
-			this.tbnStartClear.Click += new System.EventHandler(this.tbnStartClear_Click);
-			// 
 			// btnDownload
 			// 
-			this.btnDownload.Location = new System.Drawing.Point(298, 7);
+			this.btnDownload.Location = new System.Drawing.Point(298, 8);
 			this.btnDownload.Name = "btnDownload";
 			this.btnDownload.Size = new System.Drawing.Size(75, 23);
 			this.btnDownload.TabIndex = 4;
 			this.btnDownload.Text = "Download";
 			this.btnDownload.UseVisualStyleBackColor = true;
 			this.btnDownload.Click += new System.EventHandler(this.btnDownload_Click);
+			// 
+			// btnReset
+			// 
+			this.btnReset.Location = new System.Drawing.Point(385, 8);
+			this.btnReset.Name = "btnReset";
+			this.btnReset.Size = new System.Drawing.Size(116, 23);
+			this.btnReset.TabIndex = 4;
+			this.btnReset.Text = "Reset";
+			this.btnReset.UseVisualStyleBackColor = true;
+			this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
 			// 
 			// Form1
 			// 
@@ -155,6 +169,7 @@
 		private System.Windows.Forms.Button btnClearLog;
 		private System.Windows.Forms.Button tbnStartClear;
 		private System.Windows.Forms.Button btnDownload;
+		private System.Windows.Forms.Button btnReset;
 	}
 }
 

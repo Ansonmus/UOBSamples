@@ -8,6 +8,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 	using System.Web;
 	using System.Windows.Forms;
 	using Newtonsoft.Json;
+	using UOL.SharedCode.Authentication;
 
 	public partial class Form1 : Form
 	{
@@ -42,8 +43,8 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 		{
 			InitializeComponent();
 
-			this.browser.Navigating += Browser_Navigating;
-			this.browser.Navigated += Browser_Navigated;
+			browser.Navigating += Browser_Navigating;
+			browser.Navigated += Browser_Navigated;
 
 			browser.ScriptErrorsSuppressed = false;
 		}
@@ -51,17 +52,32 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 		private async void Form1_Load(object sender, EventArgs e)
 		{
 			Log($"Form loaded. starting authenticate");
-			var authService = new SharedCode.Authentication.Authentication(new SharedCode.Authentication.AuthenticationConfig()
-			{
-				AuthorizeUrl = AuthorizeUrl,
-				AuthorizeHookUrl = AuthorizeHookUrl,
-				AuthorizeListenerAddress = AuthorizeListenerAddress,
-				AuthorizeTokenUrl = AuthorizeTokenUrl,
-				ClientId = ClientId,
-				RequestedScope = "unifeed openid offline_access apix",
-			});
+			await Authenticate();
+		}
 
-			_currentToken = await authService.Authenticate();
+		private async Task Authenticate()
+		{
+			_currentToken = TokenRepository.GetToken();
+
+			if (_currentToken != null && _currentToken.IsExpired)
+			{
+				RefreshToken();
+			}
+			else if (_currentToken == null)
+			{
+				var authService = new Authentication(new AuthenticationConfig()
+				{
+					AuthorizeUrl = AuthorizeUrl,
+					AuthorizeHookUrl = AuthorizeHookUrl,
+					AuthorizeListenerAddress = AuthorizeListenerAddress,
+					AuthorizeTokenUrl = AuthorizeTokenUrl,
+					ClientId = ClientId,
+					RequestedScope = "unifeed openid offline_access apix",
+				});
+
+				_currentToken = await authService.Authenticate();
+				TokenRepository.StoreToken(_currentToken);
+			}
 
 			Log($"Authentication complete, starting Unifeed");
 			StartUnifeed();
@@ -99,6 +115,11 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			}
 		}
 
+		private void Browser_Navigated(object sender, WebBrowserNavigatedEventArgs e)
+		{
+			// Log($"Navigated to: {e.Url}");
+		}
+
 		private async Task UnifeedInterfaced(Uri interfaceUrl)
 		{
 			// Get id from data
@@ -118,7 +139,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			}
 
 			// Restart situation
-			if (!string.IsNullOrEmpty(_currentToken.RefreshToken))
+			if (_currentToken.IsExpired&& !string.IsNullOrEmpty(_currentToken.RefreshToken))
 			{
 				// Refresh token. Normally this is not needed for every call, only when the token is expired.
 				// Only possible when offline_access scope is honored
@@ -171,11 +192,6 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			btnStartWithLastObject.Enabled = false;
 		}
 
-		private void Browser_Navigated(object sender, System.Windows.Forms.WebBrowserNavigatedEventArgs e)
-		{
-			// Log($"Navigated to: {e.Url}");
-		}
-
 		private void Log(string tekst)
 		{
 			logBox.Text += $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} {tekst} {Environment.NewLine}";
@@ -195,7 +211,8 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 					{ "refresh_token", _currentToken.RefreshToken },
 				}).ToString();
 
-			_currentToken = SharedCode.Authentication.TokenService.RetrieveToken(AuthorizeTokenUrl, query);
+			_currentToken = TokenService.RetrieveToken(AuthorizeTokenUrl, query);
+			TokenRepository.StoreToken(_currentToken);
 
 			Log($"Refreshing tokens. New token retrieved: {_currentToken.TokenIssued.ToString("yyyyMMdd_HHmmss")}");
 		}
@@ -232,7 +249,14 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			StartUnifeed();
 		}
 
-		private async void btnDownload_Click(object sender, EventArgs e)
+		private async void btnReset_Click(object sender, EventArgs e)
+		{
+			browser.Navigate("");
+			TokenRepository.StoreToken(null);
+			await Authenticate();
+		}
+
+		private void btnDownload_Click(object sender, EventArgs e)
 		{
 			var accessToken = _currentToken.AccessToken;
 
