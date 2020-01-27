@@ -12,17 +12,6 @@
 
 	public class WebServiceHelper
 	{
-		public static Models.Interface GetInterfaceObject(string apiUrl, string accessToken, int id)
-		{
-			var url = Web.HttpExtensions.Build($"{apiUrl}/json/UOB/Interface", new NameValueCollection()
-			{
-				{ "id", id.ToString() },
-			}).ToString();
-
-			var data = GetJson(url, accessToken);
-			return JsonConvert.DeserializeObject<SharedCode.Models.Interface>(data);
-		}
-
 		public static string GetJson(string url, string accessToken)
 		{
 			var request = WebRequest.CreateHttp(url);
