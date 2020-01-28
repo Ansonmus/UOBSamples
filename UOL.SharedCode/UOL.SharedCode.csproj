@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <Company>2BA</Company>
     <Authors>Arian H, Joost R</Authors>
     <PackageProjectUrl>https://github.com/2BABV/UOBSamples</PackageProjectUrl>

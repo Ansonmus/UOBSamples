@@ -32,6 +32,20 @@
 			return (url, pkceCodes);
 		}
 
+		public OAuthToken RetrieveToken(string authorizationcode, string pkceCodeVerfier)
+		{
+			var query = Web.HttpExtensions.BuildQuerystring(new NameValueCollection()
+				{
+					{ "grant_type", "authorization_code" },
+					{ "code", authorizationcode },
+					{ "client_id", config.ClientId },
+					{ "redirect_uri", config.AuthorizeHookUrl },
+					{ "code_verifier", pkceCodeVerfier }, // PKCE addition
+				}).ToString();
+
+			return TokenService.RetrieveToken(config.AuthorizeTokenUrl, query);
+		}
+
 		public async Task<OAuthToken> Authenticate()
 		{
 			(var url, var pkceCodes) = BuildAuthorizationCodeUrl();
@@ -49,16 +63,7 @@
 				var queryString = HttpUtility.ParseQueryString(uri.Query);
 				var authorizationcode = queryString.Get("code");
 
-				var query = Web.HttpExtensions.BuildQuerystring(new NameValueCollection()
-				{
-					{ "grant_type", "authorization_code" },
-					{ "code", authorizationcode },
-					{ "client_id", config.ClientId },
-					{ "redirect_uri", config.AuthorizeHookUrl },
-					{ "code_verifier", pkceCodes.CodeVerifier }, // PKCE addition
-				}).ToString();
-
-				return TokenService.RetrieveToken(config.AuthorizeTokenUrl, query);
+				return RetrieveToken(authorizationcode, pkceCodes.CodeVerifier);
 			}
 
 			return null;

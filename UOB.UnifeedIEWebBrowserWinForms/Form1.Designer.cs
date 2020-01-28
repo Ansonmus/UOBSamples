@@ -32,6 +32,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
         {
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.webView = new Microsoft.Toolkit.Forms.UI.Controls.WebView();
 			this.browser = new System.Windows.Forms.WebBrowser();
 			this.logBox = new System.Windows.Forms.TextBox();
 			this.btnClearLog = new System.Windows.Forms.Button();
@@ -40,6 +41,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			this.btnDownload = new System.Windows.Forms.Button();
 			this.btnReset = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.webView)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
@@ -54,6 +56,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			// 
 			// splitContainer1.Panel1
 			// 
+			this.splitContainer1.Panel1.Controls.Add(this.webView);
 			this.splitContainer1.Panel1.Controls.Add(this.browser);
 			// 
 			// splitContainer1.Panel2
@@ -76,6 +79,13 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			this.browser.Name = "browser";
 			this.browser.Size = new System.Drawing.Size(800, 266);
 			this.browser.TabIndex = 0;
+			// 
+			// webView
+			// 
+			this.webView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.webView.Location = new System.Drawing.Point(0, 0);
+			this.webView.Name = "webView";
+			this.webView.TabIndex = 0;
 			// 
 			// logBox
 			// 
@@ -154,6 +164,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			this.splitContainer1.Panel2.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.webView)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
 			this.ResumeLayout(false);
@@ -163,7 +174,8 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 		#endregion
 
 		private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.WebBrowser browser;
+		private System.Windows.Forms.WebBrowser browser;
+		private Microsoft.Toolkit.Forms.UI.Controls.WebView webView;
         private System.Windows.Forms.TextBox logBox;
 		private System.Windows.Forms.Button btnStartWithLastObject;
 		private System.Windows.Forms.Button btnClearLog;
