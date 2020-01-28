@@ -253,7 +253,8 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			var selectionListRequest = new BBA.UnifeedApi.SelectionListParms()
 			{
 				SelectionListId = interfaceInfo.Id,
-				DisableFields = interfaceInfo.DisableFields
+				DisableFields = interfaceInfo.DisableFields,
+				Languagecode= BBA.UnifeedApi.Languagecode.NL
 			};
 			var selectionListRequestString = JsonConvert.SerializeObject(selectionListRequest);
 

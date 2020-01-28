@@ -79,3 +79,9 @@ csharp_new_line_before_members_in_anonymous_types = true
 
 # SA1101: Prefix local calls with this
 dotnet_diagnostic.SA1101.severity = none
+
+# CA1305: Specify IFormatProvider
+dotnet_diagnostic.CA1305.severity = none
+
+# SA1633: File should have header
+dotnet_diagnostic.SA1633.severity = none
