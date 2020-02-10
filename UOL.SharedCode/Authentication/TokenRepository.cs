@@ -1,6 +1,5 @@
 ﻿namespace UOL.SharedCode.Authentication
 {
-	using System;
 	using Microsoft.Win32;
 
 	public static class TokenRepository

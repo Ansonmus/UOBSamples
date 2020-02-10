@@ -32,5 +32,7 @@
 
 		[JsonIgnore]
 		public bool IsExpired => TokenIssued.AddSeconds(ExpiresIn) < System.DateTime.Now;
+
+		public string Environment { get; set; }
 	}
 }
