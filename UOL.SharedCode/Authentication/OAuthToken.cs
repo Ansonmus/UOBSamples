@@ -16,7 +16,7 @@
 		[JsonProperty(PropertyName = "expires_in")]
 		public int ExpiresIn { get; set; }
 
-		public System.DateTime TokenIssued { get; } = System.DateTime.Now;
+		public System.DateTime TokenIssued { get; set; } = System.DateTime.Now;
 
 		/// <summary>
 		/// Gets or sets the type of the token issued. Value is case insensitive (see https://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-7.1).
