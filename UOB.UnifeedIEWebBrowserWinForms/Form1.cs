@@ -1,4 +1,4 @@
-﻿#define BETA
+﻿//#define ALPHA
 namespace UOL.UnifeedIEWebBrowserWinForms
 {
 	using System;
@@ -19,17 +19,14 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 		public const string AuthorizeBaseUrl = "https://authorize.alpha.2ba.nl";
 		public const string UnifeedBaseUrl = "https://uol-unifeed.alpha.2ba.nl";
 		public const string ApiBaseUrlNew = "https://apix.alpha.2ba.nl";
-		public const string Environment = "ALPHA";
 #elif BETA
 		public const string AuthorizeBaseUrl = "https://uol-auth.beta.2ba.nl";
 		public const string UnifeedBaseUrl = "https://uol-unifeed.beta.2ba.nl";
 		public const string ApiBaseUrlNew = "https://apix.beta.2ba.nl";
-		public const string Environment = "BETA";
 #else
 		public const string AuthorizeBaseUrl = "https://uol-auth.2ba.nl";
 		public const string UnifeedBaseUrl = "https://uol-unifeed.2ba.nl";
 		public const string ApiBaseUrlNew = "https://apix.2ba.nl";
-		public const string Environment = "PROD";
 #endif
 		public static bool UseWebView = true;
 		public static bool EmbeddedAuth = UseWebView;
@@ -93,11 +90,11 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 		{
 			_currentToken = TokenRepository.GetToken();
 
-			if ( _currentToken != null && _currentToken.Environment == Environment && _currentToken.IsExpired)
+			if ( _currentToken != null && _currentToken.Environment == AuthorizeBaseUrl && _currentToken.IsExpired)
 			{
 				RefreshToken();
 			}
-			else if (_currentToken == null || _currentToken.Environment != Environment)
+			else if (_currentToken == null || _currentToken.Environment != AuthorizeBaseUrl)
 			{
 				if (EmbeddedAuth)
 				{
@@ -108,7 +105,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 				else
 				{
 					_currentToken = await authService.Authenticate();
-					_currentToken.Environment = Environment;
+					_currentToken.Environment = AuthorizeBaseUrl;
 					TokenRepository.StoreToken(_currentToken);
 					AuthenticationComplete();
 				}
@@ -199,7 +196,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			{
 				var code = queryString["code"];
 				_currentToken = authService.RetrieveToken(code, _pkcetemp.CodeVerifier);
-				_currentToken.Environment = Environment;
+				_currentToken.Environment = AuthorizeBaseUrl;
 				TokenRepository.StoreToken(_currentToken);
 				AuthenticationComplete();
 				return;
@@ -295,7 +292,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 				}).ToString();
 
 			_currentToken = TokenService.RetrieveToken(AuthorizeTokenUrl, query);
-			_currentToken.Environment = Environment;
+			_currentToken.Environment = AuthorizeBaseUrl;
 			TokenRepository.StoreToken(_currentToken);
 
 			Log($"Refreshing tokens. New token retrieved: {_currentToken.TokenIssued.ToString("yyyyMMdd_HHmmss")}");
