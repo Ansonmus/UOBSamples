@@ -1,4 +1,4 @@
-﻿//#define ALPHA
+﻿#define BETA
 namespace UOL.UnifeedIEWebBrowserWinForms
 {
 	using System;
@@ -130,10 +130,11 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			{
 				{ "accessToken", accessToken },
 				{ "interface", (32 | 64).ToString() },
+				{ "interfaceObjectId", interfaceObjectId?.ToString() },
 				{ "interfaceType", "JSONGET" },
 				{ "interfaceName", "DemoApp" },
 				{ "hookUrl", UnifeedHookUrl },
-				{ "interfaceObjectId", interfaceObjectId?.ToString() },
+
 			}).ToString();
 
 			Log($"Starting Unifeed with url: {url}");
@@ -256,7 +257,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			{
 				SelectionListId = interfaceInfo.Id,
 				DisableFields = interfaceInfo.DisableFields,
-				Languagecode= BBA.UnifeedApi.Languagecode.NL
+				Languagecode = BBA.UnifeedApi.Languagecode.NL
 			};
 			var selectionListRequestString = JsonConvert.SerializeObject(selectionListRequest);
 
