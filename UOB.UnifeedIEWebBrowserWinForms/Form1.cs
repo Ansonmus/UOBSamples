@@ -247,7 +247,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 
 		private async Task UnifeedInterfaceProductSelection(string data)
 		{
-			var interfaceInfo = JsonConvert.DeserializeAnonymousType(data, new { Id = 0, Type = (string)null, DisableFields = (ICollection<BBA.UnifeedApi.ProductAttribute>)null });
+			var interfaceInfo = JsonConvert.DeserializeAnonymousType(data, new { Id = 0, ObjectType = (string)null, Type = (string)null, DisableFields = (ICollection<BBA.UnifeedApi.ProductAttribute>)null });
 			Log($"Retrieved id for interface object: {interfaceInfo.Id}. Type: {interfaceInfo.Type}");
 
 			// Build URL to call ProductSelection Service
@@ -256,6 +256,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			var selectionListRequest = new BBA.UnifeedApi.SelectionListParms()
 			{
 				SelectionListId = interfaceInfo.Id,
+				ObjectType = interfaceInfo.ObjectType,
 				DisableFields = interfaceInfo.DisableFields,
 				Languagecode = BBA.UnifeedApi.Languagecode.NL
 			};
