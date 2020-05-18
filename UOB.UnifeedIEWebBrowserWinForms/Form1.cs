@@ -28,7 +28,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 		public const string UnifeedBaseUrl = "https://uol-unifeed.2ba.nl";
 		public const string ApiBaseUrlNew = "https://apix.2ba.nl";
 #endif
-		public static bool UseWebView = true;
+		public static bool UseWebView = false;
 		public static bool EmbeddedAuth = UseWebView;
 		public const string UnifeedSchemeName = "nl.2ba.uol";
 		public static readonly string AuthorizeUrl = $"{AuthorizeBaseUrl}/OAuth/Authorize";
@@ -92,7 +92,15 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 
 			if ( _currentToken != null && _currentToken.Environment == AuthorizeBaseUrl && _currentToken.IsExpired)
 			{
-				RefreshToken();
+				try
+				{
+					RefreshToken();
+				}
+				catch (Exception)
+				{
+					TokenRepository.StoreToken(null);
+					await Authenticate();
+				}
 			}
 			else if (_currentToken == null || _currentToken.Environment != AuthorizeBaseUrl)
 			{
