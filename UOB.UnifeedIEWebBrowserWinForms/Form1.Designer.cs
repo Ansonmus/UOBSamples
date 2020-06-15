@@ -32,7 +32,10 @@ namespace UOL.UnifeedIEWebBrowserWinForms
         {
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.webView = new Microsoft.Toolkit.Forms.UI.Controls.WebView();
+			if (UseWebView)
+			{
+				this.webView = new Microsoft.Toolkit.Forms.UI.Controls.WebView();
+			}
 			this.browser = new System.Windows.Forms.WebBrowser();
 			this.logBox = new System.Windows.Forms.TextBox();
 			this.btnClearLog = new System.Windows.Forms.Button();
@@ -41,7 +44,10 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			this.btnDownload = new System.Windows.Forms.Button();
 			this.btnReset = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.webView)).BeginInit();
+			if (this.webView != null)
+			{
+				((System.ComponentModel.ISupportInitialize)(this.webView)).BeginInit();
+			}
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
@@ -82,10 +88,13 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			// 
 			// webView
 			// 
-			this.webView.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.webView.Location = new System.Drawing.Point(0, 0);
-			this.webView.Name = "webView";
-			this.webView.TabIndex = 0;
+			if (this.webView != null)
+			{
+				this.webView.Dock = System.Windows.Forms.DockStyle.Fill;
+				this.webView.Location = new System.Drawing.Point(0, 0);
+				this.webView.Name = "webView";
+				this.webView.TabIndex = 0;
+			}
 			// 
 			// logBox
 			// 
@@ -164,7 +173,10 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			this.splitContainer1.Panel2.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.webView)).EndInit();
+			if (this.webView != null)
+			{
+				((System.ComponentModel.ISupportInitialize)(this.webView)).EndInit();
+			}
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
 			this.ResumeLayout(false);

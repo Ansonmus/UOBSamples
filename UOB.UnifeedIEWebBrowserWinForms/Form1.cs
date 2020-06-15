@@ -28,7 +28,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 		public const string UnifeedBaseUrl = "https://uol-unifeed.2ba.nl";
 		public const string ApiBaseUrlNew = "https://apix.2ba.nl";
 #endif
-		public static bool UseWebView = false;
+		public static bool UseWebView = true;
 		public static bool EmbeddedAuth = UseWebView;
 		public const string UnifeedSchemeName = "nl.2ba.uol";
 		public static readonly string AuthorizeUrl = $"{AuthorizeBaseUrl}/OAuth/Authorize";
@@ -59,10 +59,13 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 				RequestedScope = "unifeed openid offline_access apix",
 			});
 
-			webView.NavigationStarting += WebView_NavigationStarting;
-			webView.NavigationCompleted += WebView_NavigationCompleted;
-			webView.UnsupportedUriSchemeIdentified += WebView_UnsupportedUriSchemeIdentified;
-			webView.NewWindowRequested += WebView_NewWindowRequested;
+			if (this.webView != null)
+			{
+				webView.NavigationStarting += WebView_NavigationStarting;
+				webView.NavigationCompleted += WebView_NavigationCompleted;
+				webView.UnsupportedUriSchemeIdentified += WebView_UnsupportedUriSchemeIdentified;
+				webView.NewWindowRequested += WebView_NewWindowRequested;
+			}
 
 			browser.Navigating += Browser_Navigating;
 			browser.Navigated += Browser_Navigated;
@@ -75,7 +78,6 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			}
 			else
 			{
-				webView.Visible = false;
 				browser.Visible = true;
 			}
 		}
