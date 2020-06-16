@@ -28,8 +28,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 		public const string UnifeedBaseUrl = "https://uol-unifeed.2ba.nl";
 		public const string ApiBaseUrlNew = "https://apix.2ba.nl";
 #endif
-		public static bool UseWebView = true;
-		public static bool EmbeddedAuth = UseWebView;
+		public static bool EmbeddedAuth = true;
 		public const string UnifeedSchemeName = "nl.2ba.uol";
 		public static readonly string AuthorizeUrl = $"{AuthorizeBaseUrl}/OAuth/Authorize";
 		public static readonly string AuthorizeTokenUrl = $"{AuthorizeBaseUrl}/OAuth/Token";
@@ -59,32 +58,26 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 				RequestedScope = "unifeed openid offline_access apix",
 			});
 
-			if (this.webView != null)
+			if (browser != null)
 			{
-				webView.NavigationStarting += WebView_NavigationStarting;
-				webView.NavigationCompleted += WebView_NavigationCompleted;
-				webView.UnsupportedUriSchemeIdentified += WebView_UnsupportedUriSchemeIdentified;
-				webView.NewWindowRequested += WebView_NewWindowRequested;
-			}
-
-			browser.Navigating += Browser_Navigating;
-			browser.Navigated += Browser_Navigated;
-			browser.ScriptErrorsSuppressed = false;
-
-			if (UseWebView)
-			{
-				webView.Visible = true;
-				browser.Visible = false;
-			}
-			else
-			{
-				browser.Visible = true;
+				if (browser.Controls[0] is Microsoft.Toolkit.Forms.UI.Controls.WebView webView)
+				{
+					webView.UnsupportedUriSchemeIdentified += WebView_UnsupportedUriSchemeIdentified;
+					webView.NewWindowRequested += WebView_NewWindowRequested;
+				}
+				else if(browser.Controls[0] is WebBrowser webBrowser)
+				{
+					webBrowser.ScriptErrorsSuppressed = false;
+					browser.NavigationStarting += WebView_NavigationStarting;
+				}
+				//webView.NavigationCompleted += WebView_NavigationCompleted;
 			}
 		}
 
 		private async void Form1_Load(object sender, EventArgs e)
 		{
-			Log($"Form loaded. starting authenticate");
+			Log($"Form loaded. Webbrowser type: {this.browser.Controls[0]}");
+			Log($"Starting authentication");
 			await Authenticate();
 		}
 
@@ -153,17 +146,6 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			return;
 		}
 
-		private async void Browser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
-		{
-			// Log($"Navigating to: {e.Url}");
-			if (e.Url.Scheme == UnifeedSchemeName)
-			{
-				e.Cancel = true;
-				Log($"Interfaced! {e.Url}");
-
-				await UnifeedInterfaced(e.Url);
-			}
-		}
 
 		private async void WebView_UnsupportedUriSchemeIdentified(object sender, WebViewControlUnsupportedUriSchemeIdentifiedEventArgs e)
 		{
@@ -171,25 +153,22 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			if (e.Uri.Scheme == UnifeedSchemeName)
 			{
 				e.Handled = true;
-				Log($"Interfaced! {e.Uri}");
+				Log($"Interfaced (through WebView.UnsupportedUriSchemeIdentified)! {e.Uri}");
 
 				await UnifeedInterfaced(e.Uri);
 			}
 		}
 
-		private async void Browser_Navigated(object sender, WebBrowserNavigatedEventArgs e)
-		{
-			// Log($"Navigated to: {e.Url}");
-		}
-
 		private async void WebView_NavigationStarting(object sender, WebViewControlNavigationStartingEventArgs e)
 		{
-			// Log($"Navigating to: {e.Uri}");
-		}
+			// Log($"Browser_UnsupportedUriSchemeIdentified: {e.Uri}");
+			if (e.Uri.Scheme == UnifeedSchemeName)
+			{
+				e.Cancel = true;
+				Log($"Interfaced (through WebViewCmopatible.NavigationStarting)! {e.Uri}");
 
-		private void WebView_NavigationCompleted(object sender, WebViewControlNavigationCompletedEventArgs e)
-		{
-			// Log($"Navigated to: {e.Uri}");
+				await UnifeedInterfaced(e.Uri);
+			}
 		}
 
 		private void WebView_NewWindowRequested(object sender, WebViewControlNewWindowRequestedEventArgs e)
@@ -197,7 +176,6 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			Log($"Browser_NewWindowRequested: {e.Uri}");
 			SharedCode.Web.SystemBrowser.OpenBrowser(e.Uri.ToString());
 		}
-
 
 		private async Task UnifeedInterfaced(Uri interfaceUrl)
 		{
@@ -350,14 +328,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 
 		private void Navigate(string url)
 		{
-			if (UseWebView)
-			{
-				webView.Navigate(url);
-			}
-			else
-			{
-				browser.Navigate(url);
-			}
+			browser.Navigate(url);
 		}
 
 		private void btnDownload_Click(object sender, EventArgs e)
