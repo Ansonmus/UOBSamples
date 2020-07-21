@@ -64,6 +64,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 				{
 					webView.UnsupportedUriSchemeIdentified += WebView_UnsupportedUriSchemeIdentified;
 					webView.NewWindowRequested += WebView_NewWindowRequested;
+					webView.NavigationStarting += WebView_NavigationStarting;
 				}
 				else if(browser.Controls[0] is WebBrowser webBrowser)
 				{
@@ -168,6 +169,15 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 				Log($"Interfaced (through WebViewCmopatible.NavigationStarting)! {e.Uri}");
 
 				await UnifeedInterfaced(e.Uri);
+			}
+			else if (e.Uri.AbsolutePath.EndsWith("account/ForgotPasswordConfirmation", StringComparison.OrdinalIgnoreCase))
+			{
+				e.Cancel = true;
+				await Authenticate();
+				BeginInvoke(new Action(() =>
+				{
+					MessageBox.Show("An email is on it's way to your mailbox with instructions on how to reset your password.", "Password reset requested", MessageBoxButtons.OK);
+				}));
 			}
 		}
 
