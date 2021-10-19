@@ -1,4 +1,4 @@
-﻿#define BETA
+﻿//#define BETA
 namespace UOL.UnifeedIEWebBrowserWinForms
 {
 	using System;
@@ -137,6 +137,8 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 				{ "interfaceObjectId", interfaceObjectId?.ToString() },
 				{ "interfaceType", "JSONGET" },
 				{ "interfaceName", "DemoApp" },
+				{ "uobApplication", "DemoCad" },
+				{ "uobApplicationVersion", "2022" },
 				{ "hookUrl", UnifeedHookUrl },
 
 			}).ToString();
@@ -162,7 +164,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 
 		private async void WebView_NavigationStarting(object sender, WebViewControlNavigationStartingEventArgs e)
 		{
-			// Log($"Browser_UnsupportedUriSchemeIdentified: {e.Uri}");
+			// Log($"WebView_NavigationStarting: {e.Uri}");
 			if (e.Uri.Scheme == UnifeedSchemeName)
 			{
 				e.Cancel = true;

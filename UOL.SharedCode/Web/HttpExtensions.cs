@@ -2,10 +2,6 @@
 {
 	using System;
 	using System.Collections.Specialized;
-	using System.Diagnostics;
-	using System.Net;
-	using System.Net.Sockets;
-	using System.Runtime.InteropServices;
 	using System.Web;
 
 	public static class HttpExtensions
@@ -19,7 +15,7 @@
 
 			var ub = new UriBuilder(uri)
 			{
-				Query = httpValueCollection.ToString()
+				Query = httpValueCollection.ToString(),
 			};
 
 			return ub.Uri;
@@ -36,7 +32,7 @@
 
 			var ub = new UriBuilder($"{uri.Scheme}{Uri.SchemeDelimiter}{uri.Authority}{uri.AbsolutePath}")
 			{
-				Query = queryString.ToString()
+				Query = queryString.ToString(),
 			};
 			return ub.Uri;
 		}
