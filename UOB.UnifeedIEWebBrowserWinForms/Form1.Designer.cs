@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Web.WebView2.WinForms;
 
 namespace UOL.UnifeedIEWebBrowserWinForms
 {
@@ -32,7 +33,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
         {
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.browser = new Microsoft.Toolkit.Forms.UI.Controls.WebViewCompatible();
+			this.browser = new WebView2();
 			this.logBox = new System.Windows.Forms.TextBox();
 			this.btnClearLog = new System.Windows.Forms.Button();
 			this.btnStartWithLastObject = new System.Windows.Forms.Button();
@@ -161,7 +162,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 		#endregion
 
 		private System.Windows.Forms.SplitContainer splitContainer1;
-		private Microsoft.Toolkit.Forms.UI.Controls.WebViewCompatible browser; // works also in Administrator mode
+		private WebView2 browser; // works also in Administrator mode
         private System.Windows.Forms.TextBox logBox;
 		private System.Windows.Forms.Button btnStartWithLastObject;
 		private System.Windows.Forms.Button btnClearLog;

@@ -60,24 +60,48 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 
 			if (browser != null)
 			{
-				if (browser.Controls[0] is Microsoft.Toolkit.Forms.UI.Controls.WebView webView)
+				browser.NavigationStarting += Browser_NavigationStarting;
+
+				//if (browser.Controls[0] is Microsoft.Toolkit.Forms.UI.Controls.WebView webView)
+				//{
+				//	webView.UnsupportedUriSchemeIdentified += WebView_UnsupportedUriSchemeIdentified;
+				//	webView.NewWindowRequested += WebView_NewWindowRequested;
+				//	webView.NavigationStarting += WebView_NavigationStarting;
+				//}
+				//else if(browser.Controls[0] is WebBrowser webBrowser)
+				//{
+				//	webBrowser.ScriptErrorsSuppressed = false;
+				//	//browser.NavigationStarting += WebView_NavigationStarting;
+				//}
+				////webView.NavigationCompleted += WebView_NavigationCompleted;
+			}
+		}
+
+		private async void Browser_NavigationStarting(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationStartingEventArgs e)
+		{
+			// Log($"WebView_NavigationStarting: {e.Uri}");
+			var uri = new Uri(e.Uri);
+			if (uri.Scheme == UnifeedSchemeName)
+			{
+				e.Cancel = true;
+				Log($"Interfaced (through WebViewCmopatible.NavigationStarting)! {e.Uri}");
+
+				await UnifeedInterfaced(uri);
+			}
+			else if (uri.AbsolutePath.EndsWith("account/ForgotPasswordConfirmation", StringComparison.OrdinalIgnoreCase))
+			{
+				e.Cancel = true;
+				await Authenticate();
+				BeginInvoke(new Action(() =>
 				{
-					webView.UnsupportedUriSchemeIdentified += WebView_UnsupportedUriSchemeIdentified;
-					webView.NewWindowRequested += WebView_NewWindowRequested;
-					webView.NavigationStarting += WebView_NavigationStarting;
-				}
-				else if(browser.Controls[0] is WebBrowser webBrowser)
-				{
-					webBrowser.ScriptErrorsSuppressed = false;
-					browser.NavigationStarting += WebView_NavigationStarting;
-				}
-				//webView.NavigationCompleted += WebView_NavigationCompleted;
+					MessageBox.Show("An email is on it's way to your mailbox with instructions on how to reset your password.", "Password reset requested", MessageBoxButtons.OK);
+				}));
 			}
 		}
 
 		private async void Form1_Load(object sender, EventArgs e)
 		{
-			Log($"Form loaded. Webbrowser type: {this.browser.Controls[0]}");
+			// Log($"Form loaded. Webbrowser type: {this.browser.Controls[0]}");
 			Log($"Starting authentication");
 			await Authenticate();
 		}
@@ -338,9 +362,10 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			await Authenticate();
 		}
 
-		private void Navigate(string url)
+		private async void Navigate(string url)
 		{
-			browser.Navigate(url);
+			await browser.EnsureCoreWebView2Async();
+			browser.CoreWebView2.Navigate(url);
 		}
 
 		private void btnDownload_Click(object sender, EventArgs e)
