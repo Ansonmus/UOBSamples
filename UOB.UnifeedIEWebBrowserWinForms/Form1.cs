@@ -1,4 +1,6 @@
-﻿//#define BETA
+﻿//https://weblog.west-wind.com/posts/2021/Jan/14/Taking-the-new-Chromium-WebView2-Control-for-a-Spin-in-NET-Part-1
+
+//#define BETA
 namespace UOL.UnifeedIEWebBrowserWinForms
 {
 	using System;
@@ -8,6 +10,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 	using System.Web;
 	using System.Windows.Forms;
 	using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
+	using Microsoft.Web.WebView2.Core;
 	using Newtonsoft.Json;
 	using UOL.SharedCode.Authentication;
 
@@ -47,6 +50,9 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 		public Form1()
 		{
 			InitializeComponent();
+
+			Log($"Hello world!");
+
 
 			authService = new Authentication(new AuthenticationConfig()
 			{
@@ -101,7 +107,23 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 
 		private async void Form1_Load(object sender, EventArgs e)
 		{
-			// Log($"Form loaded. Webbrowser type: {this.browser.Controls[0]}");
+			string webViewVersionAvail = string.Empty;
+			Version asmversion;
+			try
+			{
+				webViewVersionAvail = CoreWebView2Environment.GetAvailableBrowserVersionString();
+
+				asmversion = typeof(CoreWebView2Environment).Assembly.GetName().Version;
+			}
+			catch { }
+
+
+			await browser.EnsureCoreWebView2Async();
+			browser.CoreWebView2.Settings.IsStatusBarEnabled = true;
+			//browser.CoreWebView2.Settings.
+			//browser.CoreWebView2.BrowserProcessId
+
+			Log($"Form loaded. Webbrowser type: {this.browser}");
 			Log($"Starting authentication");
 			await Authenticate();
 		}
@@ -386,5 +408,76 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 
 			SharedCode.Web.SystemBrowser.OpenBrowser(downloadUrl);
 		}
+
+//		private bool IsWebViewVersionInstalled(bool showDownloadUi = false)
+//		{
+//			string versionNo = null;
+//			Version asmVersion = null;
+//			Version ver = null;
+
+//			try
+//			{
+//				versionNo = CoreWebView2Environment.GetAvailableBrowserVersionString();
+
+//				// strip off 'canary' or 'stable' verison
+//				versionNo = StringUtils.ExtractString(versionNo, "", " ", allowMissingEndDelimiter: true)?.Trim();
+//				ver = new Version(versionNo);
+
+//				asmVersion = typeof(CoreWebView2Environment).Assembly.GetName().Version;
+
+//				if (ver.Build >= asmVersion.Build)
+//					return true;
+//			}
+//			catch { }
+
+//			IsActive = false;
+
+//			if (!showDownloadUi)
+//				return false;
+
+
+//			var form = new BrowserMessageBox()
+//			{
+//				Owner = mmApp.Model.Window,
+//				Width = 600,
+//				Height = 440,
+//				Title = "WebView Runtime Installation",
+//			};
+
+//			form.Dispatcher.Invoke(() => form.Icon = new ImageSourceConverter()
+//				.ConvertFromString("pack://application:,,,/WebViewPreviewerAddin;component/icon_32.png") as ImageSource);
+
+//			var markdown = $@"
+//### WebView Runtime not installed or out of Date
+//The Microsoft Edge WebView Runtime is
+//{ (!string.IsNullOrEmpty(versionNo) ?
+//				"out of date\n\nYour Build: " + ver.Build +
+//				"   -   Required Build: " + asmVersion.Build :
+//				"not installed")  }.
+
+//In order to use the Chromium preview you need to install this runtime by downloading from the [Microsoft Download Site](https://developer.microsoft.com/en-us/microsoft-edge/webview2/).
+
+//**Do you want to download and install the Edge WebView Runtime?**
+
+//*<small>clicking **Yes** sends you to the Microsoft download site.  
+//choose the **Evergreen Bootstrapper** download.</small>*";
+
+//			form.ClearButtons();
+//			var yesButton = form.AddButton("Yes", FontAwesomeIcon.CheckCircle, Brushes.Green);
+//			yesButton.Width = 90;
+//			var noButton = form.AddButton("No", FontAwesomeIcon.TimesCircle, Brushes.Firebrick);
+//			noButton.Width = 90;
+//			form.ShowMarkdown(markdown);
+
+
+//			form.ShowDialog();
+//			if (form.ButtonResult == yesButton)
+//			{
+//				mmFileUtils.OpenBrowser("https://developer.microsoft.com/en-us/microsoft-edge/webview2/");
+//			}
+
+//			return false;
+//		}
+
 	}
 }
