@@ -1,6 +1,4 @@
-﻿//https://weblog.west-wind.com/posts/2021/Jan/14/Taking-the-new-Chromium-WebView2-Control-for-a-Spin-in-NET-Part-1
-
-//#define BETA
+﻿//#define BETA
 namespace UOL.UnifeedIEWebBrowserWinForms
 {
 	using System;
@@ -17,7 +15,6 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 	public partial class Form1 : Form
 	{
 		public const string ClientId = "2BA_DEMOAPPS_PKCE";
-
 #if ALPHA
 		public const string AuthorizeBaseUrl = "https://authorize.alpha.2ba.nl";
 		public const string UnifeedBaseUrl = "https://uol-unifeed.alpha.2ba.nl";
@@ -31,8 +28,9 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 		public const string UnifeedBaseUrl = "https://uol-unifeed.2ba.nl";
 		public const string ApiBaseUrlNew = "https://apix.2ba.nl";
 #endif
-		public static bool EmbeddedAuth = true;
 		public const string UnifeedSchemeName = "nl.2ba.uol";
+		public static bool EmbeddedAuth = true;
+		public static bool WebView2Available = false;
 		public static readonly string AuthorizeUrl = $"{AuthorizeBaseUrl}/OAuth/Authorize";
 		public static readonly string AuthorizeTokenUrl = $"{AuthorizeBaseUrl}/OAuth/Token";
 		public static readonly string AuthorizeListenerAddress = EmbeddedAuth ? $"{UnifeedSchemeName}://" : $"http://localhost:43215/"; // Must end with slash
@@ -42,17 +40,14 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 
 		private OAuthToken _currentToken = null;
 		private PKCECode _pkcetemp = null;
-
 		private BBA.UnifeedApi.InterfaceModel _lastRetrievedObject = null;
-
 		private readonly Authentication authService = null;
 
 		public Form1()
 		{
 			InitializeComponent();
 
-			Log($"Hello world!");
-
+			Log($"Application starting");
 
 			authService = new Authentication(new AuthenticationConfig()
 			{
@@ -64,66 +59,61 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 				RequestedScope = "unifeed openid offline_access apix",
 			});
 
-			if (browser != null)
+			try
 			{
-				browser.NavigationStarting += Browser_NavigationStarting;
+				// Check if WebView2 is available, throws WebView2RuntimeNotFoundException when not found
+				var webViewVersionAvail = CoreWebView2Environment.GetAvailableBrowserVersionString();
+				WebView2Available = true;
+				// Enable WebView2 form control
+				browser.Enabled = true;
+				browser.Visible = true;
+				// Disable legacy WebViewCompatible form control
+				webView1.Enabled = false;
+				webView1.Visible = false;
 
-				//if (browser.Controls[0] is Microsoft.Toolkit.Forms.UI.Controls.WebView webView)
-				//{
-				//	webView.UnsupportedUriSchemeIdentified += WebView_UnsupportedUriSchemeIdentified;
-				//	webView.NewWindowRequested += WebView_NewWindowRequested;
-				//	webView.NavigationStarting += WebView_NavigationStarting;
-				//}
-				//else if(browser.Controls[0] is WebBrowser webBrowser)
-				//{
-				//	webBrowser.ScriptErrorsSuppressed = false;
-				//	//browser.NavigationStarting += WebView_NavigationStarting;
-				//}
-				////webView.NavigationCompleted += WebView_NavigationCompleted;
-			}
-		}
-
-		private async void Browser_NavigationStarting(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationStartingEventArgs e)
-		{
-			// Log($"WebView_NavigationStarting: {e.Uri}");
-			var uri = new Uri(e.Uri);
-			if (uri.Scheme == UnifeedSchemeName)
-			{
-				e.Cancel = true;
-				Log($"Interfaced (through WebViewCmopatible.NavigationStarting)! {e.Uri}");
-
-				await UnifeedInterfaced(uri);
-			}
-			else if (uri.AbsolutePath.EndsWith("account/ForgotPasswordConfirmation", StringComparison.OrdinalIgnoreCase))
-			{
-				e.Cancel = true;
-				await Authenticate();
-				BeginInvoke(new Action(() =>
+				browser.EnsureCoreWebView2Async().GetAwaiter().OnCompleted(() =>
 				{
-					MessageBox.Show("An email is on it's way to your mailbox with instructions on how to reset your password.", "Password reset requested", MessageBoxButtons.OK);
-				}));
+					browser.CoreWebView2.Settings.IsStatusBarEnabled = true;
+					browser.CoreWebView2.NavigationStarting += Browser_NavigationStarting;
+					browser.CoreWebView2.NewWindowRequested += Browser_NewWindowRequested;
+				});
+			}
+			catch (WebView2RuntimeNotFoundException)
+			{
+				// Fallback to legacy WebView form control
+				WebView2Available = false;
+				// Disable WebView2 form control
+				browser.Enabled = false;
+				browser.Visible = false;
+
+				if (webView1 != null)
+				{
+					// Enable legacy WebViewCompatible form control
+					webView1.Enabled = true;
+					webView1.Visible = true;
+					if (webView1.Controls[0] is Microsoft.Toolkit.Forms.UI.Controls.WebView webView)
+					{
+						webView.UnsupportedUriSchemeIdentified += WebView_UnsupportedUriSchemeIdentified;
+						webView.NewWindowRequested += WebView_NewWindowRequested;
+						webView.NavigationStarting += WebView_NavigationStarting;
+					}
+					else if (browser.Controls[0] is WebBrowser webBrowser)
+					{
+						webBrowser.ScriptErrorsSuppressed = false;
+						webView1.NavigationStarting += WebView_NavigationStarting;
+					}
+				}
 			}
 		}
 
 		private async void Form1_Load(object sender, EventArgs e)
 		{
-			string webViewVersionAvail = string.Empty;
-			Version asmversion;
-			try
+			var browserType = browser.ToString();
+			if (!WebView2Available)
 			{
-				webViewVersionAvail = CoreWebView2Environment.GetAvailableBrowserVersionString();
-
-				asmversion = typeof(CoreWebView2Environment).Assembly.GetName().Version;
+				browserType = webView1.ToString();
 			}
-			catch { }
-
-
-			await browser.EnsureCoreWebView2Async();
-			browser.CoreWebView2.Settings.IsStatusBarEnabled = true;
-			//browser.CoreWebView2.Settings.
-			//browser.CoreWebView2.BrowserProcessId
-
-			Log($"Form loaded. Webbrowser type: {this.browser}");
+			Log($"Form loaded. Webbrowser type: {browserType}");
 			Log($"Starting authentication");
 			await Authenticate();
 		}
@@ -195,10 +185,52 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			return;
 		}
 
+		/// <summary>
+		/// NavigationStarting event handler for WebView2 browser
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private async void Browser_NavigationStarting(object sender, CoreWebView2NavigationStartingEventArgs e)
+		{
+			// Log($"WebView_NavigationStarting: {e.Uri}");
+			var uri = new Uri(e.Uri);
+			if (uri.Scheme == UnifeedSchemeName)
+			{
+				e.Cancel = true;
+				Log($"Interfaced (through WebView2.NavigationStarting)! {e.Uri}");
 
+				await UnifeedInterfaced(uri);
+			}
+			else if (uri.AbsolutePath.EndsWith("account/ForgotPasswordConfirmation", StringComparison.OrdinalIgnoreCase))
+			{
+				e.Cancel = true;
+				await Authenticate();
+				BeginInvoke(new Action(() =>
+				{
+					MessageBox.Show("An email is on it's way to your mailbox with instructions on how to reset your password.", "Password reset requested", MessageBoxButtons.OK);
+				}));
+			}
+		}
+
+		/// <summary>
+		/// NewWindowRequested event handler for WebView2 browser
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Browser_NewWindowRequested(object sender, CoreWebView2NewWindowRequestedEventArgs e)
+		{
+			Log($"Browser_NewWindowRequested: {e.Uri}");
+			SharedCode.Web.SystemBrowser.OpenBrowser(e.Uri.ToString());
+		}
+
+		/// <summary>
+		/// UnsupportedUriSchemeIdentified event handler for legacy WebView browser
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private async void WebView_UnsupportedUriSchemeIdentified(object sender, WebViewControlUnsupportedUriSchemeIdentifiedEventArgs e)
 		{
-			// Log($"Browser_UnsupportedUriSchemeIdentified: {e.Uri}");
+			// Log($"WebView_UnsupportedUriSchemeIdentified: {e.Uri}");
 			if (e.Uri.Scheme == UnifeedSchemeName)
 			{
 				e.Handled = true;
@@ -208,13 +240,18 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			}
 		}
 
+		/// <summary>
+		/// NavigationStarting event handler for legacy WebView browser
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private async void WebView_NavigationStarting(object sender, WebViewControlNavigationStartingEventArgs e)
 		{
 			// Log($"WebView_NavigationStarting: {e.Uri}");
 			if (e.Uri.Scheme == UnifeedSchemeName)
 			{
 				e.Cancel = true;
-				Log($"Interfaced (through WebViewCmopatible.NavigationStarting)! {e.Uri}");
+				Log($"Interfaced (through WebView.NavigationStarting)! {e.Uri}");
 
 				await UnifeedInterfaced(e.Uri);
 			}
@@ -229,9 +266,14 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			}
 		}
 
+		/// <summary>
+		/// NewWindowRequested event handler for legacy WebView browser
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void WebView_NewWindowRequested(object sender, WebViewControlNewWindowRequestedEventArgs e)
 		{
-			Log($"Browser_NewWindowRequested: {e.Uri}");
+			Log($"WebView_NewWindowRequested: {e.Uri}");
 			SharedCode.Web.SystemBrowser.OpenBrowser(e.Uri.ToString());
 		}
 
@@ -386,8 +428,15 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 
 		private async void Navigate(string url)
 		{
-			await browser.EnsureCoreWebView2Async();
-			browser.CoreWebView2.Navigate(url);
+			if (WebView2Available)
+			{
+				await browser.EnsureCoreWebView2Async();
+				browser.CoreWebView2.Navigate(url);
+			}
+			else
+			{
+				webView1.Navigate(url);
+			}
 		}
 
 		private void btnDownload_Click(object sender, EventArgs e)
@@ -408,76 +457,6 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 
 			SharedCode.Web.SystemBrowser.OpenBrowser(downloadUrl);
 		}
-
-//		private bool IsWebViewVersionInstalled(bool showDownloadUi = false)
-//		{
-//			string versionNo = null;
-//			Version asmVersion = null;
-//			Version ver = null;
-
-//			try
-//			{
-//				versionNo = CoreWebView2Environment.GetAvailableBrowserVersionString();
-
-//				// strip off 'canary' or 'stable' verison
-//				versionNo = StringUtils.ExtractString(versionNo, "", " ", allowMissingEndDelimiter: true)?.Trim();
-//				ver = new Version(versionNo);
-
-//				asmVersion = typeof(CoreWebView2Environment).Assembly.GetName().Version;
-
-//				if (ver.Build >= asmVersion.Build)
-//					return true;
-//			}
-//			catch { }
-
-//			IsActive = false;
-
-//			if (!showDownloadUi)
-//				return false;
-
-
-//			var form = new BrowserMessageBox()
-//			{
-//				Owner = mmApp.Model.Window,
-//				Width = 600,
-//				Height = 440,
-//				Title = "WebView Runtime Installation",
-//			};
-
-//			form.Dispatcher.Invoke(() => form.Icon = new ImageSourceConverter()
-//				.ConvertFromString("pack://application:,,,/WebViewPreviewerAddin;component/icon_32.png") as ImageSource);
-
-//			var markdown = $@"
-//### WebView Runtime not installed or out of Date
-//The Microsoft Edge WebView Runtime is
-//{ (!string.IsNullOrEmpty(versionNo) ?
-//				"out of date\n\nYour Build: " + ver.Build +
-//				"   -   Required Build: " + asmVersion.Build :
-//				"not installed")  }.
-
-//In order to use the Chromium preview you need to install this runtime by downloading from the [Microsoft Download Site](https://developer.microsoft.com/en-us/microsoft-edge/webview2/).
-
-//**Do you want to download and install the Edge WebView Runtime?**
-
-//*<small>clicking **Yes** sends you to the Microsoft download site.  
-//choose the **Evergreen Bootstrapper** download.</small>*";
-
-//			form.ClearButtons();
-//			var yesButton = form.AddButton("Yes", FontAwesomeIcon.CheckCircle, Brushes.Green);
-//			yesButton.Width = 90;
-//			var noButton = form.AddButton("No", FontAwesomeIcon.TimesCircle, Brushes.Firebrick);
-//			noButton.Width = 90;
-//			form.ShowMarkdown(markdown);
-
-
-//			form.ShowDialog();
-//			if (form.ButtonResult == yesButton)
-//			{
-//				mmFileUtils.OpenBrowser("https://developer.microsoft.com/en-us/microsoft-edge/webview2/");
-//			}
-
-//			return false;
-//		}
 
 	}
 }
