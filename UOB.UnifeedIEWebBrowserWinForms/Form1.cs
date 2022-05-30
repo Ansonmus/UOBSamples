@@ -62,7 +62,10 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			try
 			{
 				// Check if WebView2 is available, throws WebView2RuntimeNotFoundException when not found
+				Log($"Check if WebView2 is available");
 				var webViewVersionAvail = CoreWebView2Environment.GetAvailableBrowserVersionString();
+				Log($"WebView2 (Edge) is available with version {webViewVersionAvail}! ");
+
 				WebView2Available = true;
 				// Enable WebView2 form control
 				browser.Enabled = true;
@@ -80,6 +83,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			}
 			catch (WebView2RuntimeNotFoundException)
 			{
+				Log($"WebView2 is NOT available!");
 				// Fallback to legacy WebView form control
 				WebView2Available = false;
 				// Disable WebView2 form control
