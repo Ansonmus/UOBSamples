@@ -8,13 +8,13 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 	using System.Web;
 	using System.Windows.Forms;
 	using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
+	using Microsoft.Web.WebView2.Core;
 	using Newtonsoft.Json;
 	using UOL.SharedCode.Authentication;
 
 	public partial class Form1 : Form
 	{
 		public const string ClientId = "2BA_DEMOAPPS_PKCE";
-
 #if ALPHA
 		public const string AuthorizeBaseUrl = "https://authorize.alpha.2ba.nl";
 		public const string UnifeedBaseUrl = "https://uol-unifeed.alpha.2ba.nl";
@@ -28,8 +28,9 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 		public const string UnifeedBaseUrl = "https://uol-unifeed.2ba.nl";
 		public const string ApiBaseUrlNew = "https://apix.2ba.nl";
 #endif
-		public static bool EmbeddedAuth = true;
 		public const string UnifeedSchemeName = "nl.2ba.uol";
+		public static bool EmbeddedAuth = true;
+		public static bool WebView2Available = false;
 		public static readonly string AuthorizeUrl = $"{AuthorizeBaseUrl}/OAuth/Authorize";
 		public static readonly string AuthorizeTokenUrl = $"{AuthorizeBaseUrl}/OAuth/Token";
 		public static readonly string AuthorizeListenerAddress = EmbeddedAuth ? $"{UnifeedSchemeName}://" : $"http://localhost:43215/"; // Must end with slash
@@ -39,14 +40,14 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 
 		private OAuthToken _currentToken = null;
 		private PKCECode _pkcetemp = null;
-
 		private BBA.UnifeedApi.InterfaceModel _lastRetrievedObject = null;
-
 		private readonly Authentication authService = null;
 
 		public Form1()
 		{
 			InitializeComponent();
+
+			Log($"Application starting");
 
 			authService = new Authentication(new AuthenticationConfig()
 			{
@@ -58,26 +59,65 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 				RequestedScope = "unifeed openid offline_access apix",
 			});
 
-			if (browser != null)
+			try
 			{
-				if (browser.Controls[0] is Microsoft.Toolkit.Forms.UI.Controls.WebView webView)
+				// Check if WebView2 is available, throws WebView2RuntimeNotFoundException when not found
+				Log($"Check if WebView2 is available");
+				var webViewVersionAvail = CoreWebView2Environment.GetAvailableBrowserVersionString();
+				Log($"WebView2 (Edge) is available with version {webViewVersionAvail}! ");
+
+				WebView2Available = true;
+				// Enable WebView2 form control
+				browser.Enabled = true;
+				browser.Visible = true;
+				// Disable legacy WebViewCompatible form control
+				webView1.Enabled = false;
+				webView1.Visible = false;
+
+				browser.EnsureCoreWebView2Async().GetAwaiter().OnCompleted(() =>
 				{
-					webView.UnsupportedUriSchemeIdentified += WebView_UnsupportedUriSchemeIdentified;
-					webView.NewWindowRequested += WebView_NewWindowRequested;
-					webView.NavigationStarting += WebView_NavigationStarting;
-				}
-				else if(browser.Controls[0] is WebBrowser webBrowser)
+					browser.CoreWebView2.Settings.IsStatusBarEnabled = true;
+					browser.CoreWebView2.NavigationStarting += Browser_NavigationStarting;
+					browser.CoreWebView2.NewWindowRequested += Browser_NewWindowRequested;
+				});
+			}
+			catch (WebView2RuntimeNotFoundException)
+			{
+				Log($"WebView2 is NOT available!");
+				// Fallback to legacy WebView form control
+				WebView2Available = false;
+				// Disable WebView2 form control
+				browser.Enabled = false;
+				browser.Visible = false;
+
+				if (webView1 != null)
 				{
-					webBrowser.ScriptErrorsSuppressed = false;
-					browser.NavigationStarting += WebView_NavigationStarting;
+					// Enable legacy WebViewCompatible form control
+					webView1.Enabled = true;
+					webView1.Visible = true;
+					if (webView1.Controls[0] is Microsoft.Toolkit.Forms.UI.Controls.WebView webView)
+					{
+						webView.UnsupportedUriSchemeIdentified += WebView_UnsupportedUriSchemeIdentified;
+						webView.NewWindowRequested += WebView_NewWindowRequested;
+						webView.NavigationStarting += WebView_NavigationStarting;
+					}
+					else if (browser.Controls[0] is WebBrowser webBrowser)
+					{
+						webBrowser.ScriptErrorsSuppressed = false;
+						webView1.NavigationStarting += WebView_NavigationStarting;
+					}
 				}
-				//webView.NavigationCompleted += WebView_NavigationCompleted;
 			}
 		}
 
 		private async void Form1_Load(object sender, EventArgs e)
 		{
-			Log($"Form loaded. Webbrowser type: {this.browser.Controls[0]}");
+			var browserType = browser.ToString();
+			if (!WebView2Available)
+			{
+				browserType = webView1.ToString();
+			}
+			Log($"Form loaded. Webbrowser type: {browserType}");
 			Log($"Starting authentication");
 			await Authenticate();
 		}
@@ -149,10 +189,52 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			return;
 		}
 
+		/// <summary>
+		/// NavigationStarting event handler for WebView2 browser
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private async void Browser_NavigationStarting(object sender, CoreWebView2NavigationStartingEventArgs e)
+		{
+			// Log($"WebView_NavigationStarting: {e.Uri}");
+			var uri = new Uri(e.Uri);
+			if (uri.Scheme == UnifeedSchemeName)
+			{
+				e.Cancel = true;
+				Log($"Interfaced (through WebView2.NavigationStarting)! {e.Uri}");
 
+				await UnifeedInterfaced(uri);
+			}
+			else if (uri.AbsolutePath.EndsWith("account/ForgotPasswordConfirmation", StringComparison.OrdinalIgnoreCase))
+			{
+				e.Cancel = true;
+				await Authenticate();
+				BeginInvoke(new Action(() =>
+				{
+					MessageBox.Show("An email is on it's way to your mailbox with instructions on how to reset your password.", "Password reset requested", MessageBoxButtons.OK);
+				}));
+			}
+		}
+
+		/// <summary>
+		/// NewWindowRequested event handler for WebView2 browser
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Browser_NewWindowRequested(object sender, CoreWebView2NewWindowRequestedEventArgs e)
+		{
+			Log($"Browser_NewWindowRequested: {e.Uri}");
+			SharedCode.Web.SystemBrowser.OpenBrowser(e.Uri.ToString());
+		}
+
+		/// <summary>
+		/// UnsupportedUriSchemeIdentified event handler for legacy WebView browser
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private async void WebView_UnsupportedUriSchemeIdentified(object sender, WebViewControlUnsupportedUriSchemeIdentifiedEventArgs e)
 		{
-			// Log($"Browser_UnsupportedUriSchemeIdentified: {e.Uri}");
+			// Log($"WebView_UnsupportedUriSchemeIdentified: {e.Uri}");
 			if (e.Uri.Scheme == UnifeedSchemeName)
 			{
 				e.Handled = true;
@@ -162,13 +244,18 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			}
 		}
 
+		/// <summary>
+		/// NavigationStarting event handler for legacy WebView browser
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private async void WebView_NavigationStarting(object sender, WebViewControlNavigationStartingEventArgs e)
 		{
 			// Log($"WebView_NavigationStarting: {e.Uri}");
 			if (e.Uri.Scheme == UnifeedSchemeName)
 			{
 				e.Cancel = true;
-				Log($"Interfaced (through WebViewCmopatible.NavigationStarting)! {e.Uri}");
+				Log($"Interfaced (through WebView.NavigationStarting)! {e.Uri}");
 
 				await UnifeedInterfaced(e.Uri);
 			}
@@ -183,9 +270,14 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			}
 		}
 
+		/// <summary>
+		/// NewWindowRequested event handler for legacy WebView browser
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void WebView_NewWindowRequested(object sender, WebViewControlNewWindowRequestedEventArgs e)
 		{
-			Log($"Browser_NewWindowRequested: {e.Uri}");
+			Log($"WebView_NewWindowRequested: {e.Uri}");
 			SharedCode.Web.SystemBrowser.OpenBrowser(e.Uri.ToString());
 		}
 
@@ -338,9 +430,17 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			await Authenticate();
 		}
 
-		private void Navigate(string url)
+		private async void Navigate(string url)
 		{
-			browser.Navigate(url);
+			if (WebView2Available)
+			{
+				await browser.EnsureCoreWebView2Async();
+				browser.CoreWebView2.Navigate(url);
+			}
+			else
+			{
+				webView1.Navigate(url);
+			}
 		}
 
 		private void btnDownload_Click(object sender, EventArgs e)
@@ -361,5 +461,6 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 
 			SharedCode.Web.SystemBrowser.OpenBrowser(downloadUrl);
 		}
+
 	}
 }
