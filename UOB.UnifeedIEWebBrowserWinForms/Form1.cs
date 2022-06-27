@@ -144,31 +144,31 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 				{
 					(string url, PKCECode pkcecodes) x = authService.BuildAuthorizationCodeUrl();
 					_pkcetemp = x.pkcecodes;
-					Navigate(x.url);
+					await Navigate(x.url);
 				}
 				else
 				{
 					_currentToken = await authService.Authenticate();
 					_currentToken.Environment = AuthorizeBaseUrl;
 					TokenRepository.StoreToken(_currentToken);
-					AuthenticationComplete();
+					await AuthenticationCompleteAsync();
 				}
 			}
 			else // Token set and not expired
 			{
-				AuthenticationComplete();
+				await AuthenticationCompleteAsync();
 			}
 		}
 
-		private void AuthenticationComplete()
+		private async Task AuthenticationCompleteAsync()
 		{
 			Log($"Authentication complete, starting Unifeed");
-			StartUnifeed();
+			await StartUnifeedAsync();
 		}
 
-		private void StartUnifeed(long? interfaceObjectId = null)
+		private async Task StartUnifeedAsync(long? interfaceObjectId = null)
 		{
-			var accessToken = _currentToken.AccessToken;
+			var accessToken = _currentToken?.AccessToken;
 
 			var url = SharedCode.Web.HttpExtensions.Build(UnifeedBaseUrl, new NameValueCollection()
 			{
@@ -185,7 +185,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 
 			Log($"Starting Unifeed with url: {url}");
 
-			Navigate(url);
+			await Navigate(url);
 			return;
 		}
 
@@ -291,7 +291,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 				_currentToken = authService.RetrieveToken(code, _pkcetemp.CodeVerifier);
 				_currentToken.Environment = AuthorizeBaseUrl;
 				TokenRepository.StoreToken(_currentToken);
-				AuthenticationComplete();
+				await AuthenticationCompleteAsync();
 				return;
 			}
 
@@ -318,7 +318,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 				RefreshToken();
 			}
 
-			StartUnifeed(); // browser.Refresh();
+			await StartUnifeedAsync(); // browser.Refresh();
 		}
 
 		private void UnifeedInterfaceInterface(string data)
@@ -415,22 +415,22 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			Log($"Retrieved interface id: {output}");
 
 			var lastInterfaceId = long.Parse(output);
-			StartUnifeed(lastInterfaceId);
+			await StartUnifeedAsync(lastInterfaceId);
 		}
 
-		private void tbnStartClear_Click(object sender, EventArgs e)
+		private async void tbnStartClear_Click(object sender, EventArgs e)
 		{
-			StartUnifeed();
+			await StartUnifeedAsync();
 		}
 
 		private async void btnReset_Click(object sender, EventArgs e)
 		{
-			Navigate("");
+			await Navigate(UnifeedBaseUrl);
 			TokenRepository.StoreToken(null);
 			await Authenticate();
 		}
 
-		private async void Navigate(string url)
+		private async Task Navigate(string url, bool ensureWv2Created = true)
 		{
 			if (WebView2Available)
 			{
@@ -445,7 +445,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 
 		private void btnDownload_Click(object sender, EventArgs e)
 		{
-			var accessToken = _currentToken.AccessToken;
+			var accessToken = _currentToken?.AccessToken;
 
 			var downloadUrl = SharedCode.Web.HttpExtensions.Build(UnifeedBaseUrl, new NameValueCollection()
 			{
