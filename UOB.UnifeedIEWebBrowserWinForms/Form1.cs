@@ -1,9 +1,11 @@
-﻿//#define BETA
+﻿#define BETA
 namespace UOL.UnifeedIEWebBrowserWinForms
 {
 	using System;
 	using System.Collections.Generic;
 	using System.Collections.Specialized;
+	using System.Linq;
+	using System.Text;
 	using System.Threading.Tasks;
 	using System.Web;
 	using System.Windows.Forms;
@@ -11,6 +13,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 	using Microsoft.Web.WebView2.Core;
 	using Newtonsoft.Json;
 	using UOL.SharedCode.Authentication;
+	using static System.Net.Mime.MediaTypeNames;
 
 	public partial class Form1 : Form
 	{
@@ -309,6 +312,10 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			{
 				await UnifeedInterfaceProductSelection(data);
 			}
+			else if ("composition".Equals(interfaceBaseInfo.Type, StringComparison.OrdinalIgnoreCase))
+			{
+				await UnifeedInterfaceComposition(data);
+			}
 
 			// Restart situation
 			if (_currentToken.IsExpired&& !string.IsNullOrEmpty(_currentToken.RefreshToken))
@@ -358,11 +365,97 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			var interfaceObjectJson = await SharedCode.WebService.WebServiceHelper.PostJson(url, _currentToken.AccessToken, selectionListRequestString);
 
 			// Deserialize
-			var productlist = JsonConvert.DeserializeObject<List<BBA.UnifeedApi.ProductModel>>(interfaceObjectJson);
+			var productlist = JsonConvert.DeserializeObject<List<BBA.UnifeedApi.ProductModel2>>(interfaceObjectJson);
 			Log($"Retrieved productselection object. Total products in list: {productlist.Count}");
 
 			// Interface handling
 			btnStartWithLastObject.Enabled = false;
+		}
+
+		private async Task UnifeedInterfaceComposition(string data)
+		{
+			var interfaceInfo = JsonConvert.DeserializeAnonymousType(data, new { Id = 0, Type = (string)null, DisableFields = (ICollection<BBA.UnifeedApi.ProductAttribute>)null });
+			Log($"Retrieved id for interface object: {interfaceInfo.Id}. Type: {interfaceInfo.Type}");
+
+			// Build URL to call ProductSelection Service
+			var url = SharedCode.Web.HttpExtensions.Build($"{ApiBaseUrlNew}/api/v1/unifeed/UobProduct/FromComposition").ToString();
+
+			var selectionListRequest = new BBA.UnifeedApi.CompositionParms()
+			{
+				CompositionId = interfaceInfo.Id,
+				DisableFields = interfaceInfo.DisableFields,
+				Languagecode = BBA.UnifeedApi.Languagecode.NL
+			};
+			var selectionListRequestString = JsonConvert.SerializeObject(selectionListRequest);
+
+			// Call the service
+			Log($"Calling service url: {url}");
+			var interfaceObjectJson = await SharedCode.WebService.WebServiceHelper.PostJson(url, _currentToken.AccessToken, selectionListRequestString);
+
+			// Deserialize
+			var productlist = JsonConvert.DeserializeObject<List<BBA.UnifeedApi.ProductModel2>>(interfaceObjectJson);
+
+			Log($"Retrieved composition object. Distinct products in list: {productlist.Count}. Total positions: {productlist.SelectMany(c => c.CompositionPositions).Count()}");
+			var matrixrepresentation = BuildMatrixRepresentation(productlist);
+			Log(matrixrepresentation);
+
+			// Interface handling
+			btnStartWithLastObject.Enabled = false;
+		}
+		
+		private string BuildMatrixRepresentation(List<BBA.UnifeedApi.ProductModel2> productlist)
+		{
+			var data2 = productlist.SelectMany(c => c.CompositionPositions.Select(p => new { c.ProductCode, p.Level, p.Position, p.PositionSpan, p.Offset })).OrderBy(z => z.Level).OrderBy(l => l.Position);
+
+			var ml = data2.Select(c => c.ProductCode).Distinct().Max(x => x.Value.Length);
+
+			var str = new StringBuilder();
+			str.AppendLine();
+			foreach (var row in data2.Select(y => y.Level).Distinct().OrderBy(z => z))
+			{
+				if (row == 1)
+				{
+					foreach (var pos in data2.Select(y => y.Position).Distinct().OrderBy(z => z))
+					{
+						if (pos == 1)
+						{
+							str.Append($"[\\]");
+						}
+						var tt = $"{string.Concat(Enumerable.Repeat(" ", ml))}{pos}";
+						str.Append($"[{tt.Substring(tt.Length - ml, ml)}]");
+						;
+					}
+					str.AppendLine();
+				}
+
+				str.Append($"[{row}]");
+
+				var spancntr = 0;
+				foreach (var pos in data2.Select(y => y.Position).Distinct().OrderBy(z => z))
+				{
+					if (spancntr > 0)
+					{
+						spancntr--;
+						continue;
+					}
+					var pc = data2.FirstOrDefault(x => x.Level == row && x.Position == pos)?.ProductCode.Value;
+						var span = data2.FirstOrDefault(x => x.Level == row && x.Position == pos)?.PositionSpan ?? 1;
+						var tt = $"{string.Concat(Enumerable.Repeat(string.Concat(Enumerable.Repeat(" ", ml)), span))}{pc}";
+						var fl = ml;
+						if (span > 1)
+						{
+							tt = string.Concat(Enumerable.Repeat("  ", span)) + tt;
+							fl = ((span-1) * 2) + span * ml;
+							spancntr = span;
+						}
+
+						str.Append($"[{tt.Substring(tt.Length - fl, fl)}]");
+				}
+
+				str.AppendLine();
+			}
+
+			return str.ToString();
 		}
 
 		private void Log(string tekst)

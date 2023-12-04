@@ -1,0 +1,4678 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "ApiX",
+    "description": "2BA webservices.",
+    "contact": {
+      "name": "2BA",
+      "email": "info@2ba.nl"
+    },
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://apix.beta.2ba.nl"
+    }
+  ],
+  "paths": {
+    "/api/v1/etim/ClassCombined/{combinedCode}": {
+      "get": {
+        "tags": [
+          "Etim"
+        ],
+        "summary": "Get a combined ETIM regular and Modelling Class.",
+        "parameters": [
+          {
+            "name": "combinedCode",
+            "in": "path",
+            "description": "Combined ETIM Class/Modelling code. eg: \"EC999999MC999999\"",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Combined ETIM Class/Modelling code. eg: \"EC999999MC999999\"",
+              "nullable": true,
+              "example": "EC010732MC000046"
+            }
+          },
+          {
+            "name": "languagecode",
+            "in": "query",
+            "description": "Languagecode",
+            "schema": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Languagecode"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Combined ETIM/Modelling Class: ApiX.V1.Models.Etim.EtimClassCombined.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Etim.EtimClassCombined"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Etim.EtimClassCombined"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Etim.EtimClassCombined"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error, missing/invalid input."
+          },
+          "401": {
+            "description": "Not authorized."
+          },
+          "500": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/api/v1/etim/ClassCombined/List": {
+      "post": {
+        "tags": [
+          "Etim"
+        ],
+        "summary": "Get a list of combined ETIM regular and Modelling Classes.",
+        "requestBody": {
+          "description": "Input parameter: ApiX.V1.Models.Etim.ListCombinedInputModel",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Etim.ListCombinedInputModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Etim.ListCombinedInputModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Etim.ListCombinedInputModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Etim.ListCombinedInputModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "List of objects of type: ApiX.V1.Models.Etim.EtimClassCombined.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApiX.V1.Models.Etim.EtimClassCombined"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApiX.V1.Models.Etim.EtimClassCombined"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApiX.V1.Models.Etim.EtimClassCombined"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error, missing/invalid input."
+          },
+          "401": {
+            "description": "Not authorized."
+          },
+          "500": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/api/v1/etim/Class/{code}": {
+      "get": {
+        "tags": [
+          "Etim"
+        ],
+        "summary": "Get a class.",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "description": "ETIM Class code. eg: \"EC999999\"",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "ETIM Class code. eg: \"EC999999\"",
+              "nullable": true,
+              "example": "EC000003"
+            }
+          },
+          {
+            "name": "languagecode",
+            "in": "query",
+            "description": "Languagecode",
+            "schema": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Languagecode"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ETIM Class: ApiX.V1.Models.Etim.EtimClass.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Etim.EtimClass"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Etim.EtimClass"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Etim.EtimClass"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error, missing/invalid input."
+          },
+          "401": {
+            "description": "Not authorized."
+          },
+          "500": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/api/v1/etim/Class/Suggest": {
+      "post": {
+        "tags": [
+          "Etim"
+        ],
+        "summary": "Autosuggest classes.",
+        "requestBody": {
+          "description": "Input: : ApiX.V1.Models.Etim.EntitySearchInput",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Etim.EntitySearchInput"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Etim.EntitySearchInput"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Etim.EntitySearchInput"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Etim.EntitySearchInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Output: ApiX.V1.Models.Etim.EntitySearchOutput.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Etim.EntitySearchOutput"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Etim.EntitySearchOutput"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Etim.EntitySearchOutput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error, missing/invalid input."
+          },
+          "401": {
+            "description": "Not authorized."
+          },
+          "500": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/api/v1/Product/ThumbNail": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Get the thumbnail (gif) of a product.",
+        "parameters": [
+          {
+            "name": "gln",
+            "in": "query",
+            "description": "The gln of the product",
+            "schema": {
+              "type": "string",
+              "description": "The gln of the product",
+              "nullable": true,
+              "example": "4017332000000"
+            }
+          },
+          {
+            "name": "productcode",
+            "in": "query",
+            "description": "The productcode of the product defined by the manufacturer",
+            "schema": {
+              "type": "string",
+              "description": "The productcode of the product defined by the manufacturer",
+              "nullable": true,
+              "example": "222-413"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "thumbnail with contentype: image/gif"
+          },
+          "404": {
+            "description": "thumbnail not found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/api/v1/Product/{id}": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Get one specific product, specified by the identifier in the language specified by the languagecode.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Product Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "Product Id",
+              "format": "int64",
+              "example": 95064565
+            }
+          },
+          {
+            "name": "languagecode",
+            "in": "query",
+            "description": "Languagecode",
+            "schema": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Languagecode"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product found: ApiX.V1.Models.Product.ProductModel.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Product.ProductModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Product.ProductModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Product.ProductModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error, missing/invalid input.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized."
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error."
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Product/GetOnGlnAndProductCode": {
+      "post": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Get one specific product, specified by the identifier in the language specified by the languagecode.",
+        "requestBody": {
+          "description": "Object of type ApiX.V1.Models.Product.GlnProductCodeModel.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Product.GlnProductCodeModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Product.GlnProductCodeModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Product.GlnProductCodeModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Product.GlnProductCodeModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Product found: ApiX.V1.Models.Product.ProductModel.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Product.ProductModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Product.ProductModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Product.ProductModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error, missing/invalid input.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized."
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error."
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/Product/Search": {
+      "post": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Search products.",
+        "requestBody": {
+          "description": "Object of type ApiX.V1.Models.Product.SearchParms.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Product.SearchParms"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Product.SearchParms"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Product.SearchParms"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Product.SearchParms"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Search result: ApiX.V1.Models.Product.SearchResult.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Product.SearchResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Product.SearchResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Product.SearchResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error, missing/invalid input.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized."
+          },
+          "500": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/api/v1/Product/List": {
+      "post": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Get List of products specified by the identifiers of the products in the language specified by the languagecode.",
+        "requestBody": {
+          "description": "Object of type ApiX.V1.Models.Product.ListParms.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Product.ListParms"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Product.ListParms"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Product.ListParms"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Product.ListParms"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "List of products: ApiX.V1.Models.Product.ProductModel.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApiX.V1.Models.Product.ProductModel"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApiX.V1.Models.Product.ProductModel"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApiX.V1.Models.Product.ProductModel"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error, missing/invalid input.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized."
+          },
+          "500": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/api/v1/Product/Filters": {
+      "post": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Get a list of available filters for the given search input.\r\nIn case of an AlphaNumeric filter, return top 20 values",
+        "requestBody": {
+          "description": "Object of type ApiX.V1.Models.Product.SearchAggregationParms.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Product.SearchAggregationParms"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Product.SearchAggregationParms"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Product.SearchAggregationParms"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Product.SearchAggregationParms"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Search result: List of ApiX.V1.Models.Product.Aggregation.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApiX.V1.Models.Product.Aggregation"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApiX.V1.Models.Product.Aggregation"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApiX.V1.Models.Product.Aggregation"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error, missing/invalid input.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized."
+          },
+          "500": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/api/v1/Product/FeatureFilters": {
+      "post": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Get a list of available feature filters for the given search input.\r\nIn case of an AlphaNumeric filter, return top 20 values",
+        "requestBody": {
+          "description": "Object of type ApiX.V1.Models.Product.SearchAggregationParms.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Product.SearchAggregationParms"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Product.SearchAggregationParms"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Product.SearchAggregationParms"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Product.SearchAggregationParms"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Search result: List of ApiX.V1.Models.Product.Aggregation.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApiX.V1.Models.Product.Aggregation"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApiX.V1.Models.Product.Aggregation"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApiX.V1.Models.Product.Aggregation"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error, missing/invalid input.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized."
+          },
+          "500": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/api/v1/Product/FiltersForField": {
+      "post": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Get ALL values for ONE specific FilterField for the given search input.",
+        "parameters": [
+          {
+            "name": "field",
+            "in": "query",
+            "description": "Object of type ApiX.V1.Models.Filtercode. The filter field for which to return all values",
+            "schema": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Filtercode"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Object of type ApiX.V1.Models.Product.SearchAggregationParms.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Product.SearchAggregationParms"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Product.SearchAggregationParms"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Product.SearchAggregationParms"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Product.SearchAggregationParms"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Search result ApiX.V1.Models.Product.Aggregation.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Product.Aggregation"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Product.Aggregation"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Product.Aggregation"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error, missing/invalid input."
+          },
+          "401": {
+            "description": "Not authorized."
+          },
+          "500": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/api/v1/unifeed/Composition/{id}": {
+      "get": {
+        "tags": [
+          "Unifeed"
+        ],
+        "summary": "Get a Composition of products with positions.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Composition id.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "Composition id.",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Composition found, returns list with Ids.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiGateway.V1.Models.Unifeed.Composition.CompositionModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiGateway.V1.Models.Unifeed.Composition.CompositionModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiGateway.V1.Models.Unifeed.Composition.CompositionModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error, missing/invalid input.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized."
+          },
+          "404": {
+            "description": "Not found. Composition not found by this id",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error."
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/unifeed/Composition": {
+      "post": {
+        "tags": [
+          "Unifeed"
+        ],
+        "summary": "Add a Composition.",
+        "requestBody": {
+          "description": "The composition containing products and their positions'.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiGateway.V1.Models.Unifeed.Composition.CompositionModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiGateway.V1.Models.Unifeed.Composition.CompositionModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiGateway.V1.Models.Unifeed.Composition.CompositionModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiGateway.V1.Models.Unifeed.Composition.CompositionModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Id of the composition.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error, missing/invalid input.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized."
+          },
+          "500": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/api/v1/unifeed/SelectionList/{id}": {
+      "get": {
+        "tags": [
+          "Unifeed"
+        ],
+        "summary": "Get a selection list of Ids by list id.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Selection List Id.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "Selection List Id.",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Selection List found, returns list with Ids.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.SelectionListModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.SelectionListModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.SelectionListModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error, missing/invalid input.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized."
+          },
+          "404": {
+            "description": "Not found. Selectionlist not found by this id",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error."
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/unifeed/SelectionList": {
+      "post": {
+        "tags": [
+          "Unifeed"
+        ],
+        "summary": "Add a Selection List of Ids.",
+        "requestBody": {
+          "description": "List of productIds'.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.SelectionListModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.SelectionListModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.SelectionListModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.SelectionListModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Id of the stored List.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error, missing/invalid input.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized."
+          },
+          "500": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/api/v1/unifeed/UobInterface/{id}": {
+      "get": {
+        "tags": [
+          "Unifeed"
+        ],
+        "summary": "Get a specific object, used for interfacing with unifeed.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unifeed UOB Interface Object Id.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "Unifeed UOB Interface Object Id.",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Unifeed UOB Interface object found: ApiX.V1.Models.Unifeed.InterfaceModel.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.InterfaceModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.InterfaceModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.InterfaceModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error, missing/invalid input.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized."
+          },
+          "500": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/api/v1/unifeed/UobInterface": {
+      "post": {
+        "tags": [
+          "Unifeed"
+        ],
+        "summary": "Add an UOB Interface object.",
+        "requestBody": {
+          "description": "Object of type ApiX.V1.Models.Unifeed.InterfaceModel.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.InterfaceModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.InterfaceModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.InterfaceModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.InterfaceModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Id of the stored object.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error, missing/invalid input.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized."
+          },
+          "500": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/api/v1/unifeed/UobProduct/{id}": {
+      "get": {
+        "tags": [
+          "Unifeed"
+        ],
+        "summary": "Get a UOB product by normal product id.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Product Id.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "Product Id.",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "languagecode",
+            "in": "query",
+            "description": "Languagecode. e.g. \"NL\"",
+            "schema": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Languagecode"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "UOB Product: ApiX.V1.Models.Unifeed.Uob.ProductModel.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.ProductModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.ProductModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.ProductModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error, missing/invalid input.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized."
+          },
+          "500": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/api/v1/unifeed/UobProduct/GetOnGlnAndProductCode": {
+      "post": {
+        "tags": [
+          "Unifeed"
+        ],
+        "summary": "Get a UOB product by normal product id.",
+        "requestBody": {
+          "description": "Object of type ApiX.V1.Models.Unifeed.GlnProductCodeModel.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.GlnProductCodeModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.GlnProductCodeModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.GlnProductCodeModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.GlnProductCodeModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "UOB Product: ApiX.V1.Models.Unifeed.Uob.ProductModel.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.ProductModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.ProductModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.ProductModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error, missing/invalid input.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized."
+          },
+          "500": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/api/v1/unifeed/UobProduct/ByCombinedCode/{combinedCode}": {
+      "get": {
+        "tags": [
+          "Unifeed"
+        ],
+        "summary": "Get a UOB product by combined ETIM regular class code and ETIM modelling class code.",
+        "parameters": [
+          {
+            "name": "combinedCode",
+            "in": "path",
+            "description": "Dombined ETIM regular class code and ETIM modelling class code, e.g. \"EC00001MC00003\"",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Dombined ETIM regular class code and ETIM modelling class code, e.g. \"EC00001MC00003\"",
+              "nullable": true
+            }
+          },
+          {
+            "name": "languagecode",
+            "in": "query",
+            "description": "Languagecode, e.g. \"NL\"",
+            "schema": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Languagecode"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "UOB Product: ApiX.V1.Models.Unifeed.Uob.ProductModel.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.ProductModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.ProductModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.ProductModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error, missing/invalid input.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized."
+          },
+          "500": {
+            "description": "Unexpected error."
+          }
+        }
+      }
+    },
+    "/api/v1/unifeed/UobProduct/List": {
+      "post": {
+        "tags": [
+          "Unifeed"
+        ],
+        "summary": "Get a list of UOB products by the specified Ids.false Return products in the specified language.",
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.ListParms"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.ListParms"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.ListParms"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.ListParms"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.ProductModel"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.ProductModel"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.ProductModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/unifeed/UobProduct/FromSelectionList": {
+      "post": {
+        "tags": [
+          "Unifeed"
+        ],
+        "summary": "Get a list of UOB products based on a previous stored selection of Ids. Return products in the specified language.",
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.SelectionListParms"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.SelectionListParms"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.SelectionListParms"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.SelectionListParms"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.ProductModel"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.ProductModel"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.ProductModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/unifeed/UobProduct/FromComposition": {
+      "post": {
+        "tags": [
+          "Unifeed"
+        ],
+        "summary": "Get a list of UOB products based on a previous stored composition (id). Return products in the specified language.",
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.CompositionParms"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.CompositionParms"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.CompositionParms"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.CompositionParms"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.ProductModel"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.ProductModel"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.ProductModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApiX.V1.Models.Languagecode": {
+        "enum": [
+          "EN",
+          "NL",
+          "FR",
+          "DE"
+        ],
+        "type": "string",
+        "description": "Languagecode"
+      },
+      "ApiX.V1.Models.ChangeCode": {
+        "enum": [
+          "Unchanged",
+          "WillBeChanged",
+          "New",
+          "Deleted",
+          "WillBeDeleted"
+        ],
+        "type": "string",
+        "description": "ETIM Changecode"
+      },
+      "ApiX.V1.Models.Etim.EtimClassBase": {
+        "required": [
+          "code",
+          "isModelling",
+          "version"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "maxLength": 8,
+            "minLength": 8,
+            "type": "string",
+            "description": "ETIM Class Code e.g. \"EC000001\", \"MC000001\""
+          },
+          "version": {
+            "type": "integer",
+            "description": "ETIM Class Version e.g. 4",
+            "format": "int32"
+          },
+          "changeCode": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.ChangeCode"
+          },
+          "description": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "description": "ETIM Class Description in the requested language e.g. \"Busbar terminal\"",
+            "nullable": true
+          },
+          "synonyms": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "ETIM Class Synonyms in the requested language e.g. [\"Busbar terminal\", \"Cable clamp\", \"Clamp\"]",
+            "nullable": true
+          },
+          "isModelling": {
+            "type": "boolean",
+            "description": "This is a modelling class e.g. true, false"
+          },
+          "dimensionalDrawingUrl": {
+            "maxLength": 512,
+            "minLength": 1,
+            "type": "string",
+            "description": "Url to the dimensional drawing PDF (Modelling class only). e.g. \"https://prod.etim-international.com/CRL/modelling/MC000001.pdf\"",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiX.V1.Models.Featuretype": {
+        "enum": [
+          "A",
+          "N",
+          "R",
+          "L",
+          "C",
+          "M"
+        ],
+        "type": "string",
+        "description": "Feature type, Feature values differ depending on the feature type"
+      },
+      "ApiX.V1.Models.Etim.EtimUnit": {
+        "required": [
+          "code"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "maxLength": 8,
+            "minLength": 8,
+            "type": "string",
+            "description": "ETIM Unit Code e.g. \"EU000002\""
+          },
+          "description": {
+            "maxLength": 60,
+            "minLength": 1,
+            "type": "string",
+            "description": "ETIM Unit Description in the requested language e.g. \"Hectopascal\"",
+            "nullable": true
+          },
+          "abbreviation": {
+            "maxLength": 5,
+            "minLength": 1,
+            "type": "string",
+            "description": "ETIM Unit Abbreviation in the requested language e.g. \"hPa\"",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiX.V1.Models.Etim.EtimCategory": {
+        "required": [
+          "code"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "maxLength": 8,
+            "minLength": 8,
+            "type": "string",
+            "description": "ETIM Category Code e.g. \"CA000005\""
+          },
+          "description": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "description": "ETIM Category Description in the requested language e.g. \"Aansluiting 2\"",
+            "nullable": true
+          },
+          "orderNumber": {
+            "type": "integer",
+            "description": "ETIM Class-Feature-Category OrderNumber, can be used for sorting. e.g. 4",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "ETIM Category"
+      },
+      "ApiX.V1.Models.Etim.EtimValueCombined": {
+        "required": [
+          "code"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "maxLength": 8,
+            "minLength": 8,
+            "type": "string",
+            "description": "ETIM Value Code e.g. \"EV000005\""
+          },
+          "description": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "description": "ETIM Value Description in the requested language e.g. \"Thread holding\"",
+            "nullable": true
+          },
+          "isRegular": {
+            "type": "boolean",
+            "description": "When used in combined class, isRegular tells if this value was part of the regular ETIM Class",
+            "nullable": true
+          },
+          "isModelling": {
+            "type": "boolean",
+            "description": "When used in combined class, isModelling tells if this value was part of the Modelling Class",
+            "nullable": true
+          },
+          "orderNumberRegular": {
+            "type": "integer",
+            "description": "ETIM Class-Feature-Value OrderNumber, can be used for sorting. e.g. 3",
+            "format": "int32",
+            "nullable": true
+          },
+          "orderNumberModelling": {
+            "type": "integer",
+            "description": "ETIM Class-Feature-Value OrderNumber, can be used for sorting. e.g. 3",
+            "format": "int32",
+            "nullable": true
+          },
+          "irrelevantFeaturesInPort": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List with featurecodes within this class/feature/portcode that are irrelevant when choosing this value",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "ETIM Value"
+      },
+      "ApiX.V1.Models.Etim.EtimFeatureCombined": {
+        "required": [
+          "code"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "maxLength": 8,
+            "minLength": 8,
+            "type": "string",
+            "description": "ETIM Feature Code e.g. \"EF000001\""
+          },
+          "description": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "description": "ETIM Feature Description in the requested language e.g. \"Nominal current\"",
+            "nullable": true
+          },
+          "portCode": {
+            "type": "integer",
+            "description": "ETIM Feature Portcode, only applicable for modelling classes. e.g. 2\r\nDefaults to 0 for default ETIM Classes\r\nMakes the feature unique together with ETIM Feature code",
+            "format": "int32"
+          },
+          "type": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Featuretype"
+          },
+          "unit": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Etim.EtimUnit"
+          },
+          "unitVariableAxis": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Etim.EtimUnit"
+          },
+          "dimensionalDrawingCode": {
+            "maxLength": 5,
+            "minLength": 1,
+            "type": "string",
+            "description": "ETIM Class-Feature Dimensional Drawing Code, references the Class Dimensional Drawing",
+            "nullable": true
+          },
+          "isRegular": {
+            "type": "boolean",
+            "description": "When used in combined class, isRegular tells if this features was part of the regular ETIM Class",
+            "nullable": true
+          },
+          "isModelling": {
+            "type": "boolean",
+            "description": "When used in combined class, isModelling tells if this features was part of the Modelling Class",
+            "nullable": true
+          },
+          "category": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Etim.EtimCategory"
+          },
+          "orderNumberRegular": {
+            "type": "integer",
+            "description": "ETIM Class-Feature OrderNumber, can be used for sorting. e.g. 3",
+            "format": "int32",
+            "nullable": true
+          },
+          "orderNumberModelling": {
+            "type": "integer",
+            "description": "ETIM Class-Feature OrderNumber, can be used for sorting. e.g. 3",
+            "format": "int32",
+            "nullable": true
+          },
+          "changeCodeRegular": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.ChangeCode"
+          },
+          "changeCodeModelling": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.ChangeCode"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Etim.EtimValueCombined"
+            },
+            "description": "A list with ETIM Class-Feature-Values",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "ETIM Feature"
+      },
+      "ApiX.V1.Models.Etim.EtimClassCombined": {
+        "type": "object",
+        "properties": {
+          "etimClass": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Etim.EtimClassBase"
+          },
+          "modellingClass": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Etim.EtimClassBase"
+          },
+          "features": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Etim.EtimFeatureCombined"
+            },
+            "description": "List of combined etim and modelling features",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Combined ETIM and Modelling class"
+      },
+      "ApiX.V1.Models.Etim.ListCombinedInputModel": {
+        "required": [
+          "languagecode"
+        ],
+        "type": "object",
+        "properties": {
+          "languagecode": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Languagecode"
+          },
+          "combinedIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Combined Id. Concatenated EC-code, MC-code, eg EC000003MC000002",
+            "nullable": true
+          },
+          "excludeFeatures": {
+            "type": "boolean",
+            "description": "Exclude features, default false. For performance reasons, you can set this to true."
+          },
+          "excludeSynonyms": {
+            "type": "boolean",
+            "description": "Exclude synonyms, default false. For performance reasons, you can set this to true."
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiX.V1.Models.Etim.EtimValue": {
+        "required": [
+          "code"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "maxLength": 8,
+            "minLength": 8,
+            "type": "string",
+            "description": "ETIM Value Code e.g. \"EV000005\""
+          },
+          "description": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "description": "ETIM Value Description in the requested language e.g. \"Thread holding\"",
+            "nullable": true
+          },
+          "orderNumber": {
+            "type": "integer",
+            "description": "ETIM Class-Feature-Value OrderNumber, can be used for sorting. e.g. 4",
+            "format": "int32"
+          },
+          "irrelevantFeaturesInPort": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List with featurecodes within this class/feature/portcode that are irrelevant when choosing this value",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "ETIM Value"
+      },
+      "ApiX.V1.Models.Etim.EtimFeature": {
+        "required": [
+          "code"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "maxLength": 8,
+            "minLength": 8,
+            "type": "string",
+            "description": "ETIM Feature Code e.g. \"EF000001\""
+          },
+          "description": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "description": "ETIM Feature Description in the requested language e.g. \"Nominal current\"",
+            "nullable": true
+          },
+          "portCode": {
+            "type": "integer",
+            "description": "ETIM Feature Portcode, only applicable for modelling classes. e.g. 2\r\nDefaults to 0 for default ETIM Classes\r\nMakes the feature unique together with ETIM Feature code",
+            "format": "int32"
+          },
+          "type": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Featuretype"
+          },
+          "unit": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Etim.EtimUnit"
+          },
+          "unitVariableAxis": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Etim.EtimUnit"
+          },
+          "dimensionalDrawingCode": {
+            "maxLength": 5,
+            "minLength": 1,
+            "type": "string",
+            "description": "ETIM Class-Feature Dimensional Drawing Code, references the Class Dimensional Drawing",
+            "nullable": true
+          },
+          "isRegular": {
+            "type": "boolean",
+            "description": "When used in combined class, isRegular tells if this features was part of the regular ETIM Class",
+            "nullable": true
+          },
+          "isModelling": {
+            "type": "boolean",
+            "description": "When used in combined class, isModelling tells if this features was part of the Modelling Class",
+            "nullable": true
+          },
+          "category": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Etim.EtimCategory"
+          },
+          "orderNumber": {
+            "type": "integer",
+            "description": "ETIM Class-Feature OrderNumber, can be used for sorting. e.g. 3",
+            "format": "int32"
+          },
+          "changeCode": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.ChangeCode"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Etim.EtimValue"
+            },
+            "description": "A list with ETIM Class-Feature-Values",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "ETIM Feature"
+      },
+      "ApiX.V1.Models.Etim.EtimClass": {
+        "required": [
+          "code",
+          "isModelling",
+          "version"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "maxLength": 8,
+            "minLength": 8,
+            "type": "string",
+            "description": "ETIM Class Code e.g. \"EC000001\", \"MC000001\""
+          },
+          "version": {
+            "type": "integer",
+            "description": "ETIM Class Version e.g. 4",
+            "format": "int32"
+          },
+          "changeCode": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.ChangeCode"
+          },
+          "description": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "description": "ETIM Class Description in the requested language e.g. \"Busbar terminal\"",
+            "nullable": true
+          },
+          "synonyms": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "ETIM Class Synonyms in the requested language e.g. [\"Busbar terminal\", \"Cable clamp\", \"Clamp\"]",
+            "nullable": true
+          },
+          "isModelling": {
+            "type": "boolean",
+            "description": "This is a modelling class e.g. true, false"
+          },
+          "dimensionalDrawingUrl": {
+            "maxLength": 512,
+            "minLength": 1,
+            "type": "string",
+            "description": "Url to the dimensional drawing PDF (Modelling class only). e.g. \"https://prod.etim-international.com/CRL/modelling/MC000001.pdf\"",
+            "nullable": true
+          },
+          "features": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Etim.EtimFeature"
+            },
+            "description": "List of features",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiX.V1.Models.Etim.FilterModel": {
+        "required": [
+          "values"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Filter code, eg: \"Release\", \"Group\", \"Class\", \"Feature\", \"Value\"",
+            "nullable": true
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of filter values for the specified filte code, eg:\r\nRelease values: \"DYNAMIC\", \"ETIM-7.0\", \"ETIM-6.0\", \"ETIM-5.0\", \"ETIM-4.0\" --> Only applicable to classes\r\nGroup values: \"EG000001\", \"EG000002\" etc. --> Only applicable to classes and groups\r\nClass values: \"EC000001\", \"EC000003\" etc. --> Only applicable to classes\r\nFeature values: \"EF000001\", \"EF000003\" etc. --> Only applicable to classes and features\r\nValue values: \"EV000001\", \"EV000003\" etc. --> Only applicable to classes and values"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiX.V1.Models.Etim.EntitySearchInput": {
+        "required": [
+          "from",
+          "languagecode",
+          "size"
+        ],
+        "type": "object",
+        "properties": {
+          "from": {
+            "maximum": 20000,
+            "minimum": 0,
+            "type": "integer",
+            "description": "Startposition for paging",
+            "format": "int32",
+            "example": 0
+          },
+          "size": {
+            "maximum": 20000,
+            "minimum": 0,
+            "type": "integer",
+            "description": "Total records per page",
+            "format": "int32",
+            "example": 10
+          },
+          "languagecode": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Languagecode"
+          },
+          "searchString": {
+            "type": "string",
+            "description": "Search with a specific text in description or synonym",
+            "nullable": true,
+            "example": "Po"
+          },
+          "deprecated": {
+            "type": "boolean",
+            "description": "Some entities (features, values and units) can be deprecated. This means they may not be used anymore in future.\r\nIf not set, return both deprecated and not deprecated entities\r\nIf Deprecated = true, return only deprecated entities\r\nIf Deprecated = false, return only entities that are not deprecated\r\nOnly applicable for features, values and units",
+            "nullable": true,
+            "example": false
+          },
+          "isModelling": {
+            "type": "boolean",
+            "description": "Some classes are special Modelling classes. Modelling classes start with MC******\r\nIf not set, return both Modelling (MC) and Regular (EC) classes\r\nIf Modelling = true, return only modelling classes\r\nIf Modelling = false, return only regular classes\r\nOnly applicable for classes",
+            "nullable": true,
+            "example": true
+          },
+          "onlyModelling": {
+            "type": "boolean",
+            "description": "Regular classes can have modelling classes attached ******\r\nIf OnlyModelling = true and IsModelling = false return only regular classes with modelling classes attached\r\nIf OnlyModelling = false, return all classes\r\nOnly applicable for classes",
+            "example": false
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Etim.FilterModel"
+            },
+            "description": "Use filters to filter the results",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiX.V1.Models.Etim.CodeDescription": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiX.V1.Models.Etim.EntitySearchOutput": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer",
+            "description": "Total records found",
+            "format": "int64"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Etim.CodeDescription"
+            },
+            "description": "List of items",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Microsoft.AspNetCore.Mvc.ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
+      "ApiX.V1.Models.Product.Properties.EtimClass": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "maxLength": 8,
+            "minLength": 8,
+            "type": "string",
+            "description": "ETIM Product Class Code e.g. \"EC000001\"",
+            "nullable": true
+          },
+          "description": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "description": "ETIM Product Class Description e.g. \"Busbar terminal\"",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "ETIM Product class"
+      },
+      "ApiX.V1.Models.Product.Properties.ModellingClass": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "maxLength": 8,
+            "minLength": 8,
+            "type": "string",
+            "description": "ETIM Modelling Class Code e.g. \"MC000001\"",
+            "nullable": true
+          },
+          "description": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "description": "ETIM Modelling Class Description e.g. \"Worm gearbox for valve\"",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "ETIM Modelling class"
+      },
+      "ApiX.V1.Models.Product.Properties.Status": {
+        "required": [
+          "code"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "maxLength": 3,
+            "minLength": 1,
+            "type": "string",
+            "description": "Status code, e.g. \"84E\""
+          },
+          "description": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "description": "Status Description e.g. \"new product\"",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The \"status\" of the product. Possible values are: 84E = new product, 94E = depricated, 130 = Expired, 126 = regular"
+      },
+      "ApiX.V1.Models.Product.Properties.WeightMeasureUnit": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "maxLength": 3,
+            "minLength": 1,
+            "type": "string",
+            "description": "Weight measure code, e.g. \"KGM\"",
+            "nullable": true
+          },
+          "description": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "description": "Weight measure Description e.g. \"Kilogram\"",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The unit of weight"
+      },
+      "ApiX.V1.Models.Product.UnitModel": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "maxLength": 8,
+            "minLength": 8,
+            "type": "string",
+            "description": "ETIM Unit code, e.g. \"EU999999\"",
+            "nullable": true
+          },
+          "description": {
+            "maxLength": 60,
+            "minLength": 1,
+            "type": "string",
+            "description": "ETIM Unit Description in the requested language",
+            "nullable": true
+          },
+          "abbreviation": {
+            "maxLength": 15,
+            "minLength": 1,
+            "type": "string",
+            "description": "ETIM Unit Abbreviation in the requested language",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Unit"
+      },
+      "ApiX.V1.Models.Product.ValueModel": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "maxLength": 8,
+            "minLength": 8,
+            "type": "string",
+            "description": "ETIM Value Code, e.g. \"EV999999\"",
+            "nullable": true
+          },
+          "description": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "description": "ETIM Value Description in the requested language",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Brand"
+      },
+      "ApiX.V1.Models.Product.RangeValue": {
+        "type": "object",
+        "properties": {
+          "min": {
+            "type": "number",
+            "description": "Minimal value",
+            "format": "double",
+            "nullable": true
+          },
+          "max": {
+            "type": "number",
+            "description": "Maximal value",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Range value"
+      },
+      "ApiX.V1.Models.Product.CoordinateValue": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "number",
+            "description": "X-axis",
+            "format": "double",
+            "nullable": true
+          },
+          "y": {
+            "type": "number",
+            "description": "Y-axis",
+            "format": "double",
+            "nullable": true
+          },
+          "z": {
+            "type": "number",
+            "description": "Z-axis",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Coordinate value"
+      },
+      "ApiX.V1.Models.Product.MatrixValue": {
+        "type": "object",
+        "properties": {
+          "matrixSourceValue": {
+            "type": "number",
+            "description": "Matrix source value",
+            "format": "double"
+          },
+          "matrixResultValue": {
+            "type": "number",
+            "description": "Matrix result value",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Matrix value"
+      },
+      "ApiX.V1.Models.Product.FeatureModel": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "maxLength": 8,
+            "minLength": 8,
+            "type": "string",
+            "description": "Code",
+            "nullable": true
+          },
+          "description": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "description": "Description",
+            "nullable": true
+          },
+          "unit": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Product.UnitModel"
+          },
+          "unitVariableAxis": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Product.UnitModel"
+          },
+          "alphaNumericValue": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Product.ValueModel"
+          },
+          "numericValue": {
+            "type": "number",
+            "description": "Numeric value\r\nOnly applicable when Type = \"Numeric\"",
+            "format": "double",
+            "nullable": true
+          },
+          "rangeValue": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Product.RangeValue"
+          },
+          "logicalValue": {
+            "type": "boolean",
+            "description": "Range value\r\nOnly applicable when Type = \"Logical\"",
+            "nullable": true
+          },
+          "coordinateValue": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Product.CoordinateValue"
+          },
+          "matrixValues": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Product.MatrixValue"
+            },
+            "description": "Range value\r\nOnly applicable when Type = \"Matrix\"",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Featuretype"
+          },
+          "isModelling": {
+            "type": "boolean",
+            "description": "True if this feature is a feature from the modelling class"
+          },
+          "isRegular": {
+            "type": "boolean",
+            "description": "True if this feature is a feature from the regular class"
+          },
+          "orderNumberModelling": {
+            "type": "integer",
+            "description": "Order number of the feature within the Modelling Class, if applicable\r\ndefault 0",
+            "format": "int32"
+          },
+          "orderNumberRegular": {
+            "type": "integer",
+            "description": "Order number of the feature within the Regular Class, if applicable\r\ndefault 0",
+            "format": "int32"
+          },
+          "portCode": {
+            "type": "integer",
+            "description": "Portcode, default 0",
+            "format": "int32"
+          },
+          "changeCodeRegular": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.ChangeCode"
+          },
+          "changeCodeModelling": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.ChangeCode"
+          },
+          "dimensionalDrawingCode": {
+            "maxLength": 5,
+            "minLength": 1,
+            "type": "string",
+            "description": "Dimensional drawing code",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Feature"
+      },
+      "ApiX.V1.Models.AttachmentType": {
+        "enum": [
+          "PPI",
+          "PHI",
+          "PVI",
+          "PRT",
+          "MAN",
+          "MTE",
+          "CHR",
+          "CAD",
+          "STR",
+          "EEP",
+          "SCH",
+          "PAR",
+          "LOG",
+          "SOF",
+          "OTV",
+          "OTD",
+          "OTA"
+        ],
+        "type": "string",
+        "description": "Feature type, Feature values differ depending on the feature type"
+      },
+      "ApiX.V1.Models.Product.AttachmentModel": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.AttachmentType"
+          },
+          "location": {
+            "maxLength": 512,
+            "minLength": 1,
+            "type": "string",
+            "description": "Location",
+            "nullable": true
+          },
+          "title": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "description": "Title",
+            "nullable": true
+          },
+          "description": {
+            "maxLength": 250,
+            "minLength": 1,
+            "type": "string",
+            "description": "Description",
+            "nullable": true
+          },
+          "attributes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Attributes",
+            "nullable": true
+          },
+          "fileHash": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string",
+            "description": "FileHash",
+            "nullable": true
+          },
+          "providerGln": {
+            "maxLength": 13,
+            "minLength": 13,
+            "type": "string",
+            "description": "ProviderGln",
+            "nullable": true
+          },
+          "presentationOrder": {
+            "type": "integer",
+            "description": "PresentationOrder",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Attachment"
+      },
+      "ApiX.V1.Models.Product.ProductModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique internal product identifier.",
+            "format": "int64"
+          },
+          "shortDescription": {
+            "maxLength": 70,
+            "minLength": 1,
+            "type": "string",
+            "description": "The short description of the product, as specified by the manufacturer",
+            "nullable": true
+          },
+          "longDescription": {
+            "maxLength": -1,
+            "type": "string",
+            "description": "The long description of the product, as specified by the manufacturer,",
+            "nullable": true
+          },
+          "manufacturerGln": {
+            "maxLength": 13,
+            "minLength": 13,
+            "type": "string",
+            "description": "Global Location Number, unique identifier of the manufacturer.",
+            "nullable": true
+          },
+          "manufacturerName": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string",
+            "description": "The name of the manufacturer.",
+            "nullable": true
+          },
+          "productCode": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "description": "Manufacturers productcode.",
+            "nullable": true
+          },
+          "gtin": {
+            "maxLength": 14,
+            "minLength": 14,
+            "type": "string",
+            "description": "Global Trade Item Number. GTIN gtin test of the (unpacked) product.",
+            "nullable": true
+          },
+          "deeplink": {
+            "maxLength": 512,
+            "minLength": 1,
+            "type": "string",
+            "description": "A URL to a resource, probably Manufacturers website, containing more information of this product.",
+            "nullable": true
+          },
+          "brand": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "description": "Brand. Part of the Brand/Model/Version of the product.",
+            "nullable": true
+          },
+          "model": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "description": "Model. Part of the Brand/Model/Version of the product",
+            "nullable": true
+          },
+          "version": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "description": "Version. Part of the Brand/Model/Version of the product",
+            "nullable": true
+          },
+          "etimClass": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Product.Properties.EtimClass"
+          },
+          "modellingClass": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Product.Properties.ModellingClass"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Product.Properties.Status"
+          },
+          "weightQuantity": {
+            "type": "number",
+            "description": "The nett weight of the product.",
+            "format": "double",
+            "nullable": true
+          },
+          "weightMeasureUnit": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Product.Properties.WeightMeasureUnit"
+          },
+          "successorGtin": {
+            "maxLength": 14,
+            "minLength": 14,
+            "type": "string",
+            "description": "The GTIN of the follow-up product.",
+            "nullable": true
+          },
+          "successorProductCode": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "description": "The productcode of the follow-up product.",
+            "nullable": true
+          },
+          "predecessorGtin": {
+            "maxLength": 14,
+            "minLength": 14,
+            "type": "string",
+            "description": "The GTIN of the preceeding product.",
+            "nullable": true
+          },
+          "predecessorProductCode": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "description": "The productcode of the preceeding product.",
+            "nullable": true
+          },
+          "features": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Product.FeatureModel"
+            },
+            "description": "List of ETIM Features of the product.",
+            "nullable": true
+          },
+          "changeDate": {
+            "type": "string",
+            "description": "Change date",
+            "format": "date-time",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "description": "Start date.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "isDeleted": {
+            "type": "boolean",
+            "description": "Is deleted product."
+          },
+          "isDummy": {
+            "type": "boolean",
+            "description": "Is dummy / not a real product."
+          },
+          "hasImage": {
+            "type": "boolean",
+            "description": "Has image."
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Product.AttachmentModel"
+            },
+            "description": "Attachments.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Product"
+      },
+      "ApiX.V1.Models.Product.GlnProductCodeModel": {
+        "required": [
+          "languagecode",
+          "manufacturerGln",
+          "productCode"
+        ],
+        "type": "object",
+        "properties": {
+          "manufacturerGln": {
+            "maxLength": 13,
+            "minLength": 13,
+            "type": "string",
+            "description": "Global Location Number, unique identifier of the manufacturer."
+          },
+          "productCode": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "description": "Manufacturers productcode."
+          },
+          "languagecode": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Languagecode"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Search parameters"
+      },
+      "ApiX.V1.Models.Filtercode": {
+        "enum": [
+          "Brand",
+          "Model",
+          "Version",
+          "EtimClass",
+          "ModellingClass",
+          "Tags",
+          "Category"
+        ],
+        "type": "string"
+      },
+      "ApiX.V1.Models.Product.FilterValueModel": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "description": "Code",
+            "nullable": true
+          },
+          "min": {
+            "type": "number",
+            "description": "Minimum value",
+            "format": "double",
+            "nullable": true
+          },
+          "max": {
+            "type": "number",
+            "description": "Maximum value",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Filter value"
+      },
+      "ApiX.V1.Models.Product.FilterModel": {
+        "required": [
+          "code"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Filtercode"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Product.FilterValueModel"
+            },
+            "description": "Values",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Filter"
+      },
+      "ApiX.V1.Models.Product.FilterFeatureModel": {
+        "required": [
+          "code",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "maxLength": 8,
+            "minLength": 8,
+            "type": "string",
+            "description": "Code"
+          },
+          "type": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Featuretype"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Product.FilterValueModel"
+            },
+            "description": "Values",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Filter Feature"
+      },
+      "ApiX.V1.Models.Product.SearchParms": {
+        "required": [
+          "from",
+          "languagecode",
+          "size"
+        ],
+        "type": "object",
+        "properties": {
+          "onlyModelling": {
+            "type": "boolean",
+            "description": "If true, only search products with modelling class",
+            "example": false
+          },
+          "languagecode": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Languagecode"
+          },
+          "searchString": {
+            "type": "string",
+            "description": "Search string, free text to search for",
+            "nullable": true,
+            "example": "Pomp"
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Product.FilterModel"
+            },
+            "description": "Filters",
+            "nullable": true
+          },
+          "featureFilters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Product.FilterFeatureModel"
+            },
+            "description": "ETIM Feature filters",
+            "nullable": true
+          },
+          "from": {
+            "type": "integer",
+            "description": "From, offset of results",
+            "format": "int32",
+            "example": 0
+          },
+          "size": {
+            "maximum": 1000,
+            "minimum": 0,
+            "type": "integer",
+            "description": "Size, length of results",
+            "format": "int32",
+            "example": 10
+          }
+        },
+        "additionalProperties": false,
+        "description": "Search parameters"
+      },
+      "ApiX.V1.Models.Product.SearchResult": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Product.ProductModel"
+            },
+            "description": "List of products found",
+            "nullable": true
+          },
+          "took": {
+            "type": "integer",
+            "description": "Number of milliseconds it took to find the result",
+            "format": "int64"
+          },
+          "total": {
+            "type": "integer",
+            "description": "Total products found",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Search result"
+      },
+      "ApiX.V1.Models.Product.ListParms": {
+        "required": [
+          "languagecode"
+        ],
+        "type": "object",
+        "properties": {
+          "languagecode": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Languagecode"
+          },
+          "productIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "List with product identifiers",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "List parameters"
+      },
+      "ApiX.V1.Models.Product.SearchAggregationParms": {
+        "required": [
+          "languagecode"
+        ],
+        "type": "object",
+        "properties": {
+          "onlyModelling": {
+            "type": "boolean",
+            "description": "If true, only search products with modelling class",
+            "example": false
+          },
+          "languagecode": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Languagecode"
+          },
+          "searchString": {
+            "type": "string",
+            "description": "Search string, free text to search for",
+            "nullable": true,
+            "example": "Pomp"
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Product.FilterModel"
+            },
+            "description": "Filters",
+            "nullable": true
+          },
+          "featureFilters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Product.FilterFeatureModel"
+            },
+            "description": "ETIM Feature filters",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Search parameters for Aggregations\r\nWithout From/Size"
+      },
+      "ApiX.V1.Models.Product.AggregationValue": {
+        "type": "object",
+        "properties": {
+          "active": {
+            "type": "boolean",
+            "description": "Active, for clients only"
+          },
+          "code": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "description": "Code, can be Filter value code or ETIM value code\r\nFilter value code \r\nETIM Value code e.g. \"EV999999\"",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "Count, total available products for this value",
+            "format": "int64",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "Description, only applicable for Feature filters\r\nFeature description\r\nIn the requested language",
+            "nullable": true
+          },
+          "min": {
+            "type": "number",
+            "description": "Minimal value, when ETIM Feature Type = N or R",
+            "format": "double",
+            "nullable": true
+          },
+          "max": {
+            "type": "number",
+            "description": "Maximal value, when ETIM Feature Type = N or R",
+            "format": "double",
+            "nullable": true
+          },
+          "bool": {
+            "type": "boolean",
+            "description": "Boolean value, when ETIM Feature Type = L",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Aggregation value"
+      },
+      "ApiX.V1.Models.Product.Aggregation": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "description": "Code, can be Filter code or Feature code\r\nFiltercode enum ApiX.V1.Models.Filtercode\r\nFeaturecode e.g. \"EF999999\"",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "Count, only applicable for Feature filters\r\nTotal number of available products in this filter",
+            "format": "int64",
+            "nullable": true
+          },
+          "description": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "description": "Description, only applicable for Feature filters\r\nFeature description\r\nIn the requested language",
+            "nullable": true
+          },
+          "unitAbbreviation": {
+            "maxLength": 15,
+            "minLength": 1,
+            "type": "string",
+            "description": "Unit abbreviation, only applicable for Feature filters\r\nIn the requested language",
+            "nullable": true
+          },
+          "unitDescription": {
+            "maxLength": 60,
+            "minLength": 1,
+            "type": "string",
+            "description": "Unit description, only applicable for Feature filters\r\nIn the requested language",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "Type, only applicable for Feature filters",
+            "nullable": true
+          },
+          "portCode": {
+            "type": "integer",
+            "description": "Portcode, only applicable for Feature filters\r\nDefault 0",
+            "format": "int32"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Product.AggregationValue"
+            },
+            "description": "Available values for this filter",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Aggregation"
+      },
+      "ApiX.V1.Models.Unifeed.Uob.CoordinateValueModel": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "number",
+            "description": "Coordinate value X",
+            "format": "double",
+            "nullable": true
+          },
+          "y": {
+            "type": "number",
+            "description": "Coordinate value Y",
+            "format": "double",
+            "nullable": true
+          },
+          "z": {
+            "type": "number",
+            "description": "Coordinate value Z",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Coordinate value"
+      },
+      "ApiGateway.V1.Models.Unifeed.Composition.CompositionPosition": {
+        "type": "object",
+        "properties": {
+          "level": {
+            "type": "integer",
+            "description": "The level (row) in the virtual matrix",
+            "format": "int32"
+          },
+          "position": {
+            "type": "integer",
+            "description": "The starting position (column) in the virtual matrix",
+            "format": "int32"
+          },
+          "positionSpan": {
+            "type": "integer",
+            "description": "The position-size, should be mostly 1",
+            "format": "int32"
+          },
+          "offset": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.CoordinateValueModel"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiGateway.V1.Models.Unifeed.Composition.CompositionProductIdModel": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "integer",
+            "description": "The (long) productId of the product within the composition",
+            "format": "int64"
+          },
+          "compositionPositions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiGateway.V1.Models.Unifeed.Composition.CompositionPosition"
+            },
+            "description": "The list of positions where this product should be placed (product should be placed/duplicated on each position)",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiGateway.V1.Models.Unifeed.Composition.CompositionModel": {
+        "type": "object",
+        "properties": {
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiGateway.V1.Models.Unifeed.Composition.CompositionProductIdModel"
+            },
+            "description": "List of ProductsIds with composition info attached to it",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiX.V1.Models.Unifeed.SelectionListModel": {
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "List with id's",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Parameter for the Selection List service"
+      },
+      "ApiX.V1.Models.Unifeed.SearchParms.FilterValueModel": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Filter on code, for alphanumeric filters",
+            "nullable": true
+          },
+          "min": {
+            "type": "number",
+            "description": "Filter on minimum, for range filters",
+            "format": "double",
+            "nullable": true
+          },
+          "max": {
+            "type": "number",
+            "description": "Filter on maximum, for range filters",
+            "format": "double",
+            "nullable": true
+          },
+          "range": {
+            "type": "number",
+            "description": "Filter on range, for numeric filters",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "ValueModel for filtering"
+      },
+      "ApiX.V1.Models.Unifeed.SearchParms.FilterModel": {
+        "required": [
+          "code"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Filtercode"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.SearchParms.FilterValueModel"
+            },
+            "description": "Values to filter on",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Generic filter model"
+      },
+      "ApiX.V1.Models.Unifeed.SearchParms.FilterFeatureModel": {
+        "required": [
+          "code",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "maxLength": 8,
+            "minLength": 8,
+            "type": "string",
+            "description": "Featurecode"
+          },
+          "type": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Featuretype"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.SearchParms.FilterValueModel"
+            },
+            "description": "Feature values to filter on",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "FilterModel for feature specific filters"
+      },
+      "ApiX.V1.Models.Unifeed.SearchParms.SearchParmsModel": {
+        "required": [
+          "from",
+          "languagecode",
+          "size"
+        ],
+        "type": "object",
+        "properties": {
+          "onlyModelling": {
+            "type": "boolean",
+            "description": "If true, only search products with modelling class"
+          },
+          "from": {
+            "type": "integer",
+            "description": "Start from item",
+            "format": "int32",
+            "example": 0
+          },
+          "size": {
+            "maximum": 1000,
+            "minimum": 0,
+            "type": "integer",
+            "description": "Total items to return",
+            "format": "int32",
+            "example": 10
+          },
+          "languagecode": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Languagecode"
+          },
+          "searchString": {
+            "type": "string",
+            "description": "String to search for.",
+            "nullable": true,
+            "example": "Pomp"
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.SearchParms.FilterModel"
+            },
+            "description": "Filter the results on these generic filters",
+            "nullable": true
+          },
+          "featureFilters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.SearchParms.FilterFeatureModel"
+            },
+            "description": "Filter the results on these feature specific filters",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Search parameters"
+      },
+      "ApiX.V1.Models.Unifeed.Uob.Props.ShortDescriptionModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true."
+          },
+          "value": {
+            "maxLength": 70,
+            "minLength": 1,
+            "type": "string",
+            "description": "The short description of the product, as specified by the manufacturer",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The short description of the product, as specified by the manufacturer"
+      },
+      "ApiX.V1.Models.Unifeed.Uob.Props.LongDescriptionModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true"
+          },
+          "value": {
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string",
+            "description": "The long description of the product, as specified by the manufacturer",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The long description of the product, as specified by the manufacturer"
+      },
+      "ApiX.V1.Models.Unifeed.Uob.Props.ManufacturerGlnModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true"
+          },
+          "value": {
+            "maxLength": 13,
+            "minLength": 13,
+            "type": "string",
+            "description": "Global Location Number, unique identifier of the manufacturer.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Global Location Number, unique identifier of the manufacturer."
+      },
+      "ApiX.V1.Models.Unifeed.Uob.Props.ManufacturerNameModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true"
+          },
+          "value": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string",
+            "description": "The name of the manufacturer.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The name of the manufacturer."
+      },
+      "ApiX.V1.Models.Unifeed.Uob.Props.ProductCodeModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true"
+          },
+          "value": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "description": "Product code e.g. \"1234-M5-6\"",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Product code"
+      },
+      "ApiX.V1.Models.Unifeed.Uob.Props.GtinModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true"
+          },
+          "value": {
+            "maxLength": 14,
+            "minLength": 14,
+            "type": "string",
+            "description": "Global Trade Item Number. GTIN gtin test of the (unpacked) product.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Global Trade Item Number. GTIN gtin test of the (unpacked) product."
+      },
+      "ApiX.V1.Models.Unifeed.Uob.Props.DeeplinkModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true"
+          },
+          "value": {
+            "maxLength": 512,
+            "minLength": 1,
+            "type": "string",
+            "description": "A URL to a resource, probably Manufacturers website, containing more information of this product.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "A URL to a resource, probably Manufacturers website, containing more information of this product."
+      },
+      "ApiX.V1.Models.Unifeed.Uob.Props.BrandModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true"
+          },
+          "value": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "description": "Brand e.g. \"Volkswagen\"",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Brand. Part of the Brand/Model/Version of the product."
+      },
+      "ApiX.V1.Models.Unifeed.Uob.Props.ModelModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true"
+          },
+          "value": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "description": "Model e.g. \"Golf\"",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Model. Part of the Brand/Model/Version of the product."
+      },
+      "ApiX.V1.Models.Unifeed.Uob.Props.VersionModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true"
+          },
+          "value": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "description": "Version e.g. \"Trendline\"",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Version. Part of the Brand/Model/Version of the product."
+      },
+      "ApiX.V1.Models.Unifeed.Uob.Props.StatusModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true"
+          },
+          "code": {
+            "maxLength": 3,
+            "minLength": 1,
+            "type": "string",
+            "description": "Status code, e.g. \"84E\"",
+            "nullable": true
+          },
+          "description": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "description": "Status Description e.g. \"new product\"",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The \"status\" of the product. Possible values are: 84E = new product, 94E = depricated, 130 = Expired, 126 = regular"
+      },
+      "ApiX.V1.Models.Unifeed.Uob.Props.WeightQuantityModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true"
+          },
+          "value": {
+            "type": "number",
+            "description": "Weight quantity value",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Weight quantity. The nett weight of the product"
+      },
+      "ApiX.V1.Models.Unifeed.Uob.Props.WeightMeasureUnitModel": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "maxLength": 3,
+            "minLength": 1,
+            "type": "string",
+            "description": "Weight measure code, e.g. \"KGM\"",
+            "nullable": true
+          },
+          "description": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "description": "Weight measure Description e.g. \"Kilogram\"",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "The unit of weight"
+      },
+      "ApiX.V1.Models.Unifeed.Uob.Props.StartDateModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true"
+          },
+          "value": {
+            "type": "string",
+            "description": "Start date value e.g. \"2013-09-01T00:00:00\"",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Start date. Date from when this product data is valid"
+      },
+      "ApiX.V1.Models.Unifeed.Uob.Props.EtimClassModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true"
+          },
+          "code": {
+            "maxLength": 8,
+            "minLength": 8,
+            "type": "string",
+            "description": "ETIM Product Class Code e.g. \"EC000001\"",
+            "nullable": true
+          },
+          "version": {
+            "type": "integer",
+            "description": "ETIM Product Class Version e.g. 4",
+            "format": "int32"
+          },
+          "changeCode": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.ChangeCode"
+          },
+          "description": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "description": "ETIM Product Class Description e.g. \"Busbar terminal\"",
+            "nullable": true
+          },
+          "synonyms": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of Synonyms e.g. [\"Busbar terminal\", \"Terminal\"]",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "ETIM Product class"
+      },
+      "ApiX.V1.Models.Unifeed.Uob.Props.ModellingClassModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true."
+          },
+          "code": {
+            "maxLength": 8,
+            "minLength": 8,
+            "type": "string",
+            "description": "ETIM Modelling Class Code e.g. \"MC000001\"",
+            "nullable": true
+          },
+          "version": {
+            "type": "integer",
+            "description": "ETIM Modelling Class Version e.g. 2",
+            "format": "int32"
+          },
+          "changeCode": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.ChangeCode"
+          },
+          "description": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "description": "ETIM Modelling Class Description e.g. \"Worm gearbox for valve\"",
+            "nullable": true
+          },
+          "synonyms": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of Synonyms e.g. [\"Busbar terminal\", \"Terminal\"]",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "ETIM Modelling class"
+      },
+      "ApiX.V1.Models.Unifeed.Uob.Props.UnitModel": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "maxLength": 8,
+            "minLength": 8,
+            "type": "string",
+            "description": "ETIM Unit Code e.g. \"EU000002\"",
+            "nullable": true
+          },
+          "abbreviation": {
+            "maxLength": 15,
+            "minLength": 1,
+            "type": "string",
+            "description": "ETIM Unit Abbreviation e.g. \"hPa\"",
+            "nullable": true
+          },
+          "description": {
+            "maxLength": 60,
+            "minLength": 1,
+            "type": "string",
+            "description": "ETIM Unit Description e.g. \"Hecto Pascal\"",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Unit"
+      },
+      "ApiX.V1.Models.Unifeed.Uob.Props.ValueModel": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "maxLength": 8,
+            "minLength": 8,
+            "type": "string",
+            "description": "ETIM Value Code e.g. \"EV000005\"",
+            "nullable": true
+          },
+          "description": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "description": "ETIM Value Description e.g. \"Thread holding\"",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Value"
+      },
+      "ApiX.V1.Models.Unifeed.Uob.RangeValueModel": {
+        "type": "object",
+        "properties": {
+          "min": {
+            "type": "number",
+            "description": "Range value minimum",
+            "format": "double",
+            "nullable": true
+          },
+          "max": {
+            "type": "number",
+            "description": "Range value maximum",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Range value"
+      },
+      "ApiX.V1.Models.Unifeed.Uob.MatrixValueModel": {
+        "type": "object",
+        "properties": {
+          "matrixSourceValue": {
+            "type": "number",
+            "description": "Matrix source value",
+            "format": "double"
+          },
+          "matrixResultValue": {
+            "type": "number",
+            "description": "Matrix result value",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Matrix value"
+      },
+      "ApiX.V1.Models.Unifeed.CategoryModel": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "maxLength": 8,
+            "minLength": 8,
+            "type": "string",
+            "description": "Category Code e.g. \"CA000005\"",
+            "nullable": true
+          },
+          "description": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "description": "Category Description e.g. \"Aansluitmethode modelleer features\"",
+            "nullable": true
+          },
+          "orderNumber": {
+            "type": "integer",
+            "description": "Order number of the class-feature-category",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Feature Category."
+      },
+      "ApiX.V1.Models.Unifeed.Uob.FeatureModel": {
+        "type": "object",
+        "properties": {
+          "selected": {
+            "type": "boolean",
+            "description": "Selected, default true"
+          },
+          "code": {
+            "maxLength": 8,
+            "minLength": 8,
+            "type": "string",
+            "description": "ETIM Feature Code e.g. \"EF000001\"",
+            "nullable": true
+          },
+          "changeCodeRegular": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.ChangeCode"
+          },
+          "changeCodeModelling": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.ChangeCode"
+          },
+          "description": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "description": "ETIM Feature Description e.g. \"Nominal current\"",
+            "nullable": true
+          },
+          "unit": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.Props.UnitModel"
+          },
+          "unitVariableAxis": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.Props.UnitModel"
+          },
+          "alphaNumericValue": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.Props.ValueModel"
+          },
+          "numericValue": {
+            "type": "number",
+            "description": "Numeric Value",
+            "format": "double",
+            "nullable": true
+          },
+          "rangeValue": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.RangeValueModel"
+          },
+          "logicalValue": {
+            "type": "boolean",
+            "description": "Logical Value",
+            "nullable": true
+          },
+          "coordinateValue": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.CoordinateValueModel"
+          },
+          "matrixValues": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.MatrixValueModel"
+            },
+            "description": "MatrixValues",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Featuretype"
+          },
+          "category": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.CategoryModel"
+          },
+          "isModelling": {
+            "type": "boolean",
+            "description": "This feature is a modelling feature"
+          },
+          "isRegular": {
+            "type": "boolean",
+            "description": "This feature is a regular feature"
+          },
+          "orderNumberRegular": {
+            "type": "integer",
+            "description": "Order number of the feature within the regular class",
+            "format": "int32",
+            "nullable": true
+          },
+          "orderNumberModelling": {
+            "type": "integer",
+            "description": "Order number  of the feature within the modelling class",
+            "format": "int32",
+            "nullable": true
+          },
+          "portCode": {
+            "type": "integer",
+            "description": "PortCode, only applicable when modelling feature",
+            "format": "int32"
+          },
+          "dimensionalDrawingCode": {
+            "maxLength": 5,
+            "minLength": 1,
+            "type": "string",
+            "description": "Dimensional Drawing Code",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "ETIM Feature"
+      },
+      "ApiX.V1.Models.Unifeed.Uob.AttachmentModel": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.AttachmentType"
+          },
+          "location": {
+            "maxLength": 600,
+            "minLength": 1,
+            "type": "string",
+            "description": "Location",
+            "nullable": true
+          },
+          "title": {
+            "maxLength": 80,
+            "minLength": 1,
+            "type": "string",
+            "description": "Title",
+            "nullable": true
+          },
+          "description": {
+            "maxLength": 250,
+            "minLength": 1,
+            "type": "string",
+            "description": "Description",
+            "nullable": true
+          },
+          "attributes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Attributes",
+            "nullable": true
+          },
+          "fileHash": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string",
+            "description": "FileHash",
+            "nullable": true
+          },
+          "providerGln": {
+            "maxLength": 13,
+            "minLength": 13,
+            "type": "string",
+            "description": "ProviderGln",
+            "nullable": true
+          },
+          "presentationOrder": {
+            "type": "integer",
+            "description": "PresentationOrder",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Attachment"
+      },
+      "ApiX.V1.Models.Unifeed.Uob.ProductModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Product Id, when null then generic product",
+            "format": "int64",
+            "nullable": true,
+            "example": 1231231
+          },
+          "shortDescription": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.Props.ShortDescriptionModel"
+          },
+          "longDescription": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.Props.LongDescriptionModel"
+          },
+          "manufacturerGln": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.Props.ManufacturerGlnModel"
+          },
+          "manufacturerName": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.Props.ManufacturerNameModel"
+          },
+          "productCode": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.Props.ProductCodeModel"
+          },
+          "gtin": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.Props.GtinModel"
+          },
+          "deeplink": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.Props.DeeplinkModel"
+          },
+          "brand": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.Props.BrandModel"
+          },
+          "model": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.Props.ModelModel"
+          },
+          "version": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.Props.VersionModel"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.Props.StatusModel"
+          },
+          "weightQuantity": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.Props.WeightQuantityModel"
+          },
+          "weightMeasureUnit": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.Props.WeightMeasureUnitModel"
+          },
+          "startDate": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.Props.StartDateModel"
+          },
+          "etimClass": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.Props.EtimClassModel"
+          },
+          "modellingClass": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.Props.ModellingClassModel"
+          },
+          "features": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.FeatureModel"
+            },
+            "description": "List with ETIM features",
+            "nullable": true
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.AttachmentModel"
+            },
+            "description": "Attachments.",
+            "nullable": true
+          },
+          "compositionPositions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiGateway.V1.Models.Unifeed.Composition.CompositionPosition"
+            },
+            "description": "The (optional) attached composition positions",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "UOB Product"
+      },
+      "ApiX.V1.Models.Unifeed.InterfaceModel": {
+        "type": "object",
+        "properties": {
+          "searchParms": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.SearchParms.SearchParmsModel"
+          },
+          "product": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.Uob.ProductModel"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Model for interfacing with Unifeed"
+      },
+      "ApiX.V1.Models.Unifeed.GlnProductCodeModel": {
+        "required": [
+          "languagecode",
+          "manufacturerGln",
+          "productCode"
+        ],
+        "type": "object",
+        "properties": {
+          "manufacturerGln": {
+            "maxLength": 13,
+            "minLength": 13,
+            "type": "string",
+            "description": "Global Location Number, unique identifier of the manufacturer."
+          },
+          "productCode": {
+            "maxLength": 35,
+            "minLength": 1,
+            "type": "string",
+            "description": "Manufacturers productcode."
+          },
+          "languagecode": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Languagecode"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Search parameters"
+      },
+      "ApiX.V1.Models.Unifeed.ListParms": {
+        "required": [
+          "languagecode"
+        ],
+        "type": "object",
+        "properties": {
+          "languagecode": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Languagecode"
+          },
+          "productIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "description": "A list with product id's",
+            "nullable": true
+          },
+          "excludeFeatures": {
+            "type": "boolean",
+            "description": "Whether or not to include all ETIM features, default false. Setting this to true can improve performance on large lists"
+          },
+          "excludeSynonyms": {
+            "type": "boolean",
+            "description": "Whether or not to include all ETIM synonyms, default false. Setting this to true can improve performance on large lists"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Parameters for the Product List"
+      },
+      "ApiX.V1.Models.Unifeed.ProductAttribute": {
+        "enum": [
+          "ShortDescription",
+          "LongDescription",
+          "ManufacturerGln",
+          "ManufacturerName",
+          "ProductCode",
+          "Gtin",
+          "Deeplink",
+          "Brand",
+          "Model",
+          "Version",
+          "Status",
+          "WeightQuantity",
+          "StartDate",
+          "EtimClass",
+          "ModellingClass"
+        ],
+        "type": "string",
+        "description": "Filtercode"
+      },
+      "ApiX.V1.Models.Unifeed.SelectionListParms": {
+        "required": [
+          "languagecode"
+        ],
+        "type": "object",
+        "properties": {
+          "languagecode": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Languagecode"
+          },
+          "selectionListId": {
+            "type": "integer",
+            "description": "The unique id of the selection list",
+            "format": "int32"
+          },
+          "disableFields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.ProductAttribute"
+            },
+            "description": "Set this product attribute Selected property to \"false\"\r\nif !null (empty list is possible) then return generic product => Product.Id is cleared/null",
+            "nullable": true
+          },
+          "excludeFeatures": {
+            "type": "boolean",
+            "description": "Whether or not to include all ETIM features, default false. Setting this to true can improve performance on large lists"
+          },
+          "excludeSynonyms": {
+            "type": "boolean",
+            "description": "Whether or not to include all ETIM synonyms, default false. Setting this to true can improve performance on large lists"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Parameters for the Selection List"
+      },
+      "ApiX.V1.Models.Unifeed.CompositionParms": {
+        "required": [
+          "languagecode"
+        ],
+        "type": "object",
+        "properties": {
+          "languagecode": {
+            "$ref": "#/components/schemas/ApiX.V1.Models.Languagecode"
+          },
+          "compositionId": {
+            "type": "integer",
+            "description": "The unique id of the composition",
+            "format": "int32"
+          },
+          "disableFields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiX.V1.Models.Unifeed.ProductAttribute"
+            },
+            "description": "Set this product attribute Selected property to \"false\"\r\nif !null (empty list is possible) then return generic product => Product.Id is cleared/null",
+            "nullable": true
+          },
+          "excludeFeatures": {
+            "type": "boolean",
+            "description": "Whether or not to include all ETIM features, default false. Setting this to true can improve performance on large lists"
+          },
+          "excludeSynonyms": {
+            "type": "boolean",
+            "description": "Whether or not to include all ETIM synonyms, default false. Setting this to true can improve performance on large lists"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Parameters for the Selection List"
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "oauth2",
+        "description": "Standard authorisation using the Bearer scheme. Example: \"bearer {token}\"",
+        "flows": {
+          "implicit": {
+            "authorizationUrl": "https://uol-auth.beta.2ba.nl/connect/authorize",
+            "tokenUrl": "https://uol-auth.beta.2ba.nl/connect/token",
+            "scopes": {
+              "apix": "2BA API"
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
+}

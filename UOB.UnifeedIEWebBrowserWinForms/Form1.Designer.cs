@@ -148,7 +148,8 @@ namespace UOL.UnifeedIEWebBrowserWinForms
             | System.Windows.Forms.AnchorStyles.Right)));
             this.logBox.Location = new System.Drawing.Point(5, 71);
             this.logBox.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
-            this.logBox.Multiline = true;
+			this.logBox.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			this.logBox.Multiline = true;
             this.logBox.Name = "logBox";
             this.logBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.logBox.Size = new System.Drawing.Size(1321, 262);
