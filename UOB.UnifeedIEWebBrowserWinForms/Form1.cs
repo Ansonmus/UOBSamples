@@ -4,6 +4,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 	using System;
 	using System.Collections.Generic;
 	using System.Collections.Specialized;
+	using System.IO;
 	using System.Linq;
 	using System.Text;
 	using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 	using Newtonsoft.Json;
 	using UOL.SharedCode.Authentication;
 	using static System.Net.Mime.MediaTypeNames;
+	using static System.Windows.Forms.LinkLabel;
 
 	public partial class Form1 : Form
 	{
@@ -130,7 +132,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 		{
 			_currentToken = TokenRepository.GetToken();
 
-			if ( _currentToken != null && _currentToken.Environment == AuthorizeBaseUrl && _currentToken.IsExpired)
+			if (_currentToken != null && _currentToken.Environment == AuthorizeBaseUrl && _currentToken.IsExpired)
 			{
 				try
 				{
@@ -319,7 +321,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			}
 
 			// Restart situation
-			if (_currentToken.IsExpired&& !string.IsNullOrEmpty(_currentToken.RefreshToken))
+			if (_currentToken.IsExpired && !string.IsNullOrEmpty(_currentToken.RefreshToken))
 			{
 				// Refresh token. Normally this is not needed for every call, only when the token is expired.
 				// Only possible when offline_access scope is honored
@@ -345,6 +347,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			_lastRetrievedObject = JsonConvert.DeserializeObject<BBA.UnifeedApi.InterfaceModel>(_lastRetrievedJson);
 			lblLastObject.Text = $"{_lastRetrievedObject.Product.ManufacturerGln.Value}/{_lastRetrievedObject.Product.ProductCode.Value} EC: {_lastRetrievedObject.Product.EtimClass.Code}/{_lastRetrievedObject.Product.EtimClass.Version} MC: {_lastRetrievedObject.Product.ModellingClass.Code}/{_lastRetrievedObject.Product.ModellingClass.Version}";
 			btnStartWithLastObject.Enabled = true;
+			btnDownloadJson.Enabled = true;
 		}
 
 		private async Task UnifeedInterfaceProductSelection(string data)
@@ -373,6 +376,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 
 			// Interface handling
 			btnStartWithLastObject.Enabled = false;
+			btnDownloadJson.Enabled = false;
 		}
 
 		private async Task UnifeedInterfaceComposition(string data)
@@ -404,8 +408,9 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 
 			// Interface handling
 			btnStartWithLastObject.Enabled = false;
+			btnDownloadJson.Enabled = false;
 		}
-		
+
 		private string BuildMatrixRepresentation(List<BBA.UnifeedApi.ProductModel2> productlist)
 		{
 			var data2 = productlist.SelectMany(c => c.CompositionPositions.Select(p => new { c.ProductCode, p.Level, p.Position, p.PositionSpan, p.Offset })).OrderBy(z => z.Level).OrderBy(l => l.Position);
@@ -442,17 +447,17 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 						continue;
 					}
 					var pc = data2.FirstOrDefault(x => x.Level == row && x.Position == pos)?.ProductCode.Value;
-						var span = data2.FirstOrDefault(x => x.Level == row && x.Position == pos)?.PositionSpan ?? 1;
-						var tt = $"{string.Concat(Enumerable.Repeat(string.Concat(Enumerable.Repeat(" ", ml)), span))}{pc}";
-						var fl = ml;
-						if (span > 1)
-						{
-							tt = string.Concat(Enumerable.Repeat("  ", span)) + tt;
-							fl = ((span-1) * 2) + span * ml;
-							spancntr = span;
-						}
+					var span = data2.FirstOrDefault(x => x.Level == row && x.Position == pos)?.PositionSpan ?? 1;
+					var tt = $"{string.Concat(Enumerable.Repeat(string.Concat(Enumerable.Repeat(" ", ml)), span))}{pc}";
+					var fl = ml;
+					if (span > 1)
+					{
+						tt = string.Concat(Enumerable.Repeat("  ", span)) + tt;
+						fl = ((span - 1) * 2) + span * ml;
+						spancntr = span;
+					}
 
-						str.Append($"[{tt.Substring(tt.Length - fl, fl)}]");
+					str.Append($"[{tt.Substring(tt.Length - fl, fl)}]");
 				}
 
 				str.AppendLine();
@@ -497,6 +502,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			if (_lastRetrievedObject == null)
 			{
 				btnStartWithLastObject.Enabled = false;
+				btnDownloadJson.Enabled = false;
 				return;
 			}
 
@@ -558,5 +564,19 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			SharedCode.Web.SystemBrowser.OpenBrowser(downloadUrl);
 		}
 
+		private void btnDownloadJson_Click(object sender, EventArgs e)
+		{
+			var myTempFile = Path.GetTempFileName() + ".json";
+			using (var sw = new StreamWriter(myTempFile))
+			{
+				sw.WriteLine(_lastRetrievedJson);
+			}
+
+			var p = new System.Diagnostics.Process();
+
+			p.StartInfo.FileName = myTempFile;
+			p.StartInfo.UseShellExecute = true;
+			p.Start();
+		}
 	}
 }
