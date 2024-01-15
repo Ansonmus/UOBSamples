@@ -43,6 +43,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 
 		private OAuthToken _currentToken = null;
 		private PKCECode _pkcetemp = null;
+		private string _lastRetrievedJson = null;
 		private BBA.UnifeedApi.InterfaceModel _lastRetrievedObject = null;
 		private readonly Authentication authService = null;
 
@@ -337,10 +338,12 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 
 			Log($"Calling service url: {url}");
 
-			var interfaceObjectJson = SharedCode.WebService.WebServiceHelper.GetJson(url, _currentToken.AccessToken);
-			Log($"Retrieved interface object: {Newtonsoft.Json.Linq.JToken.Parse(interfaceObjectJson).ToString(Formatting.Indented)}");
+			_lastRetrievedJson = SharedCode.WebService.WebServiceHelper.GetJson(url, _currentToken.AccessToken);
+			_lastRetrievedJson = Newtonsoft.Json.Linq.JToken.Parse(_lastRetrievedJson).ToString(Formatting.Indented);
+			Log($"Retrieved interface object: {_lastRetrievedJson}");
 
-			_lastRetrievedObject = JsonConvert.DeserializeObject<BBA.UnifeedApi.InterfaceModel>(interfaceObjectJson);
+			_lastRetrievedObject = JsonConvert.DeserializeObject<BBA.UnifeedApi.InterfaceModel>(_lastRetrievedJson);
+			lblLastObject.Text = $"{_lastRetrievedObject.Product.ManufacturerGln.Value}/{_lastRetrievedObject.Product.ProductCode.Value} EC: {_lastRetrievedObject.Product.EtimClass.Code}/{_lastRetrievedObject.Product.EtimClass.Version} MC: {_lastRetrievedObject.Product.ModellingClass.Code}/{_lastRetrievedObject.Product.ModellingClass.Version}";
 			btnStartWithLastObject.Enabled = true;
 		}
 
