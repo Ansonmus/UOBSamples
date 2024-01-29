@@ -25,7 +25,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 		public const string UnifeedBaseUrl = "https://uol-unifeed.alpha.2ba.nl";
 		public const string ApiBaseUrlNew = "https://apix.alpha.2ba.nl";
 #elif BETA
-		public const string AuthorizeBaseUrl = "https://uol-auth.beta.2ba.nl";
+		public const string AuthorizeBaseUrl = "https://authorize.beta.2ba.nl";
 		public const string UnifeedBaseUrl = "https://uol-unifeed.beta.2ba.nl";
 		public const string ApiBaseUrlNew = "https://apix.beta.2ba.nl";
 #else
@@ -229,8 +229,13 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 		/// <param name="e"></param>
 		private void Browser_NewWindowRequested(object sender, CoreWebView2NewWindowRequestedEventArgs e)
 		{
+
 			Log($"Browser_NewWindowRequested: {e.Uri}");
-			SharedCode.Web.SystemBrowser.OpenBrowser(e.Uri.ToString());
+
+			if (!e.Uri.ToString().Contains("viewer3d"))
+			{
+				SharedCode.Web.SystemBrowser.OpenBrowser(e.Uri.ToString());
+			}
 		}
 
 		/// <summary>
