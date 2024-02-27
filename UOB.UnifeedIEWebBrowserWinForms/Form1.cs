@@ -1,4 +1,4 @@
-﻿#define BETA
+﻿//#define BETA
 namespace UOL.UnifeedIEWebBrowserWinForms
 {
 	using System;
@@ -29,7 +29,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 		public const string UnifeedBaseUrl = "https://uol-unifeed.beta.2ba.nl";
 		public const string ApiBaseUrlNew = "https://apix.beta.2ba.nl";
 #else
-		public const string AuthorizeBaseUrl = "https://uol-auth.2ba.nl";
+		public const string AuthorizeBaseUrl = "https://authorize.2ba.nl";
 		public const string UnifeedBaseUrl = "https://uol-unifeed.2ba.nl";
 		public const string ApiBaseUrlNew = "https://apix.2ba.nl";
 #endif
