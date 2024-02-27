@@ -4660,8 +4660,8 @@
         "description": "Standard authorisation using the Bearer scheme. Example: \"bearer {token}\"",
         "flows": {
           "implicit": {
-            "authorizationUrl": "https://uol-auth.beta.2ba.nl/connect/authorize",
-            "tokenUrl": "https://uol-auth.beta.2ba.nl/connect/token",
+            "authorizationUrl": "https://authorize.beta.2ba.nl/connect/authorize",
+            "tokenUrl": "https://authorize.beta.2ba.nl/connect/token",
             "scopes": {
               "apix": "2BA API"
             }
