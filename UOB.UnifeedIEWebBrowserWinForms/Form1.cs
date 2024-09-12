@@ -341,6 +341,11 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 			var interfaceInfo = JsonConvert.DeserializeAnonymousType(data, new { Id = 0L, Type = (string)null });
 			Log($"Retrieved id for interface object: {interfaceInfo.Id}. Type: {interfaceInfo.Type}");
 
+			if (interfaceInfo.Id == 0)
+			{
+				Log($"ERROR! Retrieved interface id = 0");
+				return;
+			}
 			var url = SharedCode.Web.HttpExtensions.Build($"{ApiBaseUrlNew}/api/v1/unifeed/UobInterface/{interfaceInfo.Id}").ToString();
 
 			Log($"Calling service url: {url}");

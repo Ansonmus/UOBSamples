@@ -2968,7 +2968,8 @@
           "SOF",
           "OTV",
           "OTD",
-          "OTA"
+          "OTA",
+          "LPP"
         ],
         "type": "string",
         "description": "Feature type, Feature values differ depending on the feature type"
