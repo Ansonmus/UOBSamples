@@ -137,6 +137,7 @@ namespace UOL.UnifeedIEWebBrowserWinForms
 				try
 				{
 					RefreshToken();
+					await AuthenticationCompleteAsync();
 				}
 				catch (Exception)
 				{
